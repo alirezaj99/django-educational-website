@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    {% include 'Shared/_HeaderReferences.html' %}
+</head>
+
+<body id="bg">
+<div class="page-wraper">
+    <div id="loading-icon-bx"></div>
+    <!-- Header Top ==== -->
+    {% include 'Shared/Header.html' %}
+    <!-- header END ==== -->
+    <!-- Content -->
+    <div class="page-content bg-white">
+        {% block cotnent %}{% endblock %}
+    </div>
+    <!-- Content END-->
+    <!-- Footer ==== -->
+    {% include 'Shared/Footer.html' %}
+    <!-- Footer END ==== -->
+    <button class="back-to-top fa fa-chevron-up"></button>
+</div>
+{% include 'Shared/_FooterReferences.html' %}
+</body>
+
+
+</html>
