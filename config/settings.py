@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # INSTALLED APPS
+    'django_render_partial',
     # MY APPS
     'course_app',
     # DJANGO CLEANUP
