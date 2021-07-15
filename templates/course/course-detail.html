@@ -1,0 +1,361 @@
+{% extends 'Shared/Base.html' %}
+{% load static %}
+{% block head_title %}دوره {{ object.title }}{% endblock %}
+
+{% block content %}
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url('{{ object.image.url }}');">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">جزییات دوره {{ object.title }}</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="/">خانه</a></li>
+                <li><a href="{% url 'course:course_list' %}">دوره ها</a></li>
+                <li><a href="{{ object.course_url }}">{{ object.title }}</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- inner page banner END -->
+    <div class="content-block">
+        <!-- About Us -->
+        <div class="section-area section-sp1">
+            <div class="container">
+                <div class="row d-flex flex-row-reverse">
+                    <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
+                        <div class="course-detail-bx">
+                            <div class="course-price">
+                                {#                                <del> 190 تومان</del>#}
+                                <h4 class="price"> {{ object.price }} تومان </h4>
+                            </div>
+                            <div class="course-buy-now text-center">
+                                <a href="#" class="btn radius-xl text-uppercase">خرید دوره</a>
+                            </div>
+                            <div class="teacher-bx">
+                                <div class="teacher-info">
+                                    <div class="teacher-thumb">
+                                        <img src="{{ object.image.url }}" alt="{{ object.title }}">
+                                    </div>
+                                    <div class="teacher-name">
+                                        <h5>هدیه همایون</h5>
+                                        <span>مدرس تاریخ</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cours-more-info">
+                                <div class="review">
+                                    <span>3 نظرات</span>
+                                    <ul class="cours-star">
+                                        <li class="active"><i class="fa fa-star"></i></li>
+                                        <li class="active"><i class="fa fa-star"></i></li>
+                                        <li class="active"><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                </div>
+                                <div class="price categories">
+                                    <span>دسته‌بندی‌ها</span>
+                                    <h5 class="text-primary">طراحی رابط کاربری</h5>
+                                </div>
+                            </div>
+                            <div class="course-info-list scroll-page scroller">
+                                <ul class="navbar">
+                                    <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>بررسی اجمالی</a></li>
+                                    <li><a class="nav-link" href="#curriculum"><i class="ti-bookmark-alt"></i>برنامه
+                                        تحصیلی</a>
+                                    </li>
+                                    <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>مربی</a></li>
+                                    <li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>نظرات</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 col-md-8 col-sm-12">
+                        <div class="courses-post">
+                            <div class="ttr-post-media media-effect">
+                                <a href="#"><img src="{{ object.image.url }}" alt="{{ object.title }}"></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <div class="ttr-post-title ">
+                                    <h2 class="post-title">{{ object.title }}</h2>
+                                </div>
+                                {#                                <div class="ttr-post-text">#}
+                                {#                                    <p></p>#}
+                                {#                                </div>#}
+                            </div>
+                        </div>
+                        <div class="courese-overview" id="overview">
+                            <h4>بررسی اجمالی</h4>
+                            <div class="row">
+                                <div class="col-md-12 col-lg-4">
+                                    <ul class="course-features">
+                                        <li><i class="ti-book"></i> <span class="label">درس</span> <span
+                                                class="value">8</span>
+                                        </li>
+                                        <li><i class="ti-help-alt"></i> <span class="label">امتحان</span> <span
+                                                class="value">1</span>
+                                        </li>
+                                        <li><i class="ti-time"></i> <span class="label">مدت زمان</span> <span
+                                                class="value">60
+														ساعت</span></li>
+                                        <li><i class="ti-stats-up"></i> <span class="label">سطح</span> <span
+                                                class="value">{{ object.get_level }}</span>
+                                        </li>
+                                        <li><i class="ti-smallcap"></i> <span class="label">زبان</span> <span
+                                                class="value">انگلیسی</span>
+                                        </li>
+                                        <li><i class="ti-user"></i> <span class="label">دانشجویان</span> <span
+                                                class="value">32</span>
+                                        </li>
+                                        <li><i class="ti-check-box"></i> <span class="label">ارزیابی‌ها</span> <span
+                                                class="value">دارد</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-12 col-lg-8">
+                                    <h5 class="m-b5">توضیحات دوره</h5>
+                                    <p>{{ object.description }}</p>
+                                    <h5 class="m-b5">گواهینامه</h5>
+                                    <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                        گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و
+                                        برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                                        کاربردی
+                                        می باشد. کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه و
+                                        متخصصان را می طلبد</p>
+                                    <h5 class="m-b5">نتایج یادگیری</h5>
+                                    <ul class="list-checked primary">
+                                        <li>بیش از 37 سخنرانی و 55.5 ساعت مطالب!</li>
+                                        <li>انجام پروژه به صورت کاملا زنده</li>
+                                        <li>آموختن پایه های اصلی برای درک صحیح و عمیق
+                                        </li>
+                                        <li>تمرینات دوره‌ای برای پیشرفت و جاافتادن مطالب
+                                        </li>
+                                        <li>بهترین دوره برای شروع کار و ورود به صنعت
+                                        </li>
+                                        <li>شامل توضیح تمام مفاهیم ضروری برای یادگیری</li>
+                                        <li>تکالیف عملی در پایان هر جلسه.</li>
+                                        <li>تجربه یادگیری عملی با کار پروژه زنده و مثالها.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-b30" id="curriculum">
+                            <h4>برنامه تحصیلی</h4>
+                            <ul class="curriculum-list">
+                                <li>
+                                    <h5>مرحله اول</h5>
+                                    <ul>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>درس 1.</span> آشنایی با طراحی رابط کاربری
+                                            </div>
+                                            <span>120 دقیقه</span>
+                                        </li>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>درس 2.</span> تحقیق و طراحی کاربر
+                                            </div>
+                                            <span>60 دقیقه</span>
+                                        </li>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>درس 3.</span> ارزیابی رابط های کاربر قسمت 1
+                                            </div>
+                                            <span>85 دقیقه</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h5>مرحله دو</h5>
+                                    <ul>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>درس 1.</span> نمونه سازی و طراحی
+                                            </div>
+                                            <span>110 دقیقه</span>
+                                        </li>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>درس 2.</span> سنگفرش طراحی رابط کاربری
+                                            </div>
+                                            <span>120 دقیقه</span>
+                                        </li>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>درس 3.</span> ارزیابی رابط های کاربر قسمت 2
+                                            </div>
+                                            <span>120 دقیقه</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <h5>نهایی</h5>
+                                    <ul>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>قسمت 1.</span> تست نهایی
+                                            </div>
+                                            <span>120 دقیقه</span>
+                                        </li>
+                                        <li>
+                                            <div class="curriculum-list-box">
+                                                <span>قسمت 2.</span> آزمون آنلاین
+                                            </div>
+                                            <span>120 دقیقه</span>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="" id="instructor">
+                            <h4>مدرس</h4>
+                            <div class="instructor-bx">
+                                <div class="instructor-author">
+                                    <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                </div>
+                                <div class="instructor-info">
+                                    <h6> کتایون جم </h6>
+                                    <span>مدرس</span>
+                                    <ul class="list-inline m-tb10">
+                                        <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a>
+                                        </li>
+                                        <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                        <li><a href="#" class="btn sharp-sm google-plus"><i
+                                                class="fa fa-google-plus"></i></a></li>
+                                    </ul>
+                                    <p class="m-b0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                                        استفاده
+                                        از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                                        لازم
+                                        است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                                        کاربردی می باشد.</p>
+                                </div>
+                            </div>
+                            <div class="instructor-bx">
+                                <div class="instructor-author">
+                                    <img src="assets/images/testimonials/pic2.jpg" alt="">
+                                </div>
+                                <div class="instructor-info">
+                                    <h6> کتایون جم </h6>
+                                    <span>مدرس</span>
+                                    <ul class="list-inline m-tb10">
+                                        <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a>
+                                        </li>
+                                        <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                        <li><a href="#" class="btn sharp-sm google-plus"><i
+                                                class="fa fa-google-plus"></i></a></li>
+                                    </ul>
+                                    <p class="m-b0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                                        استفاده
+                                        از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
+                                        لازم
+                                        است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                                        کاربردی می باشد.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="" id="reviews">
+                            <h4>نظرات</h4>
+
+                            <div class="review-bx">
+                                <div class="all-review">
+                                    <h2 class="rating-type">3</h2>
+                                    <ul class="cours-star">
+                                        <li class="active"><i class="fa fa-star"></i></li>
+                                        <li class="active"><i class="fa fa-star"></i></li>
+                                        <li class="active"><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                        <li><i class="fa fa-star"></i></li>
+                                    </ul>
+                                    <span>3 رای</span>
+                                </div>
+                                <div class="review-bar">
+                                    <div class="bar-bx">
+                                        <div class="side">
+                                            <div>5 امتیاز</div>
+                                        </div>
+                                        <div class="middle">
+                                            <div class="bar-container">
+                                                <div class="bar-5" style="width:90%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right">
+                                            <div>150</div>
+                                        </div>
+                                    </div>
+                                    <div class="bar-bx">
+                                        <div class="side">
+                                            <div>4 امتیاز</div>
+                                        </div>
+                                        <div class="middle">
+                                            <div class="bar-container">
+                                                <div class="bar-5" style="width:70%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right">
+                                            <div>140</div>
+                                        </div>
+                                    </div>
+                                    <div class="bar-bx">
+                                        <div class="side">
+                                            <div>3 امتیاز</div>
+                                        </div>
+                                        <div class="middle">
+                                            <div class="bar-container">
+                                                <div class="bar-5" style="width:50%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right">
+                                            <div>120</div>
+                                        </div>
+                                    </div>
+                                    <div class="bar-bx">
+                                        <div class="side">
+                                            <div>2 امتیاز</div>
+                                        </div>
+                                        <div class="middle">
+                                            <div class="bar-container">
+                                                <div class="bar-5" style="width:40%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right">
+                                            <div>110</div>
+                                        </div>
+                                    </div>
+                                    <div class="bar-bx">
+                                        <div class="side">
+                                            <div>1 امتیاز</div>
+                                        </div>
+                                        <div class="middle">
+                                            <div class="bar-container">
+                                                <div class="bar-5" style="width:20%;"></div>
+                                            </div>
+                                        </div>
+                                        <div class="side right">
+                                            <div>80</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- contact area END -->
+{% endblock %}

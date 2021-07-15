@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
+    <!-- PAGE TITLE HERE ============================================= -->
+    <title>{% block head_title %}{% endblock %} | سایت آموزشی</title>
     {% include 'Shared/_HeaderReferences.html' %}
 </head>
 
@@ -12,7 +14,7 @@
     <!-- header END ==== -->
     <!-- Content -->
     <div class="page-content bg-white">
-        {% block cotnent %}{% endblock %}
+        {% block content %}{% endblock %}
     </div>
     <!-- Content END-->
     <!-- Footer ==== -->

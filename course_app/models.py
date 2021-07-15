@@ -25,12 +25,12 @@ class Course(models.Model):
         ('p', 'منتشر شده'),
     )
     LEVEL_CHOICES = (
-        ('b', 'مبتدی'),
+        ('b', 'مقدماتی'),
         ('m', 'متوسط'),
         ('a', 'پیشرفته'),
-        ('bm', 'مبتدی تا متوسط'),
+        ('bm', 'مقدماتی تا متوسط'),
         ('ma', 'متوسط تا پیشرفته'),
-        ('ba', 'مبتدی تا پیشرفته'),
+        ('ba', 'مقدماتی تا پیشرفته'),
     )
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
@@ -49,3 +49,20 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+    def course_url(self):
+        return f"/courses/{self.pk}/{self.title}"
+
+    def get_level(self):
+        if self.level == 'b':
+            return 'مقدماتی'
+        elif self.level == 'm':
+            return 'متوسط'
+        elif self.level == 'a':
+            return 'پیشرفته'
+        elif self.level == 'bm':
+            return 'مقدماتی تا متوسط'
+        elif self.level == 'ma':
+            return 'متوسط تا پیشرفته'
+        elif self.level == 'ba':
+            return 'مقدماتی تا پیشرفته'
