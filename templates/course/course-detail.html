@@ -16,7 +16,10 @@
         <div class="container">
             <ul class="list-inline">
                 <li><a href="/">خانه</a></li>
-                <li><a href="{% url 'course:course_list' %}">دوره ها</a></li>
+                <li><a href="{% url 'course:course_list' %}"> دوره های آموزشی</a></li>
+                <li>
+                    <a href="{% url 'course:category_course_list' object.categories.first.slug %}">{{ object.category_to_str }}</a>
+                </li>
                 <li><a href="{{ object.course_url }}">{{ object.title }}</a></li>
             </ul>
         </div>
@@ -61,7 +64,7 @@
                                 </div>
                                 <div class="price categories">
                                     <span>دسته‌بندی‌ها</span>
-                                    <h5 class="text-primary">طراحی رابط کاربری</h5>
+                                    <h5 class="text-primary">{{ object.category_to_str }}</h5>
                                 </div>
                             </div>
                             <div class="course-info-list scroll-page scroller">

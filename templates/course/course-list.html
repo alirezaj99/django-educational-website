@@ -1,12 +1,13 @@
 {% extends 'Shared/Base.html' %}
 {% load static %}
-{% block head_title %}دوره ها{% endblock %}
+{% block head_title %}دوره های آموزشی {% if course_category %}| {{ course_category.title }}{% endif %}{% endblock %}
 {% block content %}
     <!-- inner page banner -->
     <div class="page-banner ovbl-dark" style="background-image:url({% static "images/banner/banner3.jpg" %});">
         <div class="container">
             <div class="page-banner-entry">
-                <h1 class="text-white">دوره‌های ما</h1>
+                <h1 class="text-white">{% if course_category %}دوره‌های آموزشی | {{ course_category.title }}{% else %}
+                    دوره های آموزشی{% endif %}</h1>
             </div>
         </div>
     </div>
@@ -14,8 +15,13 @@
     <div class="breadcrumb-row">
         <div class="container">
             <ul class="list-inline">
-                <li><a href="#">خانه</a></li>
-                <li>دوره‌های ما</li>
+                <li><a href="/">خانه</a></li>
+                <li><a href="{% url 'course:course_list' %}"> دوره های آموزشی</a></li>
+                {% if course_category %}
+                    <li>
+                        <a href="{% url 'course:category_course_list' course_category.slug %}"> {{ course_category.title }}</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -103,7 +109,7 @@
                                         </div>
                                         <div class="info-bx text-center">
                                             <h5><a href="{{ course.course_url }}">{{ course.title }}</a></h5>
-                                            <span>برنامه‌نویسی</span>
+                                            <span>{{ course.category_to_str }}</span>
                                         </div>
                                         <div class="cours-more-info">
                                             <div class="review">

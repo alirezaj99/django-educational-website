@@ -1,3 +1,4 @@
+{% load render_partial %}
 <!DOCTYPE html>
 <html lang="fa">
 <head>
@@ -10,7 +11,7 @@
 <div class="page-wraper">
     <div id="loading-icon-bx"></div>
     <!-- Header Top ==== -->
-    {% include 'Shared/Header.html' %}
+    {% render_partial 'course_app.views.site_header' %}
     <!-- header END ==== -->
     <!-- Content -->
     <div class="page-content bg-white">
