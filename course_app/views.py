@@ -52,3 +52,13 @@ def site_header(request):
         'categories': categories
     }
     return render(request, 'Shared/Header.html', context)
+
+
+def sidebar_course_list(request):
+    categories = CourseCategory.objects.get_active_category()
+    courses = Course.objects.get_publish_course()[:3]
+    context = {
+        'categories': categories,
+        'courses': courses
+    }
+    return render(request, 'course/sidebar-course-list.html', context)

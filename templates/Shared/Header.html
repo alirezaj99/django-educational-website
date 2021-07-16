@@ -78,6 +78,9 @@
                                         <li><a href="about-2.html">درباره ما 2</a></li>
                                     </ul>
                                 </li>{% endcomment %}
+                                <li>
+                                        <a href="{% url 'course:course_list' %}">همه دوره ها</a>
+                                    </li>
                                 {% for category in categories %}
                                     <li>
                                         <a href="{% url 'course:category_course_list' category.slug %}">{{ category.title }}</a>
