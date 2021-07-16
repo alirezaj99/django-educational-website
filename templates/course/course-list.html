@@ -1,5 +1,6 @@
 {% extends 'Shared/Base.html' %}
 {% load render_partial %}
+{% load humanize %}
 {% load static %}
 {% block head_title %}دوره های آموزشی {% if course_category %}{{ course_category.title }}{% endif %}{% endblock %}
 {% block content %}
@@ -61,7 +62,7 @@
                                             </div>
                                             <div class="price">
                                                 {#                                            <del> 190 تومان</del>#}
-                                                <h5> {{ course.price }} تومان </h5>
+                                                <h5> {{ course.price | intcomma:False }} تومان </h5>
                                             </div>
                                         </div>
                                     </div>
