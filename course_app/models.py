@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 import os
 import random
+from account_app.models import User
 
 
 # generate image name
@@ -22,10 +23,10 @@ def upload_image_path(instance, filename):
 
 class CourseManager(models.Manager):
     def get_publish_course(self):
-        return self.get_queryset().filter(status='p')
+        return self.get_queryset().filter(status=True)
 
     def get_course_by_category(self, category_slug):
-        return self.get_queryset().filter(categories__slug__iexact=category_slug, status='p')
+        return self.get_queryset().filter(categories__slug__iexact=category_slug, status=True)
 
 
 class CourseCategoryManager(models.Manager):
@@ -54,10 +55,6 @@ class CourseCategory(models.Model):
 
 
 class Course(models.Model):
-    STATUS_CHOICES = (
-        ('d', 'پیشنویس'),
-        ('p', 'منتشر شده'),
-    )
     LEVEL_CHOICES = (
         ('b', 'مقدماتی'),
         ('m', 'متوسط'),
@@ -67,13 +64,14 @@ class Course(models.Model):
         ('ba', 'مقدماتی تا پیشرفته'),
     )
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
+    teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='مدرس')
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
     description = models.TextField(verbose_name='توضیحات')
     price = models.PositiveIntegerField(verbose_name='قیمت')
     categories = models.ManyToManyField(CourseCategory, blank=True, related_name='course_category',
                                         verbose_name='دسته بندی')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='b', verbose_name='سطح دوره')
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='d', verbose_name='وضعیت')
+    status = models.BooleanField(default=False, verbose_name='آیا نمایش داده شود؟')
     publish_time = models.DateTimeField(default=timezone.now, verbose_name='زمان انتشار')
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)

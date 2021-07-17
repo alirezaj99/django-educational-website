@@ -44,11 +44,13 @@
                             <div class="teacher-bx">
                                 <div class="teacher-info">
                                     <div class="teacher-thumb">
-                                        <img src="{{ object.image.url }}" alt="{{ object.title }}">
+                                        <img src="{% static 'images/testimonials/pic2.jpg' %}" alt="{{ object.title }}">
                                     </div>
                                     <div class="teacher-name">
-                                        <h5>هدیه همایون</h5>
-                                        <span>مدرس تاریخ</span>
+                                        <h5>{% if object.teacher.get_full_name %}
+                                            {{ object.teacher.get_full_name }}{% else %}
+                                            {{ object.teacher }}{% endif %}</h5>
+                                        <span>مدرس</span>
                                     </div>
                                 </div>
                             </div>
@@ -221,7 +223,7 @@
                             <h4>مدرس</h4>
                             <div class="instructor-bx">
                                 <div class="instructor-author">
-                                    <img src="assets/images/testimonials/pic1.jpg" alt="">
+                                    <img src="{% static 'images/testimonials/pic2.jpg' %}" alt="">
                                 </div>
                                 <div class="instructor-info">
                                     <h6> کتایون جم </h6>
