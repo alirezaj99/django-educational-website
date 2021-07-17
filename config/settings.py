@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     # MY APPS
     'course_app',
+    'account_app',
     # DJANGO CLEANUP
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -136,3 +137,6 @@ MEDIA_ROOT = (BASE_DIR / "static_cdn" / "media")
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User Model
+AUTH_USER_MODEL = 'account_app.User'
