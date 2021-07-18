@@ -1,7 +1,22 @@
 from django.contrib import admin
 from .models import Course, CourseCategory, Video
 
+
 # Register your models here.
-admin.site.register(Course)
+
+class VideoCourseInlines(admin.TabularInline):
+    model = Video
+    extra = 1
+
+
+class CourseAdmin(admin.ModelAdmin):
+    list_display = ['title']
+    inlines = [VideoCourseInlines]
+
+    class meta:
+        model = Course
+
+
+admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseCategory)
 admin.site.register(Video)

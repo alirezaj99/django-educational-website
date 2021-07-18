@@ -20,9 +20,9 @@ def upload_image_path(instance, filename):
 
 
 def upload_video_path(instance, filename):
-    random_num = random.randint(1, 989999999)
+    random_num = random.randint(1, 999)
     name, ext = get_filename_ext(filename)
-    final_name = f"{random_num}-{instance.title}{ext}"
+    final_name = f"{instance.course.id}-{instance.position}-{instance.title}-{random_num}{ext}"
     return f"course/video/{final_name}"
 
 
@@ -126,6 +126,7 @@ class Video(models.Model):
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, related_name='video',
                                verbose_name='دوره')
     description = models.TextField(verbose_name="توضیحات")
+    time = models.TimeField(verbose_name='زمان ویدیو')
     publish_time = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")
     created_time = models.DateTimeField(auto_now_add=True)
     updated_time = models.DateTimeField(auto_now=True)

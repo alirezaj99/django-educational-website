@@ -3459,10 +3459,11 @@ footer.footer-white .btn {
     width: 40%;
 }
 
-.curriculum-list ul li, .curriculum-list {
+.curriculum-list ul li a, .curriculum-list {
     margin: 0;
     padding: 0;
     list-style: none;
+    color: #111111 !important;
 }
 
 .curriculum-list ul li {
