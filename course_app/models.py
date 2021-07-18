@@ -19,6 +19,13 @@ def upload_image_path(instance, filename):
     return f"course/cover-image/{final_name}"
 
 
+def upload_video_path(instance, filename):
+    random_num = random.randint(1, 989999999)
+    name, ext = get_filename_ext(filename)
+    final_name = f"{random_num}-{instance.title}{ext}"
+    return f"course/video/{final_name}"
+
+
 # model managers
 
 class CourseManager(models.Manager):
@@ -31,6 +38,11 @@ class CourseManager(models.Manager):
 
 class CourseCategoryManager(models.Manager):
     def get_active_category(self):
+        return self.get_queryset().filter(status=True)
+
+
+class VideoManager(models.Manager):
+    def get_active_video(self):
         return self.get_queryset().filter(status=True)
 
 
@@ -105,3 +117,26 @@ class Course(models.Model):
 
     def category_to_str(self):
         return " - ".join([category.title for category in self.categories.get_active_category()])
+
+
+class Video(models.Model):
+    title = models.CharField(max_length=200, verbose_name="عنوان جلسه")
+    video = models.FileField(upload_to=upload_video_path, verbose_name='ویدیو')
+    position = models.PositiveIntegerField(default=0, unique=True, verbose_name='شماره جلسه')
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, related_name='video',
+                               verbose_name='دوره')
+    description = models.TextField(verbose_name="توضیحات")
+    publish_time = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")
+    created_time = models.DateTimeField(auto_now_add=True)
+    updated_time = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=True, verbose_name="آیا نمایش داده شود؟")
+
+    objects = VideoManager()
+
+    class Meta:
+        verbose_name = 'ویدیو'
+        verbose_name_plural = 'ویدیوها'
+        ordering = ['position']
+
+    def __str__(self):
+        return self.title
