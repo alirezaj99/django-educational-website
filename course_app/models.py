@@ -101,6 +101,33 @@ class Course(models.Model):
     def course_url(self):
         return f"/courses/{self.pk}/{self.title}"
 
+    def total_time(self):
+        total = 0
+        for video in self.video.get_active_video():
+            secs = video.time.hour * 3600 + video.time.minute * 60 + video.time.second
+            total += secs
+
+        # return datetime.time(total // 3600, (total % 3600) // 60, total % 60)
+        def hour_return():
+            if len(str(total // 3600)) == 1:
+                return f"0{total // 3600}"
+            else:
+                return total // 3600
+
+        def minute_return():
+            if len(str((total % 3600) // 60)) == 1:
+                return f"0{(total % 3600) // 60}"
+            else:
+                return (total % 3600) // 60
+
+        def second_return():
+            if len(str(total % 60)) == 1:
+                return f"0{total % 60}"
+            else:
+                return total % 60
+
+        return f"{hour_return()}:{minute_return()}:{second_return()}"
+
     def get_level(self):
         if self.level == 'b':
             return 'مقدماتی'
