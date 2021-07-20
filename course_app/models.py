@@ -75,6 +75,11 @@ class Course(models.Model):
         ('ma', 'متوسط تا پیشرفته'),
         ('ba', 'مقدماتی تا پیشرفته'),
     )
+    LANGUAGE_CHOICES = (
+        ('fa', 'فارسی'),
+        ('en', 'انگلیسی'),
+        ('mo', 'غیره'),
+    )
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
     teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='مدرس')
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
@@ -83,6 +88,8 @@ class Course(models.Model):
     categories = models.ManyToManyField(CourseCategory, blank=True, related_name='course_category',
                                         verbose_name='دسته بندی')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='b', verbose_name='سطح دوره')
+    language = models.CharField(max_length=2, default='fa', choices=LANGUAGE_CHOICES, verbose_name='زبان دوره')
+    is_finish = models.BooleanField(default=False, verbose_name='آیا دوره تمام شده؟')
     status = models.BooleanField(default=False, verbose_name='آیا نمایش داده شود؟')
     publish_time = models.DateTimeField(default=timezone.now, verbose_name='زمان انتشار')
     create_time = models.DateTimeField(auto_now_add=True)
@@ -141,6 +148,20 @@ class Course(models.Model):
             return 'متوسط تا پیشرفته'
         elif self.level == 'ba':
             return 'مقدماتی تا پیشرفته'
+
+    def get_language(self):
+        if self.language == 'fa':
+            return 'فارسی'
+        elif self.language == 'en':
+            return 'انگلیسی'
+        elif self.language == 'mo':
+            return 'غیره'
+
+    def finish(self):
+        if self.is_finish:
+            return 'به پایان رسیده'
+        else:
+            return 'در حال برگزاری'
 
     def category_to_str(self):
         return " - ".join([category.title for category in self.categories.get_active_category()])

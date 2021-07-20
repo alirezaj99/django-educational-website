@@ -100,30 +100,27 @@
                         <div class="courese-overview" id="overview">
                             <h4>بررسی اجمالی</h4>
                             <div class="row">
-                                <div class="col-md-12 col-lg-4">
+                                <div class="col-md-12 col-lg-5">
                                     <ul class="course-features">
-                                        <li><i class="ti-book"></i> <span class="label">درس</span> <span
-                                                class="value">8</span>
-                                        </li>
-                                        <li><i class="ti-help-alt"></i> <span class="label">امتحان</span> <span
-                                                class="value">1</span>
-                                        </li>
-                                        <li><i class="ti-time"></i> <span class="label">مدت زمان</span><span
-                                                class="value">{{ object.total_time }}</span></li>
                                         <li><i class="ti-stats-up"></i> <span class="label">سطح</span> <span
                                                 class="value">{{ object.get_level }}</span>
-                                        </li>
-                                        <li><i class="ti-smallcap"></i> <span class="label">زبان</span> <span
-                                                class="value">انگلیسی</span>
                                         </li>
                                         <li><i class="ti-user"></i> <span class="label">دانشجویان</span> <span
                                                 class="value">32</span>
                                         </li>
-                                        <li><i class="ti-check-box"></i> <span class="label">ارزیابی‌ها</span> <span
-                                                class="value">دارد</span></li>
+                                        <li><i class="ti-video-camera"></i> <span class="label">ویدیوها</span> <span
+                                                class="value">{{ object.video.get_active_video.count }}</span>
+                                        </li>
+                                        <li><i class="ti-time"></i> <span class="label">مدت زمان</span><span
+                                                class="value">{{ object.total_time }}</span></li>
+                                        <li><i class="ti-smallcap"></i> <span class="label">زبان</span> <span
+                                                class="value">{{ object.get_language }}</span>
+                                        </li>
+                                        <li><i class="ti-check-box"></i> <span class="label">وضعیت دوره</span> <span
+                                                class="value">{{ object.finish }}</span></li>
                                     </ul>
                                 </div>
-                                <div class="col-md-12 col-lg-8">
+                                <div class="col-md-12 col-lg-7">
                                     <h5 class="m-b5">توضیحات دوره</h5>
                                     <p>{{ object.description }}</p>
                                     <h5 class="m-b5">گواهینامه</h5>
