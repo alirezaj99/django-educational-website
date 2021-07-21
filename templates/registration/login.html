@@ -1,0 +1,90 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <!-- PAGE TITLE HERE ============================================= -->
+    <title>ورود | سایت آموزشی</title>
+    {% include 'Shared/_HeaderReferences.html' %}
+</head>
+
+<body id="bg">
+<div class="page-wraper">
+    <div id="loading-icon-bx"></div>
+    <div class="account-form">
+        <div class="account-head" style="background-image:url({% static 'images/background/bg2.jpg' %});">
+            <a href="index.html"><img src="{% static 'images/logo-white-2.png' %}" alt=""></a>
+        </div>
+        <div class="account-form-inner">
+            <div class="account-container">
+                <div class="heading-bx left">
+                    <h2 class="title-head">ورود به <span> اکانت </span></h2>
+                    <p>اکانت ندارید? <a href="register.html"> همین حالا بسازید </a></p>
+                </div>
+                <form method="post" class="contact-bx">
+                    {% csrf_token %}
+                    <div class="row placeani">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label>نام کاربری</label>
+                                    {% render_field form.username class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label>رمزعبور</label>
+                                    {% render_field form.password class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group form-forget">
+                                {% comment %}<div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                    <label class="custom-control-label" for="customControlAutosizing">مرا به خاطر
+                                        بسپار</label>
+                                </div>{% endcomment %}
+                                <a href="forget-password.html" class="ml-auto">فراموشی رمزعبور؟</a>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 m-b30">
+                            <button name="submit" type="submit" value="Submit" class="btn button-md">ورود</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="login-error text-justify col-12 mt-2">
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if form.username.errors %}
+                        <div class="alert alert-danger my-1">
+                            {% for error in form.username.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if form.password.errors %}
+                        <div class="alert alert-danger my-1">
+                            {% for error in form.password.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- External JavaScripts -->
+{% include 'Shared/_FooterReferences.html' %}
+</body>
+
+
+</html>

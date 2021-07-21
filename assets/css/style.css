@@ -4520,3 +4520,8 @@ h2.title-head.text-uppercase.m-b0 {
 .price.categories {
     text-align: right;
 }
+
+.login-error, .login-error span {
+    text-align: right;
+    font-family: iransans-light, serif !important;
+}

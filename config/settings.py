@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # INSTALLED APPS
     'django_render_partial',
+    'widget_tweaks',
     # MY APPS
     'course_app',
     'account_app',
