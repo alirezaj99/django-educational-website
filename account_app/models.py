@@ -24,7 +24,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = "کاربر"
         verbose_name_plural = "کاربران"
-        ordering = ['-is_superuser']
+        ordering = ['-is_superuser', 'is_teacher']
 
 
 class Profile(models.Model):
