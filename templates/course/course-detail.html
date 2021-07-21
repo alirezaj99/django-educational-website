@@ -44,12 +44,11 @@
                             <div class="teacher-bx">
                                 <div class="teacher-info">
                                     <div class="teacher-thumb">
-                                        <img src="{% static 'images/testimonials/pic2.jpg' %}" alt="{{ object.title }}">
+                                        <img src="{{ object.teacher.profile.get_avatar }}"
+                                             alt="{{ object.get_teacher_name }}">
                                     </div>
                                     <div class="teacher-name">
-                                        <h5>{% if object.teacher.get_full_name %}
-                                            {{ object.teacher.get_full_name }}{% else %}
-                                            {{ object.teacher }}{% endif %}</h5>
+                                        <h5>{{ object.get_teacher_name }}</h5>
                                         <span>مدرس</span>
                                     </div>
                                 </div>
@@ -170,10 +169,11 @@
                             <h4>مدرس</h4>
                             <div class="instructor-bx">
                                 <div class="instructor-author">
-                                    <img src="{% static 'images/testimonials/pic2.jpg' %}" alt="">
+                                    <img src="{{ object.teacher.profile.get_avatar }}"
+                                         alt="{{ object.get_teacher_name }}">
                                 </div>
                                 <div class="instructor-info">
-                                    <h6> کتایون جم </h6>
+                                    <h6> {{ object.get_teacher_name }} </h6>
                                     <span>مدرس</span>
                                     <ul class="list-inline m-tb10">
                                         <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a>
@@ -185,37 +185,7 @@
                                         <li><a href="#" class="btn sharp-sm google-plus"><i
                                                 class="fa fa-google-plus"></i></a></li>
                                     </ul>
-                                    <p class="m-b0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                                        استفاده
-                                        از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
-                                        لازم
-                                        است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
-                                </div>
-                            </div>
-                            <div class="instructor-bx">
-                                <div class="instructor-author">
-                                    <img src="assets/images/testimonials/pic2.jpg" alt="">
-                                </div>
-                                <div class="instructor-info">
-                                    <h6> کتایون جم </h6>
-                                    <span>مدرس</span>
-                                    <ul class="list-inline m-tb10">
-                                        <li><a href="#" class="btn sharp-sm facebook"><i class="fa fa-facebook"></i></a>
-                                        </li>
-                                        <li><a href="#" class="btn sharp-sm twitter"><i class="fa fa-twitter"></i></a>
-                                        </li>
-                                        <li><a href="#" class="btn sharp-sm linkedin"><i class="fa fa-linkedin"></i></a>
-                                        </li>
-                                        <li><a href="#" class="btn sharp-sm google-plus"><i
-                                                class="fa fa-google-plus"></i></a></li>
-                                    </ul>
-                                    <p class="m-b0">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                                        استفاده
-                                        از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که
-                                        لازم
-                                        است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                        کاربردی می باشد.</p>
+                                    <p class="m-b0">{{ object.teacher.profile.bio }}</p>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from .models import User, Profile
 
 UserAdmin.fieldsets[2][1]['fields'] = (
     'is_active',
@@ -12,3 +12,4 @@ UserAdmin.fieldsets[2][1]['fields'] = (
 
 UserAdmin.list_display += ('is_teacher',)
 admin.site.register(User, UserAdmin)
+admin.site.register(Profile)

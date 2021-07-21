@@ -163,6 +163,12 @@ class Course(models.Model):
         else:
             return 'در حال برگزاری'
 
+    def get_teacher_name(self):
+        if self.teacher.get_full_name():
+            return self.teacher.get_full_name()
+        else:
+            return self.teacher
+
     def category_to_str(self):
         return " - ".join([category.title for category in self.categories.get_active_category()])
 
