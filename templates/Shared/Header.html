@@ -20,7 +20,7 @@
                             <li><a href="{% url 'account:login' %}">ورود</a></li>
                             <li><a href="register.html">ثبت ‌نام</a></li>
                         {% else %}
-                            <li><a href="register.html">خروج</a></li>
+                            <li><a href="{% url 'account:logout' %}">خروج</a></li>
                         {% endif %}
                     </ul>
                 </div>
