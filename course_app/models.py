@@ -3,6 +3,7 @@ from django.utils import timezone
 import os
 import random
 from account_app.models import User
+from extensions.utils import jalali_converter
 
 
 # generate image name
@@ -44,6 +45,14 @@ class CourseCategoryManager(models.Manager):
 class VideoManager(models.Manager):
     def get_active_video(self):
         return self.get_queryset().filter(status=True)
+
+
+class CommentManager(models.Manager):
+    def get_active_comment(self):
+        return self.get_queryset().filter(active=True, parent__isnull=True)
+
+    def get_active_reply(self):
+        return self.get_queryset().filter(active=True, parent__isnull=False)
 
 
 # models
@@ -135,6 +144,11 @@ class Course(models.Model):
 
         return f"{hour_return()}:{minute_return()}:{second_return()}"
 
+    def jalali_time(self):
+        return jalali_converter(self.publish_time)
+
+    jalali_time.short_description = 'زمان انتشار'
+
     def get_level(self):
         if self.level == 'b':
             return 'مقدماتی'
@@ -195,3 +209,37 @@ class Video(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='comments',
+                             verbose_name='کاربر')
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, related_name='comments',
+                               verbose_name='دوره')
+    message = models.TextField(verbose_name='نظر')
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='replies',
+                               verbose_name='پاسخ')
+    active = models.BooleanField(default=True, verbose_name="فعال / غیرفعال")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
+    updated = models.DateTimeField(auto_now=True, verbose_name="زمان ویرایش")
+
+    objects = CommentManager()
+
+    class Meta:
+        verbose_name = 'نظر'
+        verbose_name_plural = 'نظرات'
+        ordering = ['-created']
+
+    def __str__(self):
+        return f'{str(self.course)} | {str(self.user)} | {self.message[0:70]}'
+
+    def get_user_name(self):
+        if self.user.get_full_name():
+            return self.user.get_full_name()
+        else:
+            return self.user
+
+    def jalali_time(self):
+        return jalali_converter(self.created)
+
+    jalali_time.short_description = 'زمان ثبت'

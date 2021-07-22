@@ -1719,7 +1719,7 @@ ol.comment-list li .children li {
 
     ol.comment-list li.comment .comment-body {
         margin-bottom: 30px;
-        margin-left: 70px;
+        /*margin-left: 70px;*/
     }
 
     ol.comment-list li.comment .comment-author .avatar {
@@ -1739,7 +1739,7 @@ ol.comment-list li .children li {
 
 @media only screen and (max-width: 480px) {
     ol.comment-list li.comment .comment-body {
-        margin-left: 52px;
+        /*margin-left: 52px;*/
     }
 
     ol.comment-list li.comment .comment-author .avatar {
@@ -4524,4 +4524,9 @@ h2.title-head.text-uppercase.m-b0 {
 .login-error, .login-error span {
     text-align: right;
     font-family: iransans-light, serif !important;
+}
+
+.teacher-comment {
+    padding: 10px 10px 10px 0;
+    background-color: #e3ffe5;
 }

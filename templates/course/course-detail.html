@@ -1,6 +1,7 @@
 {% extends 'Shared/Base.html' %}
 {% load humanize %}
 {% load static %}
+{% load widget_tweaks %}
 {% block head_title %}دوره {{ object.title }}{% endblock %}
 
 {% block content %}
@@ -55,7 +56,7 @@
                             </div>
                             <div class="cours-more-info">
                                 <div class="review">
-                                    <span>3 نظرات</span>
+                                    <span>3 دیدگاهات</span>
                                     <ul class="cours-star">
                                         <li class="active"><i class="fa fa-star"></i></li>
                                         <li class="active"><i class="fa fa-star"></i></li>
@@ -76,7 +77,7 @@
                                         تحصیلی</a>
                                     </li>
                                     <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>مربی</a></li>
-                                    <li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>نظرات</a></li>
+                                    <li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>دیدگاهات</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -189,87 +190,112 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="" id="reviews">
-                            <h4>نظرات</h4>
+                        <div class="clear" id="comment-list">
+                            <div class="comments-area" id="comments">
+                                <h2 class="comments-title">{{ object.comments.get_active_comment.count }} دیدگاه</h2>
+                                <div class="clearfix m-b20">
+                                    <!-- Form -->
+                                    <div class="comment-respond mb-3" id="respond">
+                                        <h4 class="comment-reply-title" id="reply-title">دیدگاه خود را بنویسید<small>
+                                        </small></h4>
+                                        {% if user.is_authenticated %}
+                                            <form class="comment-form" id="commentform" method="post">
+                                                {% csrf_token %}
+                                                <p class="comment-form-comment">
+                                                    <label for="comment">دیدگاه</label>
+                                                    {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
+                                                </p>
+                                                <p class="form-submit">
+                                                    <input type="submit" value="ثبت دیدگاه" class="submit" id="submit"
+                                                           name="submit">
+                                                </p>
+                                            </form>
+                                        {% else %}
+                                            <p class="alert alert-warning">برای ثبت دیدگاه باید <a target="_blank"
+                                                                                                   href="{% url 'account:login' %}">وارد</a>
+                                                شوید.</p>
+                                        {% endif %}
+                                    </div>
+                                    <!-- Form -->
+                                    <!-- comment list END -->
+                                    <ol class="comment-list">
+                                        <li class="comment">
+                                            {% for comment in object.comments.get_active_comment %}
+                                                <div class="comment-body {% if comment.user == object.teacher %}teacher-comment{% endif %}">
+                                                    <div class="comment-author vcard"><img class="avatar photo"
+                                                                                           src="{{ comment.user.profile.get_avatar }}"
+                                                                                           alt="{{ comment.get_user_name }}">
+                                                        <cite
+                                                                class="fn">{{ comment.get_user_name }}</cite>
+                                                        <span class="says">نوشته:</span></div>
+                                                    <div class="comment-meta"><a>{{ comment.jalali_time }}</a>
+                                                    </div>
+                                                    <p class="text-justify">{{ comment.message }}</p>
+                                                    <div class="reply"><a data-toggle="collapse"
+                                                                          href="#collapseExample{{ comment.id }}"
+                                                                          role="button" aria-expanded="false"
+                                                                          aria-controls="collapseExample"
+                                                                          class="comment-reply-link">پاسخ</a>
+                                                    </div>
+                                                    <div class="reply collapse" id="collapseExample{{ comment.id }}">
+                                                        <div class="comment-respond mb-3" id="respond">
+                                                            <h4 class="comment-reply-title" id="reply-title">پاسخ
+                                                                دهید<small>
+                                                                </small></h4>
+                                                            {% if user.is_authenticated %}
+                                                                <form class="comment-form" id="commentform"
+                                                                      method="post">
+                                                                    {% csrf_token %}
+                                                                    <p class="comment-form-comment">
+                                                                        <label for="comment">دیدگاه</label>
+                                                                        {% render_field form.message rows="1" placeholder="پاسخ" id="comment" style="height:auto" %}
+                                                                        <input type="hidden" name="parent_id"
+                                                                               value="{{ comment.id }}">
+                                                                    </p>
+                                                                    <p class="form-submit">
+                                                                        <input type="submit" value="ثبت پاسخ"
+                                                                               class="submit"
+                                                                               id="submit"
+                                                                               name="submit">
+                                                                    </p>
+                                                                </form>
+                                                            {% else %}
+                                                                <p class="alert alert-warning">برای ثبت پاسخ باید <a
+                                                                        target="_blank"
+                                                                        href="{% url 'account:login' %}">وارد</a>
+                                                                    شوید.</p>
+                                                            {% endif %}
 
-                            <div class="review-bx">
-                                <div class="all-review">
-                                    <h2 class="rating-type">3</h2>
-                                    <ul class="cours-star">
-                                        <li class="active"><i class="fa fa-star"></i></li>
-                                        <li class="active"><i class="fa fa-star"></i></li>
-                                        <li class="active"><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <span>3 رای</span>
-                                </div>
-                                <div class="review-bar">
-                                    <div class="bar-bx">
-                                        <div class="side">
-                                            <div>5 امتیاز</div>
-                                        </div>
-                                        <div class="middle">
-                                            <div class="bar-container">
-                                                <div class="bar-5" style="width:90%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="side right">
-                                            <div>150</div>
-                                        </div>
-                                    </div>
-                                    <div class="bar-bx">
-                                        <div class="side">
-                                            <div>4 امتیاز</div>
-                                        </div>
-                                        <div class="middle">
-                                            <div class="bar-container">
-                                                <div class="bar-5" style="width:70%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="side right">
-                                            <div>140</div>
-                                        </div>
-                                    </div>
-                                    <div class="bar-bx">
-                                        <div class="side">
-                                            <div>3 امتیاز</div>
-                                        </div>
-                                        <div class="middle">
-                                            <div class="bar-container">
-                                                <div class="bar-5" style="width:50%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="side right">
-                                            <div>120</div>
-                                        </div>
-                                    </div>
-                                    <div class="bar-bx">
-                                        <div class="side">
-                                            <div>2 امتیاز</div>
-                                        </div>
-                                        <div class="middle">
-                                            <div class="bar-container">
-                                                <div class="bar-5" style="width:40%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="side right">
-                                            <div>110</div>
-                                        </div>
-                                    </div>
-                                    <div class="bar-bx">
-                                        <div class="side">
-                                            <div>1 امتیاز</div>
-                                        </div>
-                                        <div class="middle">
-                                            <div class="bar-container">
-                                                <div class="bar-5" style="width:20%;"></div>
-                                            </div>
-                                        </div>
-                                        <div class="side right">
-                                            <div>80</div>
-                                        </div>
-                                    </div>
+                                                        </div>
+                                                        {% for reply in comment.replies.get_active_reply %}
+                                                            <ol class="children">
+                                                                <li class="comment odd parent">
+                                                                    <div class="comment-body {% if reply.user == object.teacher %}teacher-comment{% endif %}">
+                                                                        <div class="comment-author vcard"><img
+                                                                                class="avatar photo"
+                                                                                src="{{ reply.user.profile.get_avatar }}"
+                                                                                alt="{{ reply.get_user_name }}"> <cite
+                                                                                class="fn">{{ reply.get_user_name }}</cite>
+                                                                            <span class="says">نوشته:</span></div>
+                                                                        <div class="comment-meta">
+                                                                            <a>{{ reply.jalali_time }}</a>
+                                                                        </div>
+                                                                        <p class="text-justify">{{ reply.message }}</p>
+                                                                    </div>
+                                                                    <!-- list END -->
+                                                                </li>
+                                                            </ol>
+                                                        {% endfor %}
+                                                    </div>
+
+
+                                                </div>
+                                            {% endfor %}
+
+                                            <!-- list END -->
+                                        </li>
+                                    </ol>
+                                    <!-- comment list END -->
                                 </div>
                             </div>
                         </div>

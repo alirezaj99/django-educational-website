@@ -10,17 +10,12 @@
                 </div>
                 <div class="topbar-right">
                     <ul>
-                        <li>
-                            <select class="header-lang-bx">
-                                <option data-icon="flag flag-uk">انگلیسی</option>
-                                <option data-icon="flag flag-us">عربی</option>
-                            </select>
-                        </li>
                         {% if not user.is_authenticated %}
                             <li><a href="{% url 'account:login' %}">ورود</a></li>
                             <li><a href="register.html">ثبت ‌نام</a></li>
                         {% else %}
-                            <li><a href="{% url 'account:logout' %}">خروج</a></li>
+                            <li><a href="#">حساب کاربری</a></li>
+                            <li><a href="{% url 'account:logout' %}?next={{ request.get_full_path }}">خروج</a></li>
                         {% endif %}
                     </ul>
                 </div>
