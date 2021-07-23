@@ -77,7 +77,7 @@
                                         تحصیلی</a>
                                     </li>
                                     <li><a class="nav-link" href="#instructor"><i class="ti-user"></i>مربی</a></li>
-                                    <li><a class="nav-link" href="#reviews"><i class="ti-comments"></i>دیدگاهات</a></li>
+                                    <li><a class="nav-link" href="#review"><i class="ti-comments"></i>دیدگاه ها</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                                         {% if user.is_authenticated %}
                                             <form class="comment-form" id="commentform" method="post">
                                                 {% csrf_token %}
-                                                <p class="comment-form-comment">
+                                                <p class="comment-form-comment" id="review">
                                                     <label for="comment">دیدگاه</label>
                                                     {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
                                                 </p>
@@ -237,7 +237,7 @@
                                                                           aria-controls="collapseExample"
                                                                           class="comment-reply-link">پاسخ</a>
                                                     </div>
-                                                    <div class="replies">
+                                                    <div class="replies mt-3">
                                                         <div class="comment-respond collapse mb-3"
                                                              id="collapseExample{{ comment.id }}">
                                                             <h4 class="comment-reply-title" id="reply-title">پاسخ
@@ -281,7 +281,7 @@
                                                                         <div class="comment-meta">
                                                                             <a>{{ reply.jalali_time }}</a>
                                                                         </div>
-                                                                        <p class="text-justify">{{ reply.message }}</p>
+                                                                        <p class="text-justify pl-2">{{ reply.message }}</p>
                                                                     </div>
                                                                     <!-- list END -->
                                                                 </li>
