@@ -28,7 +28,7 @@ class CourseDetail(FormMixin, DetailView):
 
     # create comment
     def get_success_url(self):
-        return reverse('course:course_detail', kwargs={'pk': self.object.pk, 'slug': self.object.title})
+        return reverse('course:course_detail', kwargs={'pk': self.object.pk, 'slug': self.object.slug})
 
     form_class = CommentForm
 
