@@ -42,7 +42,8 @@
                                     <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
                                         <div class="cours-bx">
                                             <div class="action-box">
-                                                <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                                                <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
+                                                                                       alt="{{ course.title }}"></a>
                                                 <a href="{{ course.course_url }}"
                                                    class="btn">بیشتر بخوانید</a>
                                             </div>
@@ -51,16 +52,6 @@
                                                 <span>{{ course.category_to_str }}</span>
                                             </div>
                                             <div class="cours-more-info">
-                                                <div class="review">
-                                                    <span>3 نظرات</span>
-                                                    <ul class="cours-star">
-                                                        <li class="active"><i class="fa fa-star"></i></li>
-                                                        <li class="active"><i class="fa fa-star"></i></li>
-                                                        <li class="active"><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                        <li><i class="fa fa-star"></i></li>
-                                                    </ul>
-                                                </div>
                                                 <div class="price">
                                                     {#                                            <del> 190 تومان</del>#}
                                                     <h5> {{ course.price | intcomma:False }} تومان </h5>

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # INSTALLED APPS
     'django_render_partial',
     'widget_tweaks',
+    'ckeditor',
     # MY APPS
     'course_app',
     'account_app',
@@ -146,3 +147,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User Model
 AUTH_USER_MODEL = 'account_app.User'
+
+# ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}

@@ -6,6 +6,7 @@ import random
 from account_app.models import User
 from extensions.utils import jalali_converter
 from django.db.models.signals import pre_save
+from ckeditor.fields import RichTextField
 
 
 # generate image name
@@ -95,7 +96,7 @@ class Course(models.Model):
     slug = models.CharField(max_length=200, verbose_name='عنوان در url', blank=True)
     teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='مدرس')
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
-    description = models.TextField(verbose_name='توضیحات')
+    description = RichTextField(verbose_name='توضیحات')
     price = models.PositiveIntegerField(verbose_name='قیمت')
     categories = models.ManyToManyField(CourseCategory, blank=True, related_name='course_category',
                                         verbose_name='دسته بندی')

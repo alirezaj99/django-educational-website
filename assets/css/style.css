@@ -2477,10 +2477,18 @@ footer.footer-white .btn {
     color: var(--primary);
 }
 
+/*
 .cours-more-info .price, .cours-more-info .review {
     width: 50%;
     padding: 5px 15px;
 }
+*/
+
+.cours-more-info .price {
+    width: 100%;
+    padding: 8px 18px;
+}
+
 
 .cours-more-info .review span {
     font-size: 12px;
@@ -2498,7 +2506,7 @@ footer.footer-white .btn {
 }
 
 .cours-more-info .price {
-    text-align: left;
+    text-align: center;
 }
 
 .cours-more-info .price h5 {
@@ -4518,7 +4526,11 @@ h2.title-head.text-uppercase.m-b0 {
 }
 
 .price.categories {
-    text-align: right;
+    text-align: center;
+}
+
+.width-100 {
+    width: 100% !important;
 }
 
 .login-error, .login-error span {
