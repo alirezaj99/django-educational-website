@@ -1748,6 +1748,11 @@ ol.comment-list li .children li {
         width: 40px;
         height: 40px;
     }
+
+    ol.comment-list li .children {
+        list-style: none;
+        margin-right: 10px;
+    }
 }
 
 /*= comment form = */
