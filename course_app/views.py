@@ -17,7 +17,7 @@ class CourseList(ListView):
 class CourseDetail(FormMixin, DetailView):
     def get_object(self):
         course = get_object_or_404(Course.objects.get_publish_course(), pk=self.kwargs.get('pk'),
-                                   title=self.kwargs.get('slug'))
+                                   slug=self.kwargs.get('slug'))
         return course
 
     template_name = 'course/course-detail.html'

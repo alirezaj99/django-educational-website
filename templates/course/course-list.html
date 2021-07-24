@@ -43,7 +43,7 @@
                                         <div class="cours-bx">
                                             <div class="action-box">
                                                 <img src="{{ course.image.url }}" alt="{{ course.title }}">
-                                                <a href="{% url 'course:course_detail' course.pk course.title %}"
+                                                <a href="{{ course.course_url }}"
                                                    class="btn">بیشتر بخوانید</a>
                                             </div>
                                             <div class="info-bx text-center">

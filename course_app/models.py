@@ -1,9 +1,11 @@
 from django.db import models
+from django.template.defaultfilters import slugify
 from django.utils import timezone
 import os
 import random
 from account_app.models import User
 from extensions.utils import jalali_converter
+from django.db.models.signals import pre_save
 
 
 # generate image name
@@ -90,6 +92,7 @@ class Course(models.Model):
         ('mo', 'غیره'),
     )
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
+    slug = models.CharField(max_length=200, verbose_name='عنوان در url', blank=True)
     teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='مدرس')
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
     description = models.TextField(verbose_name='توضیحات')
@@ -111,11 +114,15 @@ class Course(models.Model):
         verbose_name_plural = 'دوره ها'
         ordering = ['-publish_time']
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title.replace(' ', '-'))
+        return super(Course, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.title
 
     def course_url(self):
-        return f"/courses/{self.pk}/{self.title}"
+        return f"/courses/{self.pk}/{self.title.replace(' ', '-')}"
 
     def total_time(self):
         total = 0
@@ -243,3 +250,10 @@ class Comment(models.Model):
         return jalali_converter(self.created)
 
     jalali_time.short_description = 'زمان ثبت'
+
+
+def set_course_slug(sender, instance, *args, **kwargs):
+    instance.slug = instance.title.replace(' ', '-')
+
+
+pre_save.connect(set_course_slug, Course)
