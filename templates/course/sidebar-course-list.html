@@ -4,7 +4,14 @@
         <div class="form-group">
             <div class="input-group">
                 <label>جستجو دوره‌ها</label>
-                <input name="name" type="text" required class="form-control">
+                <form method="get" action="{% url 'course:course_list' %}">
+                    <div class="row">
+                        <div class="col-8"><input name="search" type="text" required class="form-control"></div>
+                        <div class="col-2">
+                            <button class="btn mt-1 p-2" type="submit" value="جستجو">جستجو</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -24,9 +31,10 @@
         <div class="widget-post-bx">
             {% for course in courses %}
                 <div class="widget-post clearfix">
-                    <div class="ttr-post-media"><img src="{{ course.image.url }}"
-                                                     width="200"
-                                                     height="143" alt="{{ course.title }}"></div>
+                    <div class="ttr-post-media">
+                        <a href="{{ course.course_url }}"><img src="{{ course.image.url }}" width="200" height="143"
+                                                               alt="{{ course.title }}"></a>
+                    </div>
                     <div class="ttr-post-info">
                         <div class="ttr-post-header">
                             <h6 class="post-title"><a href="{{ course.course_url }}">{{ course.title }}</a></h6>
@@ -36,7 +44,7 @@
                                 <li class="price">
                                     <h5> {{ course.price | intcomma:False }} تومان </h5>
                                 </li>
-                                <li class="review">03 نظر</li>
+                                <li class="review">{{ course.comments.get_active_comment.count }} دیدگاه</li>
                             </ul>
                         </div>
                     </div>

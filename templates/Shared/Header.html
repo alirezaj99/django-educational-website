@@ -55,9 +55,9 @@
                 </div>
                 <!-- Search Box ==== -->
                 <div class="nav-search-bar">
-                    <form action="#">
-                        <input name="search" value="" type="text" class="form-control" placeholder="جستجو...">
-                        <span><i class="ti-search"></i></span>
+                    <form method="get" action="{% url 'course:course_list' %}">
+                        <input name="search" value="" type="text" class="form-control" placeholder="جستجو دوره ...">
+                        <span><button type="submit" style="background: none;border: none"><i class="ti-search"></i></button></span>
                     </form>
                     <span id="search-remove"><i class="ti-close"></i></span>
                 </div>

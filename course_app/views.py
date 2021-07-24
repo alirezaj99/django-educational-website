@@ -9,7 +9,13 @@ from .forms import CommentForm
 # Create your views here.
 
 class CourseList(ListView):
-    queryset = Course.objects.get_publish_course()
+    def get_queryset(self):
+        request = self.request
+        query = request.GET.get('search')
+        if query is not None:
+            return Course.objects.search(query)
+        return Course.objects.get_publish_course()
+
     template_name = 'course/course-list.html'
     paginate_by = 9
 

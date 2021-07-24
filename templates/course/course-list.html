@@ -2,13 +2,17 @@
 {% load render_partial %}
 {% load humanize %}
 {% load static %}
-{% block head_title %}دوره های آموزشی {% if course_category %}{{ course_category.title }}{% endif %}{% endblock %}
+{% block head_title %}دوره های آموزشی
+    {% if course_category %}{{ course_category.title }}{% elif request.GET.search %}جستجوی {{ request.GET.search }}
+    {% endif %}{% endblock %}
 {% block content %}
     <!-- inner page banner -->
     <div class="page-banner ovbl-dark" style="background-image:url({% static "images/banner/banner3.jpg" %});">
         <div class="container">
             <div class="page-banner-entry">
-                <h1 class="text-white">{% if course_category %}دوره‌های آموزشی | {{ course_category.title }}{% else %}
+                <h1 class="text-white">{% if course_category %}دوره‌های آموزشی |
+                    {{ course_category.title }}{% elif request.GET.search %}دوره‌های آموزشی | جستجوی
+                    {{ request.GET.search }}{% else %}
                     دوره های آموزشی{% endif %}</h1>
             </div>
         </div>
@@ -23,7 +27,12 @@
                     <li>
                         <a href="{% url 'course:category_course_list' course_category.slug %}"> {{ course_category.title }}</a>
                     </li>
+                {% elif request.GET.search %}
+                    <li>
+                        <a>جستجوی {{ request.GET.search }}</a>
+                    </li>
                 {% endif %}
+
             </ul>
         </div>
     </div>

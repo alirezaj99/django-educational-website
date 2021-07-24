@@ -7,6 +7,7 @@ from account_app.models import User
 from extensions.utils import jalali_converter
 from django.db.models.signals import pre_save
 from ckeditor.fields import RichTextField
+from django.db.models import Q
 
 
 # generate image name
@@ -38,6 +39,12 @@ class CourseManager(models.Manager):
 
     def get_course_by_category(self, category_slug):
         return self.get_queryset().filter(categories__slug__iexact=category_slug, status=True)
+
+    def search(self, query):
+        lookup = (
+                Q(title__icontains=query) | Q(description__icontains=query)
+        )
+        return self.get_queryset().filter(lookup, status=True)
 
 
 class CourseCategoryManager(models.Manager):
