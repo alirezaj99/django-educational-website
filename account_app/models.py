@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 import os
 from django.db.models.signals import post_save
+from ckeditor.fields import RichTextField
 
 
 # generate image name
@@ -31,7 +32,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='کاربر')
     phone_number = models.PositiveIntegerField(blank=True, null=True, unique=True, verbose_name='شماره تماس')
     web_site = models.URLField(blank=True, null=True, verbose_name='آدرس وب سایت')
-    bio = models.TextField(max_length=700, blank=True, null=True, verbose_name='بیوگرافی')
+    bio = RichTextField(max_length=700, blank=True, null=True, verbose_name='بیوگرافی')
     avatar = models.ImageField(upload_to=upload_avatar_path, blank=True, null=True, verbose_name='تصویر آواتار')
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)

@@ -164,7 +164,7 @@
                                         <li><a href="#" class="btn sharp-sm google-plus"><i
                                                 class="fa fa-google-plus"></i></a></li>
                                     </ul>
-                                    <p class="m-b0">{{ object.teacher.profile.bio }}</p>
+                                    <p class="m-b0">{{ object.teacher.profile.bio|safe }}</p>
                                 </div>
                             </div>
                         </div>
@@ -191,8 +191,9 @@
                                                     </p>
                                                 </form>
                                             {% else %}
-                                                <p class="alert alert-warning text-center">برای ثبت دیدگاه باید <a target="_blank"
-                                                                                                       href="{% url 'account:login' %}">وارد</a>
+                                                <p class="alert alert-warning text-center">برای ثبت دیدگاه باید <a
+                                                        target="_blank"
+                                                        href="{% url 'account:login' %}">وارد</a>
                                                     شوید.</p>
                                             {% endif %}
                                         </div>
