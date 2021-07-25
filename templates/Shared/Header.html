@@ -11,10 +11,10 @@
                 <div class="topbar-right">
                     <ul>
                         {% if not user.is_authenticated %}
-                            <li><a href="{% url 'account:login' %}">ورود</a></li>
                             <li><a href="register.html">ثبت ‌نام</a></li>
+                            <li><a href="{% url 'account:login' %}">ورود</a></li>
                         {% else %}
-                            <li><a href="#">حساب کاربری</a></li>
+                            <li><a href="/admin/">حساب کاربری</a></li>
                             <li><a href="{% url 'account:logout' %}?next={{ request.get_full_path }}">خروج</a></li>
                         {% endif %}
                     </ul>
@@ -57,7 +57,8 @@
                 <div class="nav-search-bar">
                     <form method="get" action="{% url 'course:course_list' %}">
                         <input name="search" value="" type="text" class="form-control" placeholder="جستجو دوره ...">
-                        <span><button type="submit" style="background: none;border: none"><i class="ti-search"></i></button></span>
+                        <span><button type="submit" style="background: none;border: none"><i
+                                class="ti-search"></i></button></span>
                     </form>
                     <span id="search-remove"><i class="ti-close"></i></span>
                 </div>

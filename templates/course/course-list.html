@@ -57,7 +57,7 @@
                                                    class="btn">بیشتر بخوانید</a>
                                             </div>
                                             <div class="info-bx text-center">
-                                                <h5><a href="{{ course.course_url }}">{{ course.title }}</a></h5>
+                                                <h5><a style="font-size: 15px" href="{{ course.course_url }}">{{ course.title|truncatechars:29 }}</a></h5>
                                                 <span>{{ course.category_to_str }}</span>
                                             </div>
                                             <div class="cours-more-info">
@@ -69,18 +69,47 @@
                                         </div>
                                     </div>
                                 {% endfor %}
-                                <div class="col-lg-12 m-b20">
-                                    <div class="pagination-bx rounded-sm gray clearfix">
-                                        <ul class="pagination">
-                                            <li class="previous"><a href="#"><i class="ti-arrow-right"></i> قبلی</a>
-                                            </li>
-                                            <li class="active"><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li class="next"><a href="#">بعدی<i class="ti-arrow-left"></i></a></li>
-                                        </ul>
+                                {% if page_obj.paginator.num_pages != 1 %}
+                                    <div class="col-lg-12 m-b20">
+                                        <div class="pagination-bx rounded-sm gray clearfix">
+                                            <ul class="pagination">
+                                                {% if page_obj.has_previous %}
+                                                    <li class="previous"><a
+                                                            href="?page={{ page_obj.previous_page_number }}"><i
+                                                            class="ti-arrow-right"></i> قبلی</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if page_obj.number|add:-2 <= page_obj.paginator.num_pages and page_obj.number|add:-2 >= 1 %}
+                                                    <li>
+                                                        <a href="?page={{ page_obj.number|add:-2 }}">{{ page_obj.number|add:-2 }}</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if page_obj.has_previous %}
+                                                    <li>
+                                                        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                                                    </li>
+                                                {% endif %}
+                                                <li class="active"><a
+                                                        href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                                                </li>
+                                                {% if page_obj.has_next %}
+                                                    <li>
+                                                        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if page_obj.number|add:2 <= page_obj.paginator.num_pages %}
+                                                    <li>
+                                                        <a href="?page={{ page_obj.number|add:2 }}">{{ page_obj.number|add:2 }}</a>
+                                                    </li>
+                                                {% endif %}
+                                                {% if page_obj.has_next %}
+                                                    <li class="next"><a href="?page={{ page_obj.next_page_number }}">بعدی<i
+                                                            class="ti-arrow-left"></i></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             {% else %}
                                 <div class="col-lg-12">
                                     <p class="alert alert-warning text-center">دوره ای یافت نشد</p>

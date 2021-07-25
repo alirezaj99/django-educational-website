@@ -176,23 +176,26 @@
                                     <div class="comment-respond mb-3" id="respond">
                                         <h4 class="comment-reply-title" id="reply-title">دیدگاه خود را بنویسید<small>
                                         </small></h4>
-                                        {% if user.is_authenticated %}
-                                            <form class="comment-form" id="commentform" method="post">
-                                                {% csrf_token %}
-                                                <p class="comment-form-comment" id="review">
-                                                    <label for="comment">دیدگاه</label>
-                                                    {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
-                                                </p>
-                                                <p class="form-submit">
-                                                    <input type="submit" value="ثبت دیدگاه" class="submit" id="submit"
-                                                           name="submit">
-                                                </p>
-                                            </form>
-                                        {% else %}
-                                            <p class="alert alert-warning">برای ثبت دیدگاه باید <a target="_blank"
-                                                                                                   href="{% url 'account:login' %}">وارد</a>
-                                                شوید.</p>
-                                        {% endif %}
+                                        <div id="review">
+                                            {% if user.is_authenticated %}
+                                                <form class="comment-form" id="commentform" method="post">
+                                                    {% csrf_token %}
+                                                    <p class="comment-form-comment">
+                                                        <label for="comment">دیدگاه</label>
+                                                        {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
+                                                    </p>
+                                                    <p class="form-submit">
+                                                        <input type="submit" value="ثبت دیدگاه" class="submit"
+                                                               id="submit"
+                                                               name="submit">
+                                                    </p>
+                                                </form>
+                                            {% else %}
+                                                <p class="alert alert-warning text-center">برای ثبت دیدگاه باید <a target="_blank"
+                                                                                                       href="{% url 'account:login' %}">وارد</a>
+                                                    شوید.</p>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                     {% if object.comments.get_active_comment %}
                                         <h2 class="comments-title">{{ object.comments.get_active_comment.count }}
