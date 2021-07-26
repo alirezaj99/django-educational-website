@@ -35,7 +35,7 @@ def logout_view(request):
 
 
 # course
-@login_required(login_url='account/login/')
+@login_required(login_url='/account/login/')
 def add_course_to_order(request, *args, **kwargs):
     order = Order.objects.get(user_id=request.user.id, is_paid=False)
     if order is None:
