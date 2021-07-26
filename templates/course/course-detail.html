@@ -20,7 +20,7 @@
                 <li><a href="/">خانه</a></li>
                 <li><a href="{% url 'course:course_list' %}"> دوره های آموزشی</a></li>
                 <li>
-                    <a href="{% url 'course:category_course_list' object.categories.first.slug %}">{{ object.category_to_str }}</a>
+                    <a href="{{ object.categories.first.category_url }}">{{ object.category_to_str }}</a>
                 </li>
                 <li><a href="{{ object.course_url }}">{{ object.title }}</a></li>
             </ul>
@@ -40,7 +40,8 @@
                                 <h4 class="price">{{ object.price | intcomma:False }} تومان</h4>
                             </div>
                             <div class="course-buy-now text-center">
-                                <a href="#" class="btn radius-xl text-uppercase">خرید دوره</a>
+                                <a href="{% url 'account:add_course_to_order' object.pk %}"
+                                   class="btn radius-xl text-uppercase">خرید دوره</a>
                             </div>
                             <div class="teacher-bx">
                                 <div class="teacher-info">
@@ -58,7 +59,7 @@
                                 <div class="price categories width-100">
                                     <span>دسته‌بندی‌ها</span>
                                     <h5 class="text-primary"><a
-                                            href="{% url 'course:category_course_list' object.categories.first.slug %}">{{ object.category_to_str }}</a>
+                                            href="{{ object.categories.first.category_url }}">{{ object.category_to_str }}</a>
                                     </h5>
                                 </div>
                             </div>

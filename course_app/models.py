@@ -4,7 +4,7 @@ from django.utils import timezone
 import os
 import random
 from account_app.models import User
-from extensions.utils import jalali_converter
+from extensions.utils import jalali_converter, jalali_converter_year, jalali_converter_month, jalali_converter_day
 from django.db.models.signals import pre_save
 from ckeditor.fields import RichTextField
 from django.db.models import Q
@@ -18,10 +18,10 @@ def get_filename_ext(filepath):
 
 
 def upload_image_path(instance, filename):
-    random_num = random.randint(1, 989999999)
+    random_num = random.randint(1, 999)
     name, ext = get_filename_ext(filename)
-    final_name = f"{random_num}-{instance.title}{ext}"
-    return f"course/cover-image/{final_name}"
+    final_name = f"{instance.get_jalali_date_for_url()}/{instance.title}-{random_num}{ext}"
+    return f"course/course-img/{final_name}"
 
 
 def upload_video_path(instance, filename):
@@ -37,14 +37,14 @@ class CourseManager(models.Manager):
     def get_publish_course(self):
         return self.get_queryset().filter(status=True)
 
-    def get_course_by_category(self, category_slug):
-        return self.get_queryset().filter(categories__slug__iexact=category_slug, status=True)
+    def get_course_by_category(self, category_name):
+        return self.get_queryset().filter(categories__title__iexact=category_name, status=True).distinct()
 
     def search(self, query):
         lookup = (
                 Q(title__icontains=query) | Q(description__icontains=query)
         )
-        return self.get_queryset().filter(lookup, status=True)
+        return self.get_queryset().filter(lookup, status=True).distinct()
 
 
 class CourseCategoryManager(models.Manager):
@@ -67,8 +67,7 @@ class CommentManager(models.Manager):
 
 # models
 class CourseCategory(models.Model):
-    title = models.CharField(max_length=200, verbose_name='عنوان دسته بندی')
-    slug = models.SlugField(max_length=200, unique=True, verbose_name='عنوان در url')
+    title = models.CharField(max_length=200, unique=True, verbose_name='عنوان دسته بندی')
     status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
     position = models.IntegerField(default=0, verbose_name='اولویت قرارگیری')
     create_time = models.DateTimeField(auto_now_add=True)
@@ -79,10 +78,13 @@ class CourseCategory(models.Model):
     class Meta:
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'
-        ordering = ['-position']
+        ordering = ['position']
 
     def __str__(self):
         return self.title
+
+    def category_url(self):
+        return f'/courses/?categories={self.title}'
 
 
 class Course(models.Model):
@@ -161,6 +163,9 @@ class Course(models.Model):
 
     def jalali_time(self):
         return jalali_converter(self.publish_time)
+
+    def get_jalali_date_for_url(self):
+        return f'{jalali_converter_year(self.create_time)}/{jalali_converter_month(self.create_time)}/{jalali_converter_day(self.create_time)}'
 
     jalali_time.short_description = 'زمان انتشار'
 

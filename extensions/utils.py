@@ -94,3 +94,29 @@ def jalali_converter_year(time):
     )
 
     return output
+
+
+def jalali_converter_month(time):
+    time_to_str = "{},{},{}".format(time.year, time.month, time.day)
+    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
+    time_to_list = list(time_to_tuple)
+
+    output = "{}".format(
+        time_to_list[1],
+
+    )
+
+    return output
+
+
+def jalali_converter_day(time):
+    time_to_str = "{},{},{}".format(time.year, time.month, time.day)
+    time_to_tuple = jalali.Gregorian(time_to_str).persian_tuple()
+    time_to_list = list(time_to_tuple)
+
+    output = "{}".format(
+        time_to_list[2],
+
+    )
+
+    return output

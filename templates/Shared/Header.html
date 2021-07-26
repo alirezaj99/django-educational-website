@@ -14,7 +14,7 @@
                             <li><a href="register.html">ثبت ‌نام</a></li>
                             <li><a href="{% url 'account:login' %}">ورود</a></li>
                         {% else %}
-                            <li><a href="/admin/">حساب کاربری</a></li>
+                            <li><a target="_blank" href="/admin/">حساب کاربری</a></li>
                             <li><a href="{% url 'account:logout' %}?next={{ request.get_full_path }}">خروج</a></li>
                         {% endif %}
                     </ul>
@@ -83,7 +83,7 @@
                                 </li>
                                 {% for category in categories %}
                                     <li>
-                                        <a href="{% url 'course:category_course_list' category.slug %}">{{ category.title }}</a>
+                                        <a href="{{ category.category_url }}">{{ category.title }}</a>
                                     </li>
                                 {% endfor %}
                             </ul>

@@ -3,15 +3,16 @@
 {% load humanize %}
 {% load static %}
 {% block head_title %}دوره های آموزشی
-    {% if course_category %}{{ course_category.title }}{% elif request.GET.search %}جستجوی {{ request.GET.search }}
+    {% if request.GET.categories %}{{ request.GET.categories }}{% elif request.GET.search %}جستجوی
+        {{ request.GET.search }}
     {% endif %}{% endblock %}
 {% block content %}
     <!-- inner page banner -->
     <div class="page-banner ovbl-dark" style="background-image:url({% static "images/banner/banner3.jpg" %});">
         <div class="container">
             <div class="page-banner-entry">
-                <h1 class="text-white">{% if course_category %}دوره‌های آموزشی |
-                    {{ course_category.title }}{% elif request.GET.search %}دوره‌های آموزشی | جستجوی
+                <h1 class="text-white">{% if request.GET.categories %}دوره‌های آموزشی |
+                    {{ request.GET.categories }}{% elif request.GET.search %}دوره‌های آموزشی | جستجوی
                     {{ request.GET.search }}{% else %}
                     دوره های آموزشی{% endif %}</h1>
             </div>
@@ -23,9 +24,9 @@
             <ul class="list-inline">
                 <li><a href="/">خانه</a></li>
                 <li><a href="{% url 'course:course_list' %}"> دوره های آموزشی</a></li>
-                {% if course_category %}
+                {% if request.GET.categories %}
                     <li>
-                        <a href="{% url 'course:category_course_list' course_category.slug %}"> {{ course_category.title }}</a>
+                        <a href="{% url 'course:course_list' %}?categories={{ request.GET.categories }}"> {{ request.GET.categories }}</a>
                     </li>
                 {% elif request.GET.search %}
                     <li>
@@ -57,7 +58,9 @@
                                                    class="btn">بیشتر بخوانید</a>
                                             </div>
                                             <div class="info-bx text-center">
-                                                <h5><a style="font-size: 15px" href="{{ course.course_url }}">{{ course.title|truncatechars:29 }}</a></h5>
+                                                <h5><a style="font-size: 15px"
+                                                       href="{{ course.course_url }}">{{ course.title|truncatechars:29 }}</a>
+                                                </h5>
                                                 <span>{{ course.category_to_str }}</span>
                                             </div>
                                             <div class="cours-more-info">

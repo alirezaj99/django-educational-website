@@ -19,7 +19,7 @@
         <h5 class="widget-title style-1"><a href="{% url 'course:course_list' %}">همه‌ی دوره‌ها</a></h5>
         <ul>
             {% for category in categories %}
-                <li><a href="{% url 'course:category_course_list' category.slug %}">{{ category.title }}</a></li>
+                <li><a href="{{ category.category_url }}">{{ category.title }}</a></li>
             {% endfor %}
         </ul>
     </div>

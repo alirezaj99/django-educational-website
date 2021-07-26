@@ -11,9 +11,12 @@ from .forms import CommentForm
 class CourseList(ListView):
     def get_queryset(self):
         request = self.request
-        query = request.GET.get('search')
-        if query is not None:
-            return Course.objects.search(query)
+        search = request.GET.get('search')
+        if search is not None:
+            return Course.objects.search(search)
+        category = request.GET.get('categories')
+        if category is not None:
+            return Course.objects.get_course_by_category(category)
         return Course.objects.get_publish_course()
 
     template_name = 'course/course-list.html'
@@ -59,25 +62,6 @@ class CourseDetail(FormMixin, DetailView):
                 self.obj.parent_id = None
             form.save()
         return super(CourseDetail, self).form_valid(form)
-
-
-class CourseCategoryList(ListView):
-    template_name = 'course/course-list.html'
-    paginate_by = 9
-
-    def get_queryset(self):
-        global category_slug
-        category_slug = self.kwargs['CategorySlug']
-        category = CourseCategory.objects.filter(slug__iexact=category_slug).first()
-        if category is None:
-            raise Http404('صفحه مورد نظر یافت نشد')
-        return Course.objects.get_course_by_category(category_slug)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        category = CourseCategory.objects.filter(slug__iexact=category_slug).first
-        context['course_category'] = category
-        return context
 
 
 # render partial

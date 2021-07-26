@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'ckeditor',
     # MY APPS
-    'course_app',
     'account_app',
+    'course_app',
+    'order_app',
     # DJANGO CLEANUP
     'django_cleanup.apps.CleanupConfig',
 ]

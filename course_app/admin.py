@@ -6,7 +6,7 @@ from .models import Course, CourseCategory, Video, Comment
 
 class VideoCourseInlines(admin.TabularInline):
     model = Video
-    extra = 1
+    extra = 0
 
 
 class CourseAdmin(admin.ModelAdmin):
@@ -17,7 +17,15 @@ class CourseAdmin(admin.ModelAdmin):
         model = Course
 
 
+class CourseCategoryAdmin(admin.ModelAdmin):
+    list_display = ['title', 'status', 'position']
+    list_editable = ['position', 'status']
+
+    class meta:
+        model = CourseCategory
+
+
 admin.site.register(Course, CourseAdmin)
-admin.site.register(CourseCategory)
+admin.site.register(CourseCategory, CourseCategoryAdmin)
 admin.site.register(Video)
 admin.site.register(Comment)
