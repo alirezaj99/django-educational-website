@@ -1,15 +1,38 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView
-from .forms import LoginForm
+from .forms import LoginForm, CreateUserForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from order_app.models import Order
 from course_app.models import Course
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views.generic import CreateView
+from .models import User
 
 
 # Create your views here.
+class Register(CreateView):
+    model = User
+    form_class = CreateUserForm
+    success_url = reverse_lazy('account:login')
+    template_name = 'registration/register.html'
+
+    def form_valid(self, form):
+        # messages.success(self.request, 'با موفقیت ثبت نام شدی', 'success')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # messages.error(self.request, 'یه مشکلی هست ، ببین ارور چی میگه ! ( اعتبار سنجی یادت نره )', 'danger')
+        return super().form_invalid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/courses/')
+
+        return super().dispatch(request, *args, **kwargs)
+
 
 class Login(LoginView):
     redirect_authenticated_user = reverse_lazy('course:course_list')
