@@ -7,8 +7,9 @@ from django.contrib.auth.decorators import login_required
 from order_app.models import Order
 from course_app.models import Course
 from django.http import Http404, HttpResponseRedirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from .models import User, Profile
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -75,11 +76,10 @@ def add_course_to_order(request, *args, **kwargs):
         raise Http404()
     item = order.items.filter(course_id=course_id).first()
     if item in order.items.all():
-        # redirect to cart
-        raise Http404()
+        return redirect('account:cart')
     else:
         order.items.create(course_id=course_id, price=course.price)
-    return redirect('/courses/')
+    return redirect('account:cart')
 
 
 @login_required(login_url='/account/login/')
@@ -113,4 +113,18 @@ def profile_update(request):
         'form': form,
         'avatar_form': avatar_form,
     }
-    return render(request, 'account/edit-profile.html', context)
+    return render(request, 'account/profile.html', context)
+
+
+class Cart(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        order = Order.objects.get(user_id=self.request.user.id)
+        items = order.items.all()
+        return items
+
+    template_name = 'account/cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order'] = Order.objects.get(user_id=self.request.user.id)
+        return context

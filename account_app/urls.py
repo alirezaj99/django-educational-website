@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import Register, Login, logout_view, add_course_to_order, profile_update
+from .views import Register, Login, logout_view, add_course_to_order, profile_update, Cart
 
 app_name = 'account'
 
 urlpatterns = [
+    path('cart/', Cart.as_view(), name='cart'),
     path('register/', Register.as_view(), name='register'),
     path('profile/', profile_update, name='profile'),
     path('login/', Login.as_view(), name='login'),
