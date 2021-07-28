@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, resolve_url
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView
 from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm
@@ -39,12 +39,19 @@ class Login(LoginView):
 
     def get_success_url(self):
         user = self.request.user
-        if user.is_superuser:
-            return reverse_lazy('course:course_list')
-        elif user.is_teacher:
-            return reverse_lazy('course:course_list')
-        else:
-            return reverse_lazy('course:course_list')
+        try:
+            if user.is_superuser:
+                return reverse_lazy('account:profile')
+            if user.is_superuser and self.request.GET.get('redirect'):
+                return resolve_url(f"https://YOUR-DOMAIN{self.request.GET.get('redirect')}")
+            if user.is_teacher:
+                return reverse_lazy('account:profile')
+            if self.request.GET.get('redirect'):
+                return resolve_url(f"https://YOUR-DOMAIN{self.request.GET.get('redirect')}")
+
+            return reverse_lazy('account:profile')
+        except:
+            return reverse_lazy('account:profile')
 
 
 @login_required(login_url='/account/login/')

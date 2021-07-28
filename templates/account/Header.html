@@ -11,9 +11,9 @@
         <div class="ttr-logo-box">
             <div>
                 <a href="index.html" class="ttr-logo">
-                    <img class="ttr-logo-mobile" alt="" src="{% static 'images/logo-mobile.png' %}" width="30"
+                    <img class="ttr-logo-mobile" alt="" src="{% static 'account/images/logo-mobile.png' %}" width="30"
                          height="30">
-                    <img class="ttr-logo-desktop" alt="" src="{% static 'images/logo-white.png' %}" width="160"
+                    <img class="ttr-logo-desktop" alt="" src="{% static 'account/images/logo-white.png' %}" width="160"
                          height="27">
                 </a>
             </div>
@@ -30,6 +30,19 @@
         </div>
         <div class="ttr-header-right ttr-with-seperator">
             <!-- header right menu start -->
+            <ul class="ttr-header-navigation">
+                <li>
+                    <a class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt=""
+                                                                                                         src="{{ request.user.profile.avatar.url }}"
+                                                                                                         width="32"
+                                                                                                         height="32"></span></a>
+                    <div class="ttr-header-submenu" style="display: block;">
+                    </div>
+                </li>
+                <li>
+                    <a href="{% url 'account:logout' %}" class="ttr-material-button">خروج</a>
+                </li>
+            </ul>
             <!-- header right menu end -->
         </div>
         <!--header search panel start -->

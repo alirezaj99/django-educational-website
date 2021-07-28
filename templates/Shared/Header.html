@@ -11,7 +11,7 @@
                 <div class="topbar-right">
                     <ul>
                         {% if not user.is_authenticated %}
-                            <li><a href="register.html">ثبت ‌نام</a></li>
+                            <li><a href="{% url 'account:register' %}">ثبت ‌نام</a></li>
                             <li><a href="{% url 'account:login' %}">ورود</a></li>
                         {% else %}
                             <li><a target="_blank" href="/admin/">حساب کاربری</a></li>

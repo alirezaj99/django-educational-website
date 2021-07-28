@@ -165,7 +165,7 @@
                                         <li><a href="#" class="btn sharp-sm google-plus"><i
                                                 class="fa fa-google-plus"></i></a></li>
                                     </ul>
-                                    <p class="m-b0">{{ object.teacher.profile.bio }}</p>
+                                    <p class="m-b0 text-justify">{{ object.teacher.profile.bio }}</p>
                                 </div>
                             </div>
                         </div>
@@ -193,8 +193,7 @@
                                                 </form>
                                             {% else %}
                                                 <p class="alert alert-warning text-center">برای ثبت دیدگاه باید <a
-                                                        target="_blank"
-                                                        href="{% url 'account:login' %}">وارد</a>
+                                                        href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
                                                     شوید.</p>
                                             {% endif %}
                                         </div>
@@ -253,8 +252,7 @@
                                                                 </form>
                                                             {% else %}
                                                                 <p class="alert alert-warning">برای ثبت پاسخ باید <a
-                                                                        target="_blank"
-                                                                        href="{% url 'account:login' %}">وارد</a>
+                                                                        href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
                                                                     شوید.</p>
                                                             {% endif %}
 
