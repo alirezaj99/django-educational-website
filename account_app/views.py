@@ -78,7 +78,7 @@ def add_course_to_order(request, *args, **kwargs):
     if item in order.items.all():
         return redirect('account:cart')
     else:
-        order.items.create(course_id=course_id, price=course.price)
+        order.items.create(course_id=course_id, price=course.total_price())
     return redirect('account:cart')
 
 

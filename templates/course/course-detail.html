@@ -36,8 +36,12 @@
                     <div class="col-lg-3 col-md-4 col-sm-12 m-b30">
                         <div class="course-detail-bx">
                             <div class="course-price">
-                                {#                                <del> 190 تومان</del>#}
-                                <h4 class="price">{{ object.price | intcomma:False }} تومان</h4>
+                                {% if object.discount %}
+                                    <del class="mb-1"
+                                         style="color:#ff3f3f;font-size: 17px">{{ object.price | intcomma:False }}</del>
+                                {% endif %}
+                                <h4 class="price">{{ object.total_price | intcomma:False }} تومان</h4>
+
                             </div>
                             <div class="course-buy-now text-center">
                                 <a href="{% url 'account:add_course_to_order' object.pk %}"

@@ -1,5 +1,4 @@
 from django.db import models
-from django.template.defaultfilters import slugify
 from django.utils import timezone
 import os
 import random
@@ -8,6 +7,7 @@ from extensions.utils import jalali_converter, jalali_converter_year, jalali_con
 from django.db.models.signals import pre_save
 from ckeditor.fields import RichTextField
 from django.db.models import Q
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # generate image name
@@ -107,6 +107,9 @@ class Course(models.Model):
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
     description = RichTextField(verbose_name='توضیحات')
     price = models.PositiveIntegerField(verbose_name='قیمت')
+    discount = models.PositiveIntegerField(blank=True, null=True,
+                                           validators=[MinValueValidator(1), MaxValueValidator(100)],
+                                           verbose_name='درصد تخفیف')
     categories = models.ManyToManyField(CourseCategory, blank=True, related_name='course_category',
                                         verbose_name='دسته بندی')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='b', verbose_name='سطح دوره')
@@ -124,15 +127,25 @@ class Course(models.Model):
         verbose_name_plural = 'دوره ها'
         ordering = ['-publish_time']
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title.replace(' ', '-'))
-        return super(Course, self).save(*args, **kwargs)
-
     def __str__(self):
         return self.title
 
     def course_url(self):
         return f"/courses/{self.pk}/{self.title.replace(' ', '-')}"
+
+    def total_price(self):
+        if self.discount:
+            total = (self.price * self.discount) / 100
+            return int(self.price - total)
+        else:
+            return self.price
+
+    def total_discount(self):
+        if self.discount:
+            total = (self.price * self.discount) / 100
+            return int(total)
+        else:
+            return 0
 
     def total_time(self):
         total = 0

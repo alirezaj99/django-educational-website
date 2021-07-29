@@ -27,7 +27,23 @@ class Order(models.Model):
             amount += item.price
         return amount
 
-    get_total_price.short_description = 'جمع سفارش'
+    get_total_price.short_description = 'جمع سفارش قابل پرداخت'
+
+    def get_total_discount(self):
+        amount = 0
+        for item in self.items.all():
+            amount += item.course.total_discount()
+        return amount
+
+    get_total_discount.short_description = 'جمع تخفیف'
+
+    def get_price(self):
+        amount = 0
+        for item in self.items.all():
+            amount += item.course.price
+        return amount
+
+    get_price.short_description = 'جمع سفارش اولیه'
 
 
 class OrderItem(models.Model):
