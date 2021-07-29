@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 from course_app.models import Course
+from django.db.models.signals import post_save
+from account_app.models import User
 
 
 # Create your models here.
@@ -60,3 +62,12 @@ class OrderItem(models.Model):
         verbose_name = 'آیتم سفارش'
         verbose_name_plural = 'آیتم های سفارش'
         ordering = ['-created']
+
+
+def create_order(sender, **kwargs):
+    if kwargs['created']:
+        profile = Order(user=kwargs['instance'], is_paid=False)
+        profile.save()
+
+
+post_save.connect(create_order, sender=User)
