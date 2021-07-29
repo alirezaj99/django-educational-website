@@ -4415,6 +4415,10 @@ footer.footer-white .btn {
         padding: 30px 30px 20px 30px;
         margin-bottom: 50px;
     }
+
+    .tags {
+        display: none;
+    }
 }
 
 @media only screen and (max-width: 576px) {

@@ -42,13 +42,18 @@ class CourseManager(models.Manager):
 
     def search(self, query):
         lookup = (
-                Q(title__icontains=query) | Q(description__icontains=query)
+                Q(title__icontains=query) | Q(description__icontains=query) | Q(tags__title__icontains=query)
         )
         return self.get_queryset().filter(lookup, status=True).distinct()
 
 
 class CourseCategoryManager(models.Manager):
     def get_active_category(self):
+        return self.get_queryset().filter(status=True)
+
+
+class CourseTagManager(models.Manager):
+    def get_active_tag(self):
         return self.get_queryset().filter(status=True)
 
 
@@ -68,8 +73,8 @@ class CommentManager(models.Manager):
 # models
 class CourseCategory(models.Model):
     title = models.CharField(max_length=200, unique=True, verbose_name='عنوان دسته بندی')
-    status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
     position = models.IntegerField(default=0, verbose_name='اولویت قرارگیری')
+    status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
@@ -78,13 +83,31 @@ class CourseCategory(models.Model):
     class Meta:
         verbose_name = 'دسته بندی'
         verbose_name_plural = 'دسته بندی ها'
-        ordering = ['position']
+        ordering = ['position', '-create_time']
 
     def __str__(self):
         return self.title
 
     def category_url(self):
         return f'/courses/?categories={self.title}'
+
+
+class CourseTag(models.Model):
+    title = models.CharField(max_length=200, unique=True, verbose_name='عنوان برچسب')
+    position = models.IntegerField(default=0, verbose_name='اولویت قرارگیری')
+    status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    objects = CourseTagManager()
+
+    class Meta:
+        verbose_name = 'برچسب'
+        verbose_name_plural = 'برچسب ها'
+        ordering = ['position', '-create_time']
+
+    def __str__(self):
+        return self.title
 
 
 class Course(models.Model):
@@ -112,6 +135,8 @@ class Course(models.Model):
                                            verbose_name='درصد تخفیف')
     categories = models.ManyToManyField(CourseCategory, blank=True, related_name='course_category',
                                         verbose_name='دسته بندی')
+    tags = models.ManyToManyField(CourseTag, blank=True, related_name='course_tag',
+                                  verbose_name='برچسب')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='b', verbose_name='سطح دوره')
     language = models.CharField(max_length=2, default='fa', choices=LANGUAGE_CHOICES, verbose_name='زبان دوره')
     is_finish = models.BooleanField(default=False, verbose_name='آیا دوره تمام شده؟')

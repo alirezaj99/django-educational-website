@@ -67,14 +67,27 @@
                                     </h5>
                                 </div>
                             </div>
-                            <div class="course-info-list scroll-page scroller">
+                            <div style="border-bottom: 1px solid #e6e6e6;"
+                                 class="course-info-list scroll-page scroller">
                                 <ul class="navbar">
                                     <li><a class="nav-link" href="#overview"><i class="ti-zip"></i>بررسی اجمالی</a></li>
                                     <li><a class="nav-link" href="#video-list"><i class="ti-video-camera"></i>فهرست
                                         ویدیوها</a>
                                     </li>
                                     <li><a class="nav-link" href="#teacher"><i class="ti-user"></i>مربی</a></li>
-                                    <li><a class="nav-link" href="#review"><i class="ti-comments"></i>دیدگاه ها</a></li>
+                                    <li class="mb-3"><a class="nav-link" href="#review"><i class="ti-comments"></i>دیدگاه
+                                        ها</a></li>
+                                </ul>
+                            </div>
+                            <div class="course-info-list scroll-page scroller tags">
+                                <span style="font-size: 19px" class="text-right pr-3"><i
+                                        class="ti-tag"></i> برچسب ها</span>
+                                <ul class="mt-2">
+                                    {% for tag in object.tags.get_active_tag %}
+                                        <li><a class="nav-link"
+                                               href="{% url 'course:course_list' %}?search={{ tag.title }}">{{ tag.title }}</a>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
@@ -89,9 +102,6 @@
                                 <div class="ttr-post-title">
                                     <h2 class="post-title">{{ object.title }}</h2>
                                 </div>
-                                {#                                <div class="ttr-post-text">#}
-                                {#                                    <p></p>#}
-                                {#                                </div>#}
                             </div>
                         </div>
                         <div class="courese-overview" id="overview">

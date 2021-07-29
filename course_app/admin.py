@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, CourseCategory, Video, Comment
+from .models import Course, CourseCategory, Video, Comment, CourseTag
 
 
 # Register your models here.
@@ -25,7 +25,16 @@ class CourseCategoryAdmin(admin.ModelAdmin):
         model = CourseCategory
 
 
+class CourseTagAdmin(admin.ModelAdmin):
+    list_display = ['title', 'status', 'position']
+    list_editable = ['position', 'status']
+
+    class meta:
+        model = CourseTag
+
+
 admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseCategory, CourseCategoryAdmin)
+admin.site.register(CourseTag, CourseTagAdmin)
 admin.site.register(Video)
 admin.site.register(Comment)
