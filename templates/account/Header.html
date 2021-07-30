@@ -3,8 +3,8 @@
     <div class="ttr-header-wrapper">
         <!--sidebar menu toggler start -->
         <div class="ttr-toggle-sidebar ttr-material-button">
-            <i class="ti-close ttr-open-icon"></i>
-            <i class="ti-menu ttr-close-icon"></i>
+            <i class="ti-close ttr-close-icon"></i>
+            <i class="ti-menu ttr-open-icon"></i>
         </div>
         <!--sidebar menu toggler end -->
         <!--logo start -->
@@ -33,10 +33,11 @@
             <ul class="ttr-header-navigation">
                 <li>
                     {% if request.user.profile.avatar %}
-                        <a class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img style="height: 100%" alt=""
-                                                                                                         src="{{ request.user.profile.avatar.url }}"
-                                                                                                         width="32"
-                                                                                                         height="32"></span></a>
+                        <a class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img
+                                style="height: 100%" alt=""
+                                src="{{ request.user.profile.avatar.url }}"
+                                width="32"
+                                height="32"></span></a>
                     {% endif %}
                     <div class="ttr-header-submenu" style="display: block;">
                     </div>
