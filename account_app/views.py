@@ -67,11 +67,14 @@ def logout_view(request):
 # course
 @login_required(login_url='/account/login/')
 def add_course_to_order(request, *args, **kwargs):
+    user_courses = request.user.student_courses.get_publish_course()
     order = Order.objects.get(user_id=request.user.id, is_paid=False)
     if order is None:
         Order.objects.create(user_id=request.user.id, is_paid=False)
     course_id = kwargs['pk']
     course = Course.objects.get(id=course_id)
+    if course in user_courses:
+        return redirect('account:my_courses')
     if course is None or not course.status:
         raise Http404()
     item = order.items.filter(course_id=course_id).first()
@@ -139,3 +142,12 @@ class Cart(LoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['order'] = Order.objects.get(user_id=self.request.user.id)
         return context
+
+
+class MyCourses(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        user = self.request.user
+        courses = user.student_courses.get_publish_course().order_by('-course_app_course_student.id')
+        return courses
+
+    template_name = 'account/my-coursrs.html'

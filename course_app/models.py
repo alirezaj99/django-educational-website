@@ -126,7 +126,8 @@ class Course(models.Model):
     )
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
     slug = models.CharField(max_length=200, verbose_name='عنوان در url', blank=True)
-    teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='courses', verbose_name='مدرس')
+    teacher = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='teacher_courses',
+                                verbose_name='مدرس')
     image = models.ImageField(upload_to=upload_image_path, verbose_name='تصویر')
     description = RichTextField(verbose_name='توضیحات')
     price = models.PositiveIntegerField(verbose_name='قیمت')
@@ -139,6 +140,7 @@ class Course(models.Model):
                                   verbose_name='برچسب')
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='b', verbose_name='سطح دوره')
     language = models.CharField(max_length=2, default='fa', choices=LANGUAGE_CHOICES, verbose_name='زبان دوره')
+    student = models.ManyToManyField(User, blank=True, related_name='student_courses', verbose_name='دانشجو')
     is_finish = models.BooleanField(default=False, verbose_name='آیا دوره تمام شده؟')
     status = models.BooleanField(default=False, verbose_name='آیا نمایش داده شود؟')
     publish_time = models.DateTimeField(default=timezone.now, verbose_name='زمان انتشار')
@@ -240,6 +242,10 @@ class Course(models.Model):
             return self.teacher.get_full_name()
         else:
             return self.teacher
+
+    def count_of_student(self):
+        count = self.student.all().count()
+        return count
 
     def category_to_str(self):
         return " - ".join([category.title for category in self.categories.get_active_category()])
