@@ -54,7 +54,8 @@
                                             <p>{{ item.course.description|safe|truncatewords:43 }}</p>
                                         </div>
                                         <div class="col-md-12">
-                                            <a href="#" class="btn red outline radius-xl ">حذف</a>
+                                            <a href="{% url 'account:delete_course_to_order' item.pk %}"
+                                               class="btn red outline radius-xl ">حذف</a>
                                         </div>
                                     </div>
 

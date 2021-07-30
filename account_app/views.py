@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect, resolve_url
+from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView
 from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from order_app.models import Order
+from order_app.models import Order, OrderItem
 from course_app.models import Course
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView
@@ -80,6 +80,17 @@ def add_course_to_order(request, *args, **kwargs):
     else:
         order.items.create(course_id=course_id, price=course.total_price())
     return redirect('account:cart')
+
+
+@login_required()
+def delete_course_from_order(request, *args, **kwargs):
+    item_id = kwargs['pk']
+    if item_id is not None:
+        item = get_object_or_404(OrderItem, pk=item_id)
+        if item is not None:
+            item.delete()
+            return redirect('account:cart')
+    raise Http404()
 
 
 @login_required(login_url='/account/login/')
