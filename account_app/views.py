@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -12,7 +12,7 @@ from .models import User, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-# Create your views here.
+# register view
 class Register(CreateView):
     model = User
     form_class = CreateUserForm
@@ -34,6 +34,7 @@ class Register(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 
+# login view
 class Login(LoginView):
     redirect_authenticated_user = reverse_lazy('course:course_list')
     form_class = LoginForm
@@ -55,6 +56,7 @@ class Login(LoginView):
             return reverse_lazy('account:profile')
 
 
+# logout view
 @login_required(login_url='/account/login/')
 def logout_view(request):
     logout(request)
@@ -62,6 +64,11 @@ def logout_view(request):
         return redirect(request.GET.get('next'))
     else:
         return redirect('/courses')
+
+
+# password change view
+class PasswordChange(PasswordChangeView):
+    success_url = reverse_lazy('account:profile')
 
 
 # course
