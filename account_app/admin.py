@@ -7,9 +7,10 @@ UserAdmin.fieldsets[2][1]['fields'] = (
     'is_staff',
     'is_superuser',
     'is_teacher',
+    'is_student',
     'groups',
     'user_permissions',)
 
-UserAdmin.list_display += ('is_teacher',)
+UserAdmin.list_display += ('is_teacher', 'is_student')
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile)

@@ -9,7 +9,7 @@
          style="background-image:url({% static 'images/background/bg1.jpg' %});">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 text-center text-white mb-1">
+                <div class="col-md-12 text-center text-white">
                     <h2>دوره‌های آنلاین آموزشی</h2>
                     <h5>آینده را با یادگرفتن مهارت‌ به کام خود کنید</h5>
                     <form method="get" class="cours-search" action="{% url 'course:course_list' %}">
@@ -146,37 +146,29 @@
         <div class="section-area section-sp1 bg-fix ovbl-dark text-white"
              style="background-image:url({% static 'images/background/bg1.jpg' %});">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                <div class="row text-center">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-12 m-b30">
                         <div class="counter-style-1">
                             <div class="text-white">
-                                <span class="counter">3000</span><span>+</span>
+                                <span class="counter">{{ courses_count|intcomma:False }}</span><span>+</span>
                             </div>
-                            <span class="counter-text">دوره‌های تکمیل شده</span>
+                            <span class="counter-text">دوره</span>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-12 m-b30">
                         <div class="counter-style-1">
                             <div class="text-white">
-                                <span class="counter">2500</span><span>+</span>
+                                <span class="counter">{{ students_count|intcomma:False }}</span><span>+</span>
                             </div>
-                            <span class="counter-text">دانشجویان راضی</span>
+                            <span class="counter-text">دانشجو</span>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-12 m-b30">
                         <div class="counter-style-1">
                             <div class="text-white">
-                                <span class="counter">1500</span><span>+</span>
+                                <span class="counter">{{ teachers_count|intcomma:False }}</span><span>+</span>
                             </div>
-                            <span class="counter-text">رشته‌ها</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
-                        <div class="counter-style-1">
-                            <div class="text-white">
-                                <span class="counter">1000</span><span>+</span>
-                            </div>
-                            <span class="counter-text">دوره‌های پیش‌رو</span>
+                            <span class="counter-text">مدرس</span>
                         </div>
                     </div>
                 </div>

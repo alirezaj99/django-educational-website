@@ -22,6 +22,7 @@ def upload_avatar_path(instance, filename):
 class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='آدرس ایمیل')
     is_teacher = models.BooleanField(default=False, verbose_name='وضعیت مدرسی')
+    is_student = models.BooleanField(default=False, verbose_name='وضعیت دانشجویی')
 
     class Meta:
         verbose_name = "کاربر"
