@@ -1,0 +1,347 @@
+{% extends 'Shared/Base.html' %}
+{% load humanize %}
+{% load static %}
+{% block head_title %}صفحه اصلی{% endblock %}
+
+{% block content %}
+    <!-- Main Slider -->
+    <div class="section-area section-sp1 ovpr-dark bg-fix online-cours"
+         style="background-image:url({% static 'images/background/bg1.jpg' %});">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center text-white mb-1">
+                    <h2>دوره‌های آنلاین آموزشی</h2>
+                    <h5>آینده را با یادگرفتن مهارت‌ به کام خود کنید</h5>
+                    <form method="get" class="cours-search" action="{% url 'course:course_list' %}">
+                        <div class="input-group">
+                            <input name="search" value="" type="text" class="form-control"
+                                   placeholder="دنبال چه دوره ای میگردی؟">
+                            <div class="input-group-append">
+                                <button class="btn" type="submit">جستجو</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Slider -->
+    <div class="content-block">
+        <!-- Last Courses -->
+        <div class="section-area section-sp2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading-bx left">
+                        <h2 class="title-head">آخرین <span>دوره‌ها</span></h2>
+                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک
+                            است.</p>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="row">
+                        {% for course in last_courses %}
+                            <div class="col-md-4 col-lg-3 col-sm-6 m-b30">
+                                <div class="cours-bx">
+                                    <div class="action-box">
+                                        <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
+                                                                               alt="{{ course.title }}"></a>
+                                        <a href="{{ course.course_url }}"
+                                           class="btn">بیشتر بخوانید</a>
+                                    </div>
+                                    <div class="info-bx text-center">
+                                        <h5><a style="font-size: 15px"
+                                               href="{{ course.course_url }}">{{ course.title|truncatechars:29 }}</a>
+                                        </h5>
+                                        <span>{{ course.category_to_str }}</span>
+                                    </div>
+                                    <div class="cours-more-info">
+                                        <div class="price">
+                                            {% if course.discount %}
+                                                <h5>
+                                                    <del style="color:#ff3f3f;">{{ course.price | intcomma:False }}</del>
+                                                    {{ course.total_price | intcomma:False }} تومان
+                                                </h5>
+                                            {% else %}
+                                                <h5> {{ course.total_price | intcomma:False }} تومان </h5>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Last Courses END -->
+
+        <div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center"
+             style="background-image:url({% static 'images/background/bg1.jpg' %});">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="join-content-bx text-white">
+                            <h2>مهارت جدیدی را <br>آنلاین بیاموزید</h2>
+                            <h4><span class="counter">{{ courses_count|intcomma:False }}</span> دوره آنلاین </h4>
+                            <p> نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو
+                                در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
+                                راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و
+                                جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                            <a href="#" class="btn button-md">عضو شوید</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form END -->
+        <!-- Popular Courses -->
+        <div class="section-area section-sp2 popular-courses-bx">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading-bx left">
+                        <h2 class="title-head">محبوب‌ترین <span>دوره‌ها</span></h2>
+                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک
+                            است.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="courses-carousel owl-carousel owl-btn-1 col-12 p-lr0">
+                        {% for course in popular_courses %}
+                            <div class="item">
+                                <div class="cours-bx">
+                                    <div class="action-box">
+                                        <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
+                                                                               alt="{{ course.title }}"></a>
+                                        <a href="{{ course.course_url }}"
+                                           class="btn">بیشتر بخوانید</a>
+                                    </div>
+                                    <div class="info-bx text-center">
+                                        <h5><a style="font-size: 15px"
+                                               href="{{ course.course_url }}">{{ course.title|truncatechars:29 }}</a>
+                                        </h5>
+                                        <span>{{ course.category_to_str }}</span>
+                                        <span>{{ course.student.count }}</span>
+                                    </div>
+                                    <div class="cours-more-info">
+                                        <div class="price">
+                                            {% if course.discount %}
+                                                <h5>
+                                                    <del style="color:#ff3f3f;">{{ course.price | intcomma:False }}</del>
+                                                    {{ course.total_price | intcomma:False }} تومان
+                                                </h5>
+                                            {% else %}
+                                                <h5> {{ course.total_price | intcomma:False }} تومان </h5>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Popular Courses END -->
+        <!-- Testimonials -->
+        <div class="section-area section-sp1 bg-fix ovbl-dark text-white"
+             style="background-image:url({% static 'images/background/bg1.jpg' %});">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">3000</span><span>+</span>
+                            </div>
+                            <span class="counter-text">دوره‌های تکمیل شده</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">2500</span><span>+</span>
+                            </div>
+                            <span class="counter-text">دانشجویان راضی</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">1500</span><span>+</span>
+                            </div>
+                            <span class="counter-text">رشته‌ها</span>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-6 m-b30">
+                        <div class="counter-style-1">
+                            <div class="text-white">
+                                <span class="counter">1000</span><span>+</span>
+                            </div>
+                            <span class="counter-text">دوره‌های پیش‌رو</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Testimonials END -->
+        <!-- RECENT BLOG ==== -->
+        <div class="section-area section-sp2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 heading-bx left">
+                        <h2 class="title-head">آخرین <span> مقالات</span></h2>
+                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک
+                            است.</p>
+                    </div>
+                </div>
+                <div class="ttr-blog-grid-3 row" id="masonry" style="position: relative; height: 1676.11px;">
+                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                         style="position: absolute; right: 0px; top: 0px;">
+                        <div class="recent-news">
+                            <div class="action-box">
+                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
+                            </div>
+                            <div class="info-bx">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                         style="position: absolute; right: 0px; top: 0px;">
+                        <div class="recent-news">
+                            <div class="action-box">
+                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
+                            </div>
+                            <div class="info-bx">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                         style="position: absolute; right: 0px; top: 0px;">
+                        <div class="recent-news">
+                            <div class="action-box">
+                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
+                            </div>
+                            <div class="info-bx">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                         style="position: absolute; right: 0px; top: 0px;">
+                        <div class="recent-news">
+                            <div class="action-box">
+                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
+                            </div>
+                            <div class="info-bx">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                         style="position: absolute; right: 0px; top: 0px;">
+                        <div class="recent-news">
+                            <div class="action-box">
+                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
+                            </div>
+                            <div class="info-bx">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                         style="position: absolute; right: 0px; top: 0px;">
+                        <div class="recent-news">
+                            <div class="action-box">
+                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
+                            </div>
+                            <div class="info-bx">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- RECENT BLOG END ==== -->
+    </div>
+    <!-- contact area END -->
+{% endblock %}

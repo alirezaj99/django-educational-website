@@ -1,0 +1,1 @@
+default_app_config = 'index_app.apps.IndexAppConfig'
