@@ -40,7 +40,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="row">
                         {% for course in last_courses %}
-                            <div class="col-md-6 col-lg-4 col-sm-6 m-b30">
+                            <div class="col-md-6 col-lg-6 col-xl-3 col-sm-6 m-b30">
                                 <div class="cours-bx">
                                     <div class="action-box">
                                         <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
@@ -87,7 +87,11 @@
                                 در زبان فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
                                 راهکارها و شرایط سخت تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و
                                 جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
-                            <a href="#" class="btn button-md">عضو شوید</a>
+                            {% if request.user.is_authenticated %}
+                                <a href="{% url 'course:course_list' %}" class="btn button-md btn-block">دوره ها</a>
+                            {% else %}
+                                <a href="{% url 'account:register' %}" class="btn button-md btn-block">ثبت نام کنید</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

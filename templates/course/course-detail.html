@@ -43,10 +43,21 @@
                                 <h4 class="price">{{ object.total_price | intcomma:False }} تومان</h4>
 
                             </div>
-                            <div class="course-buy-now text-center">
-                                <a href="{% url 'account:add_course_to_order' object.pk %}"
-                                   class="btn radius-xl text-uppercase">خرید دوره</a>
-                            </div>
+                            {% if object in user.student_courses.get_publish_course %}
+                                <div class="row text-center">
+                                    <div class="col-12 text-center">
+                                        <a style="white-space: nowrap;font-size: 12px;color: #fff"
+                                           class="btn-success radius-xl py-2 px-3 text-center">شما دانشجوی این دوره
+                                            هستید</a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="course-buy-now text-center">
+                                    <a href="{% url 'account:add_course_to_order' object.pk %}"
+                                       class="btn radius-xl text-uppercase">خرید دوره</a>
+                                </div>
+                            {% endif %}
+
                             <div class="teacher-bx">
                                 <div class="teacher-info">
                                     <div class="teacher-thumb">
@@ -142,11 +153,14 @@
                                             {% for video in object.video.get_active_video %}
                                                 <li>
                                                     <div class="curriculum-list-box">
-                                                        <a target="_blank"
-                                                           href="{{ video.video.url }}"><span>جلسه {{ video.position }}.</span> {{ video.title }}
-                                                        </a>
+                                                        <span>جلسه {{ video.position }}.</span> {{ video.title }}
                                                     </div>
-                                                    <span>{{ video.time|time:"s : i : H" }}</span>
+                                                    <span>{{ video.time|time:"s : i : H" }}
+                                                        {% if object in user.student_courses.get_publish_course %}<a
+                                                                href="{{ video.video.url }}"
+                                                                style="color: #28a745 !important;"
+                                                                class="mr-2 font-weight-bold">دانلود</a>{% else %}
+                                                            <i class="ti-lock mr-2 text-danger"></i>{% endif %}</span>
                                                 </li>
 
                                             {% endfor %}
