@@ -209,7 +209,7 @@ class Course(models.Model):
         return jalali_converter(self.publish_time)
 
     def get_jalali_date_for_url(self):
-        return f'{jalali_converter_year(self.create_time)}/{jalali_converter_month(self.create_time)}/{jalali_converter_day(self.create_time)}'
+        return f'{jalali_converter_year(self.publish_time)}/{jalali_converter_month(self.publish_time)}/{jalali_converter_day(self.publish_time)}'
 
     jalali_time.short_description = 'زمان انتشار'
 
