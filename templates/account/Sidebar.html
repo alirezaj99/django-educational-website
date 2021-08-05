@@ -30,6 +30,13 @@
                     </a>
                 </li>
                 <li class="ttr-seperate"></li>
+                <li>
+                    <a href="{% url 'account:my_comment' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-comment-alt"></i></span>
+                        <span class="ttr-label">دیدگاه های من</span>
+                    </a>
+                </li>
+                <li class="ttr-seperate"></li>
                 {% if user.is_teacher %}
                     <li>
                         <a href="{% url 'account:course_add' %}" class="ttr-material-button">

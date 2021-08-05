@@ -170,7 +170,17 @@ class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherM
 class TeacherCourses(LoginRequiredMixin, TeacherMixin, ListView):
     def get_queryset(self):
         user = self.request.user
-        courses = Course.objects.filter(teacher=user    )
+        # courses = Course.objects.filter(teacher=user)
+        courses = user.teacher_courses.all()
         return courses
 
     template_name = 'account/teacher-courses.html'
+
+
+class MyComment(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        user = self.request.user
+        comments = user.comments.all()
+        return comments
+
+    template_name = 'account/my-comment.html'

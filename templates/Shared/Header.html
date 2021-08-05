@@ -72,12 +72,6 @@
                         </li>
                         <li><a href="javascript:;">دوره ها <i class="fa fa-chevron-down"></i></a>
                             <ul class="sub-menu">
-                                {% comment %}<li><a href="javascript:;">درباره ما<i class="fa fa-angle-right"></i></a>
-                                    <ul class="sub-menu">
-                                        <li><a href="about-1.html">درباره ما 1</a></li>
-                                        <li><a href="about-2.html">درباره ما 2</a></li>
-                                    </ul>
-                                </li>{% endcomment %}
                                 <li>
                                     <a href="{% url 'course:course_list' %}">همه دوره ها</a>
                                 </li>
@@ -88,58 +82,7 @@
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li class="add-mega-menu"><a href="javascript:;">دوره‌های ما <i
-                                class="fa fa-chevron-down"></i></a>
-                            <ul class="sub-menu add-menu">
-                                <li class="add-menu-left">
-                                    <h5 class="menu-adv-title">دوره‌های ما</h5>
-                                    <ul>
-                                        <li><a href="courses.html">دوره‌ها</a></li>
-                                        <li><a href="courses-details.html">جزییات دوره‌ها</a></li>
-                                        <li><a href="profile.html">پروفایل استاد</a></li>
-                                        <li><a href="event.html">رویدادهای آینده</a></li>
-                                        <li><a href="membership.html">عضویت</a></li>
-                                    </ul>
-                                </li>
-                                <li class="add-menu-right">
-                                    <img src="assets/images/adv/adv222.png" alt=""/>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="javascript:;">بلاگ<i class="fa fa-chevron-down"></i></a>
-                            <ul class="sub-menu">
-                                <li><a href="blog-classic-grid.html">بلاگ ساده</a></li>
-                                <li><a href="blog-classic-sidebar.html">بلاگ ساده همراه سایدبار</a></li>
-                                <li><a href="blog-list-sidebar.html">بلاگ لیستی همراه سایدبار</a></li>
-                                <li><a href="blog-standard-sidebar.html">بلاگ استاندارد همراه سایدبار</a></li>
-                                <li><a href="blog-details.html">جزییات بلاگ</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-dashboard"><a href="javascript:;">داشبرد<i
-                                class="fa fa-chevron-down"></i></a>
-                            <ul class="sub-menu">
-                                <li><a href="admin/index.html">داشبرد</a></li>
-                                <li><a href="admin/add-listing.html">افزودن لیست</a></li>
-                                <li><a href="admin/bookmark.html">بوکمارک</a></li>
-                                <li><a href="admin/courses.html">دوره‌ها</a></li>
-                                <li><a href="admin/review.html">نظرات</a></li>
-                                <li><a href="admin/teacher-profile.html">پروفایل مدرس</a></li>
-                                <li><a href="admin/user-profile.html">پروفایل کاربر</a></li>
-                                <li><a href="javascript:;">تقویم<i class="fa fa-angle-right"></i></a>
-                                    <ul class="sub-menu">
-                                        <li><a href="admin/basic-calendar.html">تقویم ساده</a></li>
-                                        <li><a href="admin/list-view-calendar.html">تقویم لیستی</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="javascript:;">صندوق پستی<i class="fa fa-angle-right"></i></a>
-                                    <ul class="sub-menu">
-                                        <li><a href="admin/mailbox.html">صندوق پستی</a></li>
-                                        <li><a href="admin/mailbox-compose.html">ارسال پیام</a></li>
-                                        <li><a href="admin/mailbox-read.html">نامه</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+                        <li><a href="{% url 'index:index_page' %}">مقالات</a>
                     </ul>
                     <div class="nav-social-link">
                         <a href="javascript:;"><i class="fa fa-facebook"></i></a>
