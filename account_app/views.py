@@ -10,6 +10,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView
 from .models import User, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .mixins import TeacherMixin, CourseValidMixin, CourseFieldMixin
 
 
 # register view
@@ -157,4 +158,19 @@ class MyCourses(LoginRequiredMixin, ListView):
         courses = user.student_courses.get_publish_course().order_by('-course_app_course_student.id')
         return courses
 
-    template_name = 'account/my-coursrs.html'
+    template_name = 'account/my-courses.html'
+
+
+class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherMixin, CreateView):
+    model = Course
+    template_name = 'account/course-add.html'
+    success_url = reverse_lazy('account:profile')
+
+
+class TeacherCourses(LoginRequiredMixin, TeacherMixin, ListView):
+    def get_queryset(self):
+        user = self.request.user
+        courses = Course.objects.filter(teacher=user    )
+        return courses
+
+    template_name = 'account/teacher-courses.html'

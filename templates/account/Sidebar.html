@@ -30,6 +30,22 @@
                     </a>
                 </li>
                 <li class="ttr-seperate"></li>
+                {% if user.is_teacher %}
+                    <li>
+                        <a href="{% url 'account:course_add' %}" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-plus"></i></span>
+                            <span class="ttr-label">درخواست ایجاد دوره</span>
+                        </a>
+                    </li>
+                    <li class="ttr-seperate"></li>
+                    <li>
+                        <a href="{% url 'account:teacher_courses' %}" class="ttr-material-button">
+                            <span class="ttr-icon"><i class="ti-blackboard"></i></span>
+                            <span class="ttr-label">دوره های مدرس</span>
+                        </a>
+                    </li>
+                    <li class="ttr-seperate"></li>
+                {% endif %}
                 <li>
                     <a href="{% url 'account:password_change' %}" class="ttr-material-button">
                         <span class="ttr-icon"><i class="ti-key"></i></span>

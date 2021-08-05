@@ -1,0 +1,159 @@
+{% extends 'account/AccountBase.html' %}
+{% load widget_tweaks %}
+{% block head_title %}ایجاد دوره{% endblock %}
+{% block page_title %}
+    <li>ایجاد دوره</li>{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12 m-b30 login-error text-justify">
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.title.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.title.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.image.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.image.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.description.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.description.errors %}
+                        <span>{{ error }}</span>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.price.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.price.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.discount.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.discount.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if avatar_form.categories.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in avatar_form.categories.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.tags.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.tags.errors %}
+                        <span>{{ error }}</span>
+
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.level.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.level.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if form.language.errors %}
+                <div class="alert alert-danger my-1">
+                    {% for error in form.language.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-12 m-b30">
+            <div class="widget-box">
+                <div class="wc-title">
+                    <h4>ایجاد دوره</h4>
+                </div>
+                <div class="widget-inner">
+                    <form method="post" enctype="multipart/form-data" class="edit-profile m-b30">
+                        {% csrf_token %}
+                        <div class="">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">عنوان دوره</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.title class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">تصویر دوره</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.image class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">توضیحات</label>
+                                <div class="col-sm-7">
+                                    {{ form.media }}
+                                    {% render_field form.description class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">قیمت</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.price class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">تخفیف</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.discount class="form-control" class="textarea" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">دسته بندی</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.categories class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">برچسب / تگ</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.tags class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">سطح دوره</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.level class="form-control" %}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">زبان دوره</label>
+                                <div class="col-sm-7">
+                                    {% render_field form.language class="form-control" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-7">
+                                <button type="submit" class="btn">ثبت درخواست</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

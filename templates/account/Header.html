@@ -10,7 +10,7 @@
         <!--logo start -->
         <div class="ttr-logo-box">
             <div>
-                <a href="index.html" class="ttr-logo">
+                <a href="{% url 'index:index_page' %}" class="ttr-logo">
                     <img class="ttr-logo-mobile" alt="" src="{% static 'account/images/logo-mobile.png' %}" width="30"
                          height="30">
                     <img class="ttr-logo-desktop" alt="" src="{% static 'account/images/logo-white.png' %}" width="160"
@@ -23,7 +23,7 @@
             <!-- header left menu start -->
             <ul class="ttr-header-navigation">
                 <li>
-                    <a href="{% url 'course:course_list' %}" class="r-submenu-toggle">صفحه اصلی سایت</a>
+                    <a href="{% url 'index:index_page' %}" class="r-submenu-toggle">صفحه اصلی سایت</a>
                 </li>
             </ul>
             <!-- header left menu end -->

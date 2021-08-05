@@ -50,36 +50,6 @@ class LoginForm(AuthenticationForm):
         ]
 
 
-'''
-class ProfileUpdateForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
-
-    class Meta:
-        model = Profile
-        fields = [
-            'phone_number',
-            'web_site',
-            'bio',
-            'avatar',
-        ]
-
-
-class UserProfileNameUpdateForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(UserProfileNameUpdateForm, self).__init__(*args, **kwargs)
-        self.fields['first_name'].required = True
-        self.fields['last_name'].required = True
-
-    class Meta:
-        model = User
-        fields = [
-            'first_name',
-            'last_name',
-        ]
-'''
-
-
 class ProfileUpdateForm(forms.Form):
     def __init__(self, user, *args, **kwargs):
         self.user = user

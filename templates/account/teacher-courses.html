@@ -1,0 +1,70 @@
+{% extends 'account/AccountBase.html' %}
+{% load widget_tweaks %}
+{% block head_title %}دوره های مدرس{% endblock %}
+{% block page_title %}
+    <li>دوره های مدرس</li>{% endblock %}
+{% block content %}
+    <div class="row">
+        <!-- Your Profile Views Chart -->
+        <div class="col-lg-12 m-b30">
+            <div class="widget-box">
+                <div class="wc-title">
+                    <h4>دوره‌های مدرس</h4>
+                </div>
+                <div class="widget-inner">
+                    {% for course in object_list %}
+                        <div class="card-courses-list admin-courses">
+                            <div class="card-courses-media">
+                                <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
+                                                                       alt="{{ course.title }}"></a>
+                            </div>
+                            <div class="card-courses-full-dec">
+                                <div class="card-courses-title">
+                                    <h4><a href="{{ course.course_url }}">{{ course.title }}</a></h4>
+                                </div>
+                                <div class="card-courses-list-bx">
+                                    <ul class="card-courses-view">
+                                        <li class="card-courses-user">
+                                            <div class="card-courses-user-pic">
+                                                <img src="{{ course.teacher.profile.avatar.url }}"
+                                                     alt="{{ course.get_teacher_name }}">
+                                            </div>
+                                            <div class="card-courses-user-info">
+                                                <h5>مدرس</h5>
+                                                <h4>{{ course.get_teacher_name }}</h4>
+                                            </div>
+                                        </li>
+                                        <li class="card-courses-categories">
+                                            <h5>دسته‌بندی</h5>
+                                            <h4>{{ course.category_to_str }}</h4>
+                                        </li>
+                                        <li class="card-courses-stats">
+                                            {% if course.status %}
+                                                <a style="color: #000" class="btn button-sm green radius-xl">تایید
+                                                    شده</a>
+                                            {% else %}
+                                                <a style="color: #fff" class="btn button-sm red radius-xl">تایید
+                                                    نشده</a>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="row card-courses-dec">
+                                    <div class="col-md-12">
+                                        <h6 class="m-b10">توضیحات دوره</h6>
+                                        <p>{{ course.description|safe|truncatewords:32 }}</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <a href="{{ course.course_url }}" class="btn green radius-xl outline">لینک
+                                            دوره</a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Your Profile Views Chart END-->
+        </div>
+{% endblock %}
