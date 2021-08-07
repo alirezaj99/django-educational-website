@@ -1,6 +1,7 @@
 from . import jalali
 from django.utils import timezone
 from random import randint
+import uuid
 
 
 def jalali_converter(time):
@@ -120,3 +121,9 @@ def jalali_converter_day(time):
     )
 
     return output
+
+
+# ckeditor
+def get_filename(filename, request):
+    uniq_str = uuid.uuid4().hex[:10]
+    return f'image-{uniq_str.upper()}-{randint(99, 99999)}'

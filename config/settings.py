@@ -41,11 +41,13 @@ INSTALLED_APPS = [
     'django_render_partial',
     'widget_tweaks',
     'ckeditor',
+    'ckeditor_uploader',
     # MY APPS
     'account_app',
     'course_app',
     'order_app',
     'index_app',
+    'blog_app',
     # DJANGO CLEANUP
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -156,6 +158,9 @@ CKEDITOR_CONFIGS = {
         'toolbar': 'full',
     },
 }
+
+CKEDITOR_UPLOAD_PATH = "editor/uploads/"
+CKEDITOR_FILENAME_GENERATOR = 'extensions.utils.get_filename'
 
 # authenticate
 LOGIN_URL = '/account/login/'
