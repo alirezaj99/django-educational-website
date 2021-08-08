@@ -6,6 +6,7 @@ import random
 import os
 from extensions.utils import jalali_converter_year, jalali_converter_month, jalali_converter_day
 from django.db.models.signals import pre_save
+from django.db.models import Q
 
 
 # generate image name
@@ -27,6 +28,36 @@ class BlogManager(models.Manager):
     def get_publish_blog(self):
         return self.get_queryset().filter(status=True)
 
+    def search(self, query):
+        lookup = (
+                Q(title__icontains=query) | Q(description__icontains=query) | Q(tags__title__icontains=query)
+        )
+        return self.get_queryset().filter(lookup, status=True).distinct()
+
+
+class BlogTagManager(models.Manager):
+    def get_active_tag(self):
+        return self.get_queryset().filter(status=True)
+
+
+# models
+
+class BlogTag(models.Model):
+    title = models.CharField(max_length=200, unique=True, verbose_name='عنوان برچسب')
+    status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
+    create_time = models.DateTimeField(auto_now_add=True)
+    update_time = models.DateTimeField(auto_now=True)
+
+    objects = BlogTagManager()
+
+    class Meta:
+        verbose_name = 'برچسب'
+        verbose_name_plural = 'برچسب ها'
+        ordering = ['-create_time']
+
+    def __str__(self):
+        return self.title
+
 
 class Blog(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='blogs',
@@ -35,6 +66,7 @@ class Blog(models.Model):
     slug = models.CharField(max_length=300, verbose_name='عنوان در url', blank=True)
     description = RichTextUploadingField(verbose_name="محتوا")
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر مقاله")
+    tags = models.ManyToManyField(BlogTag, related_name='blogs', blank=True, verbose_name='تگ ها / برچسب ها')
     status = models.BooleanField(default=False, verbose_name="وضعیت")
     send_email = models.BooleanField(default=True, verbose_name='ارسال ایمیل')
     publish_time = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")

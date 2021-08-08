@@ -7,7 +7,8 @@
     <div class="page-banner ovbl-dark" style="background-image:url({% static 'images/banner/banner2.jpg' %});">
         <div class="container">
             <div class="page-banner-entry">
-                <h1 class="text-white">مقالات</h1>
+                <h1 class="text-white">{% if request.GET.search %}مقالات | جستجوی {{ request.GET.search }}{% else %}
+                    مقالات{% endif %}</h1>
             </div>
         </div>
     </div>

@@ -3,14 +3,11 @@
         <div class="widget">
             <h6 class="widget-title">جستجو</h6>
             <div class="search-bx style-1">
-                <form role="search" method="post">
+                <form role="search" method="get" action="{% url 'blog:blog_list' %}">
                     <div class="input-group">
-                        <input name="text" class="form-control" placeholder="جستجو کنید"
+                        <input name="search" class="form-control" placeholder="جستجو کنید"
                                type="text">
-                        <span class="input-group-btn">
-														<button type="submit"
-                                                                class="fa fa-search text-primary"></button>
-													</span>
+                        <span class="input-group-btn"><button type="submit" class="fa fa-search text-primary"></button></span>
                     </div>
                 </form>
             </div>
@@ -85,26 +82,11 @@
             </ul>
         </div>
         <div class="widget widget_tag_cloud">
-            <h6 class="widget-title">تگ&zwnj;ها</h6>
+            <h6 class="widget-title">آخرین برچسب ها</h6>
             <div class="tagcloud">
-                <a href="#">طراحی</a>
-                <a href="#">طراحی رابط کاربری</a>
-                <a href="#">سئو</a>
-                <a href="#">وردپرس</a>
-                <a href="#">توسعه محصول</a>
-                <a href="#">طراحی محصول</a>
-                <a href="#">طراحی</a>
-                <a href="#">طراحی رابط کاربری</a>
-                <a href="#">سئو</a>
-                <a href="#">وردپرس</a>
-                <a href="#">توسعه محصول</a>
-                <a href="#">طراحی محصول</a>
-                <a href="#">طراحی</a>
-                <a href="#">طراحی رابط کاربری</a>
-                <a href="#">سئو</a>
-                <a href="#">وردپرس</a>
-                <a href="#">توسعه محصول</a>
-                <a href="#">طراحی محصول</a>
+                {% for tag in tags %}
+                    <a href="{% url 'blog:blog_list' %}?search={{ tag.title }}">{{ tag.title }}</a>
+                {% endfor %}
             </div>
         </div>
     </aside>

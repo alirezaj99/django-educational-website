@@ -43,26 +43,11 @@
                                 {{ object.description|safe }}
                                 <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                 <div class="widget_tag_cloud">
-                                    <h6>تگ&zwnj;ها</h6>
+                                    <h6>برچسب ها</h6>
                                     <div class="tagcloud">
-                                        <a href="#">طراحی</a>
-                                        <a href="#">طراحی رابط کاربری</a>
-                                        <a href="#">سئو</a>
-                                        <a href="#">وردپرس</a>
-                                        <a href="#">توسعه محصول</a>
-                                        <a href="#">طراحی محصول</a>
-                                        <a href="#">طراحی</a>
-                                        <a href="#">طراحی رابط کاربری</a>
-                                        <a href="#">سئو</a>
-                                        <a href="#">وردپرس</a>
-                                        <a href="#">توسعه محصول</a>
-                                        <a href="#">طراحی محصول</a>
-                                        <a href="#">طراحی</a>
-                                        <a href="#">طراحی رابط کاربری</a>
-                                        <a href="#">سئو</a>
-                                        <a href="#">وردپرس</a>
-                                        <a href="#">توسعه محصول</a>
-                                        <a href="#">طراحی محصول</a>
+                                        {% for tag in object.tags.get_active_tag %}
+                                            <a href="{% url 'blog:blog_list' %}?search={{ tag.title }}">{{ tag.title }}</a>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
