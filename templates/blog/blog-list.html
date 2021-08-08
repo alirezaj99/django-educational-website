@@ -1,0 +1,365 @@
+{% extends 'Shared/Base.html' %}
+{% load render_partial %}
+{% load static %}
+{% block head_title %}مقالات{% endblock %}
+{% block content %}
+    <!-- inner page banner -->
+    <div class="page-banner ovbl-dark" style="background-image:url({% static 'images/banner/banner2.jpg' %});">
+        <div class="container">
+            <div class="page-banner-entry">
+                <h1 class="text-white">بلاگ لیستی همراه سایدبار</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb row -->
+    <div class="breadcrumb-row">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="#">خانه</a></li>
+                <li>بلاگ لیستی همراه سایدبار</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Breadcrumb row END -->
+    <!-- contact area -->
+    <div class="content-block">
+        <div class="section-area section-sp1">
+            <div class="container">
+                <div class="row">
+                    <!-- Left part start -->
+                    <div class="col-lg-8">
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic1.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/10/29</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
+                                    راهکار</a>
+                                </h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک
+                                    است.</p>
+
+
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>05 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic2.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/02</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط سپهر</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">چه تجارتی امسال پر سود خواهد بود و
+                                    چرا؟</a></h5>
+                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
+                                    گرافیک
+                                    است.</p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>12 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic3.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/10/29</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط گلاره</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">مهارت&zwnj;هایی که باید حتما بلد
+                                    باشید</a></h5>
+                                <p>علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد کرد. </p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic1.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/10/25</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط طاها</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">از بین بردن ترس یادگیری چیزهای
+                                    جدید</a>
+                                </h5>
+                                <p>وقتی لازم بود از ابتدا شروع کنم و بفهمم که چگونه چیزها کار می کنند. </p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>28 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic2.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/25</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط هنگامه</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">هفت دلیل برای شروع کسب و کار
+                                    خودتان</a>
+                                </h5>
+                                <p>برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می
+                                    باشد.</p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>26 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic3.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/10/22</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط آتا</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">بزرگترین رویداد آموزشی ما</a></h5>
+                                <p> در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت
+                                    تایپ
+                                    به پایان رسد</p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>15 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic1.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/10/25</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط طاها</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">از بین بردن ترس یادگیری چیزهای
+                                    جدید</a>
+                                </h5>
+                                <p>وقتی لازم بود از ابتدا شروع کنم و بفهمم که چگونه چیزها کار می کنند. </p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>28 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic2.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/25</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط هنگامه</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">هفت دلیل برای شروع کسب و کار
+                                    خودتان</a>
+                                </h5>
+                                <p>برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می
+                                    باشد.</p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>26 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="blog-post blog-md clearfix">
+                            <div class="ttr-post-media">
+                                <a href="#"><img src="assets/images/blog/grid/pic3.jpg" alt=""></a>
+                            </div>
+                            <div class="ttr-post-info">
+                                <ul class="media-post">
+                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/10/22</a></li>
+                                    <li><a href="#"><i class="fa fa-user"></i>توسط آتا</a></li>
+                                </ul>
+                                <h5 class="post-title"><a href="blog-details.html">بزرگترین رویداد آموزشی ما</a></h5>
+                                <p> در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت
+                                    تایپ
+                                    به پایان رسد</p>
+                                <div class="post-extra">
+                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
+                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>15 نظر</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Pagination start -->
+                        <div class="pagination-bx rounded-sm gray clearfix">
+                            <ul class="pagination">
+                                <li class="previous"><a href="#"><i class="ti-arrow-right"></i> قبلی</a></li>
+                                <li class="active"><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li class="next"><a href="#">بعدی<i class="ti-arrow-left"></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- Pagination END -->
+                    </div>
+                    <!-- Left part END -->
+                    <!-- Side bar start -->
+                    <div class="col-lg-4 sticky-top">
+                        <aside class="side-bar sticky-top">
+                            <div class="widget">
+                                <h6 class="widget-title">جستجو</h6>
+                                <div class="search-bx style-1">
+                                    <form role="search" method="post">
+                                        <div class="input-group">
+                                            <input name="text" class="form-control" placeholder="جستجو کنید"
+                                                   type="text">
+                                            <span class="input-group-btn">
+														<button type="submit"
+                                                                class="fa fa-search text-primary"></button>
+													</span>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="widget recent-posts-entry">
+                                <h6 class="widget-title">آخرین پست&zwnj;ها</h6>
+                                <div class="widget-post-bx">
+                                    <div class="widget-post clearfix">
+                                        <div class="ttr-post-media"><img src="assets/images/blog/recent-blog/pic1.jpg"
+                                                                         width="200" height="143" alt=""></div>
+                                        <div class="ttr-post-info">
+                                            <div class="ttr-post-header">
+                                                <h6 class="post-title"><a href="blog-details.html">هفت دلیل برای شروع
+                                                    کسب و
+                                                    کار خودتان</a></h6>
+                                            </div>
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-calendar"></i>1398/11/02</a></li>
+                                                <li><a href="#"><i class="fa fa-comments-o"></i>15 نظر</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-post clearfix">
+                                        <div class="ttr-post-media"><img src="assets/images/blog/recent-blog/pic2.jpg"
+                                                                         width="200" height="160" alt=""></div>
+                                        <div class="ttr-post-info">
+                                            <div class="ttr-post-header">
+                                                <h6 class="post-title"><a href="blog-details.html">مهارت&zwnj;هایی که
+                                                    باید
+                                                    حتما بلد باشید</a></h6>
+                                            </div>
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-calendar"></i>1398/10/29</a></li>
+                                                <li><a href="#"><i class="fa fa-comments-o"></i>23 نظر</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="widget-post clearfix">
+                                        <div class="ttr-post-media"><img src="assets/images/blog/recent-blog/pic3.jpg"
+                                                                         width="200" height="160" alt=""></div>
+                                        <div class="ttr-post-info">
+                                            <div class="ttr-post-header">
+                                                <h6 class="post-title"><a href="blog-details.html">از بین بردن ترس
+                                                    یادگیری
+                                                    چیزهای جدید</a></h6>
+                                            </div>
+                                            <ul class="media-post">
+                                                <li><a href="#"><i class="fa fa-calendar"></i>1398/10/25</a></li>
+                                                <li><a href="#"><i class="fa fa-comments-o"></i>27 نظر</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget widget-newslatter">
+                                <h6 class="widget-title">خبرنامه</h6>
+                                <div class="news-box">
+                                    <p>پست&zwnj;الکترونیک خود را برای با خبر شدن از آخرین اخبار ما وارد نمایید</p>
+                                    <form class="subscription-form" action=" " method="post">
+                                        <div class="ajax-message"></div>
+                                        <div class="input-group">
+                                            <input name="email" required="required" type="email" class="form-control"
+                                                   placeholder="پست الکترونیک شما">
+                                            <button name="submit" value="Submit" type="submit"
+                                                    class="btn black radius-no">
+                                                <i class="fa fa-paper-plane-o"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="widget widget_gallery gallery-grid-4">
+                                <h6 class="widget-title">گالری</h6>
+                                <ul>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic2.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic1.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic5.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic7.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic8.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic9.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic3.jpg" alt=""></a></div>
+                                    </li>
+                                    <li>
+                                        <div><a href="#"><img src="assets/images/gallery/pic4.jpg" alt=""></a></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="widget widget_tag_cloud">
+                                <h6 class="widget-title">تگ&zwnj;ها</h6>
+                                <div class="tagcloud">
+                                    <a href="#">طراحی</a>
+                                    <a href="#">طراحی رابط کاربری</a>
+                                    <a href="#">سئو</a>
+                                    <a href="#">وردپرس</a>
+                                    <a href="#">توسعه محصول</a>
+                                    <a href="#">طراحی محصول</a>
+                                    <a href="#">طراحی</a>
+                                    <a href="#">طراحی رابط کاربری</a>
+                                    <a href="#">سئو</a>
+                                    <a href="#">وردپرس</a>
+                                    <a href="#">توسعه محصول</a>
+                                    <a href="#">طراحی محصول</a>
+                                    <a href="#">طراحی</a>
+                                    <a href="#">طراحی رابط کاربری</a>
+                                    <a href="#">سئو</a>
+                                    <a href="#">وردپرس</a>
+                                    <a href="#">توسعه محصول</a>
+                                    <a href="#">طراحی محصول</a>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                    <!-- Side bar END -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
