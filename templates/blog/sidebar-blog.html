@@ -1,0 +1,111 @@
+<div class="col-lg-4 sticky-top">
+    <aside class="side-bar sticky-top">
+        <div class="widget">
+            <h6 class="widget-title">جستجو</h6>
+            <div class="search-bx style-1">
+                <form role="search" method="post">
+                    <div class="input-group">
+                        <input name="text" class="form-control" placeholder="جستجو کنید"
+                               type="text">
+                        <span class="input-group-btn">
+														<button type="submit"
+                                                                class="fa fa-search text-primary"></button>
+													</span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="widget recent-posts-entry">
+            <h6 class="widget-title">آخرین مقالات</h6>
+            <div class="widget-post-bx">
+                {% for blog in blogs %}
+                    <div class="widget-post clearfix">
+                        <div class="ttr-post-media"><a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"><img
+                                src="{{ blog.image.url }}"
+                                width="200" height="143" alt="{{ blog.title }}"></a></div>
+                        <div class="ttr-post-info">
+                            <div class="ttr-post-header">
+                                <h6 class="post-title"><a
+                                        href="{% url 'blog:blog_detail' blog.pk blog.slug %}">{{ blog.title }}</a></h6>
+                            </div>
+                            <ul class="media-post">
+                                <li><a href="#"><i class="fa fa-calendar"></i>{{ blog.get_jalali_date_for_url }}</a>
+                                </li>
+                                <li><a href="#"><i class="fa fa-comments-o"></i>15 نظر</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="widget widget-newslatter">
+            <h6 class="widget-title">خبرنامه</h6>
+            <div class="news-box">
+                <p>پست&zwnj;الکترونیک خود را برای با خبر شدن از آخرین اخبار ما وارد نمایید</p>
+                <form class="subscription-form" action=" " method="post">
+                    <div class="ajax-message"></div>
+                    <div class="input-group">
+                        <input name="email" required="required" type="email" class="form-control"
+                               placeholder="پست الکترونیک شما">
+                        <button name="submit" value="Submit" type="submit"
+                                class="btn black radius-no">
+                            <i class="fa fa-paper-plane-o"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="widget widget_gallery gallery-grid-4">
+            <h6 class="widget-title">گالری</h6>
+            <ul>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic2.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic1.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic5.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic7.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic8.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic9.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic3.jpg" alt=""></a></div>
+                </li>
+                <li>
+                    <div><a href="#"><img src="assets/images/gallery/pic4.jpg" alt=""></a></div>
+                </li>
+            </ul>
+        </div>
+        <div class="widget widget_tag_cloud">
+            <h6 class="widget-title">تگ&zwnj;ها</h6>
+            <div class="tagcloud">
+                <a href="#">طراحی</a>
+                <a href="#">طراحی رابط کاربری</a>
+                <a href="#">سئو</a>
+                <a href="#">وردپرس</a>
+                <a href="#">توسعه محصول</a>
+                <a href="#">طراحی محصول</a>
+                <a href="#">طراحی</a>
+                <a href="#">طراحی رابط کاربری</a>
+                <a href="#">سئو</a>
+                <a href="#">وردپرس</a>
+                <a href="#">توسعه محصول</a>
+                <a href="#">طراحی محصول</a>
+                <a href="#">طراحی</a>
+                <a href="#">طراحی رابط کاربری</a>
+                <a href="#">سئو</a>
+                <a href="#">وردپرس</a>
+                <a href="#">توسعه محصول</a>
+                <a href="#">طراحی محصول</a>
+            </div>
+        </div>
+    </aside>
+</div>

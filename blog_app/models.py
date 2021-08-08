@@ -22,6 +22,12 @@ def upload_image_path(instance, filename):
     return f"blog/img/{final_name}"
 
 
+# model managers
+class BlogManager(models.Manager):
+    def get_publish_blog(self):
+        return self.get_queryset().filter(status=True)
+
+
 class Blog(models.Model):
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='blogs',
                                verbose_name="نویسنده")
@@ -35,6 +41,8 @@ class Blog(models.Model):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
+    objects = BlogManager()
+
     class Meta:
         verbose_name = "مقاله"
         verbose_name_plural = "مقالات"
@@ -43,10 +51,13 @@ class Blog(models.Model):
     def __str__(self):
         return self.title
 
-    def author_str(self):
-        return str(self.author)
+    def get_author_name(self):
+        if self.author.get_full_name():
+            return self.author.get_full_name()
+        else:
+            return self.author
 
-    author_str.short_description = 'نویسنده'
+    get_author_name.short_description = 'نویسنده'
 
     def get_jalali_date_for_url(self):
         return f'{jalali_converter_year(self.publish_time)}/{jalali_converter_month(self.publish_time)}/{jalali_converter_day(self.publish_time)}'
