@@ -1,5 +1,6 @@
 {% extends 'Shared/Base.html' %}
 {% load render_partial %}
+{% load widget_tweaks %}
 {% load static %}
 {% block head_title %}جزئیات مقاله{% endblock %}
 {% block content %}
@@ -66,157 +67,122 @@
                         </div>
                         <div class="clear" id="comment-list">
                             <div class="comments-area" id="comments">
-                                <h2 class="comments-title">8 نظرات</h2>
+
                                 <div class="clearfix m-b20">
+                                    <!-- Form -->
+                                    <div class="comment-respond mb-3" id="respond">
+                                        <h4 class="comment-reply-title" id="reply-title">دیدگاه خود را بنویسید<small>
+                                        </small></h4>
+                                        <div id="review">
+                                            {% if user.is_authenticated %}
+                                                <form class="comment-form" id="commentform" method="post">
+                                                    {% csrf_token %}
+                                                    <p class="comment-form-comment">
+                                                        <label for="comment">دیدگاه</label>
+                                                        {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
+                                                    </p>
+                                                    <p class="form-submit">
+                                                        <input type="submit" value="ثبت دیدگاه" class="submit"
+                                                               id="submit"
+                                                               name="submit">
+                                                    </p>
+                                                </form>
+                                            {% else %}
+                                                <p class="alert alert-warning text-center">برای ثبت دیدگاه باید <a
+                                                        href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
+                                                    شوید.</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% if object.comments.get_active_comment %}
+                                        <h2 class="comments-title">{{ object.comments.get_active_comment.count }}
+                                            دیدگاه</h2>
+                                    {% else %}
+                                        <div class="col-lg-12">
+                                            <p class="alert alert-success text-center">شما اولین دیدگاه را ثبت کنید</p>
+                                        </div>
+                                    {% endif %}
+                                    <!-- Form -->
                                     <!-- comment list END -->
                                     <ol class="comment-list">
                                         <li class="comment">
-                                            <div class="comment-body">
-                                                <div class="comment-author vcard"><img class="avatar photo"
-                                                                                       src="assets/images/testimonials/pic1.jpg"
-                                                                                       alt=""> <cite class="fn">آذر
-                                                    آتشفروز</cite>
-                                                    <span class="says">نوشته:</span></div>
-                                                <div class="comment-meta"><a href="#">بهمن 02, 1398 در 10:45
-                                                    بعدازظهر</a></div>
-                                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-                                                    استفاده از طراحان گرافیک
-                                                    است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم
-                                                    است و برای شرایط فعلی
-                                                    تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی
-                                                    می باشد. </p>
-                                                <div class="reply"><a href="#" class="comment-reply-link">پاسخ</a></div>
-                                            </div>
-                                            <ol class="children">
-                                                <li class="comment odd parent">
-                                                    <div class="comment-body">
-                                                        <div class="comment-author vcard"><img class="avatar photo"
-                                                                                               src="assets/images/testimonials/pic2.jpg"
-                                                                                               alt=""> <cite class="fn">آذر
-                                                            آتشفروز</cite>
-                                                            <span class="says">نوشته:</span></div>
-                                                        <div class="comment-meta"><a href="#">بهمن 02, 1398 در 10:45
-                                                            بعدازظهر</a></div>
-                                                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و
-                                                            با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه
-                                                            و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی
-                                                            تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                                                            کاربردی می باشد.</p>
-                                                        <div class="reply"><a href="#"
-                                                                              class="comment-reply-link">پاسخ</a></div>
+                                            {% for comment in object.comments.get_active_comment %}
+                                                <div class="comment-body {% if comment.user == object.teacher %}teacher-comment{% endif %}">
+                                                    <div class="comment-author vcard"><img class="avatar photo"
+                                                                                           src="{{ comment.user.profile.get_avatar }}"
+                                                                                           alt="{{ comment.get_user_name }}">
+                                                        <cite
+                                                                class="fn">{{ comment.get_user_name }}</cite>
+                                                        <span class="says">نوشته:</span></div>
+                                                    <div class="comment-meta"><a>{{ comment.jalali_time }}</a>
                                                     </div>
-                                                    <ol class="children">
-                                                        <li class="comment odd parent">
-                                                            <div class="comment-body">
-                                                                <div class="comment-author vcard"><img
-                                                                        class="avatar photo"
-                                                                        src="assets/images/testimonials/pic3.jpg"
-                                                                        alt=""> <cite class="fn">تمنا آزاده</cite> <span
-                                                                        class="says">نوشته:</span></div>
-                                                                <div class="comment-meta"><a href="#">بهمن 02, 1398 در
-                                                                    10:45 بعدازظهر</a></div>
-                                                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت
-                                                                    چاپ و با استفاده از طراحان گرافیک است. چاپگرها و
-                                                                    متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم
-                                                                    است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای
-                                                                    متنوع با هدف بهبود ابزارهای کاربردی می باشد.</p>
-                                                                <div class="reply"><a href="#"
-                                                                                      class="comment-reply-link">پاسخ</a>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ol>
-                                                    <!-- list END -->
-                                                </li>
-                                            </ol>
+                                                    <p class="text-justify">{{ comment.message }}</p>
+                                                    <div class="reply"><a data-toggle="collapse"
+                                                                          href="#collapseExample{{ comment.id }}"
+                                                                          role="button" aria-expanded="false"
+                                                                          aria-controls="collapseExample"
+                                                                          class="comment-reply-link">پاسخ</a>
+                                                    </div>
+                                                    <div class="replies mt-3">
+                                                        <div class="comment-respond collapse mb-3"
+                                                             id="collapseExample{{ comment.id }}">
+                                                            <h4 class="comment-reply-title" id="reply-title">پاسخ
+                                                                دهید<small>
+                                                                </small></h4>
+                                                            {% if user.is_authenticated %}
+                                                                <form class="comment-form" id="commentform"
+                                                                      method="post">
+                                                                    {% csrf_token %}
+                                                                    <p class="comment-form-comment">
+                                                                        <label for="comment">دیدگاه</label>
+                                                                        {% render_field form.message rows="1" placeholder="پاسخ" id="comment" style="height:auto" %}
+                                                                        <input type="hidden" name="parent_id"
+                                                                               value="{{ comment.id }}">
+                                                                    </p>
+                                                                    <p class="form-submit">
+                                                                        <input type="submit" value="ثبت پاسخ"
+                                                                               class="submit"
+                                                                               id="submit"
+                                                                               name="submit">
+                                                                    </p>
+                                                                </form>
+                                                            {% else %}
+                                                                <p class="alert alert-warning text-center">برای ثبت پاسخ
+                                                                    باید <a
+                                                                            href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
+                                                                    شوید.</p>
+                                                            {% endif %}
+
+                                                        </div>
+                                                        {% for reply in comment.replies.get_active_reply %}
+                                                            <ol class="children">
+                                                                <li class="comment odd parent">
+                                                                    <div class="comment-body {% if reply.user == object.teacher %}teacher-comment{% endif %}">
+                                                                        <div class="comment-author vcard"><img
+                                                                                class="avatar photo"
+                                                                                src="{{ reply.user.profile.get_avatar }}"
+                                                                                alt="{{ reply.get_user_name }}"> <cite
+                                                                                class="fn">{{ reply.get_user_name }}</cite>
+                                                                            <span class="says">نوشته:</span></div>
+                                                                        <div class="comment-meta">
+                                                                            <a>{{ reply.jalali_time }}</a>
+                                                                        </div>
+                                                                        <p class="text-justify pl-2">{{ reply.message }}</p>
+                                                                    </div>
+                                                                    <!-- list END -->
+                                                                </li>
+                                                            </ol>
+                                                        {% endfor %}
+                                                    </div>
+
+
+                                                </div>
+                                            {% endfor %}
+
                                             <!-- list END -->
-                                        </li>
-                                        <li class="comment">
-                                            <div class="comment-body">
-                                                <div class="comment-author vcard"><img class="avatar photo"
-                                                                                       src="assets/images/testimonials/pic1.jpg"
-                                                                                       alt=""> <cite class="fn">آذر
-                                                    آتشفروز</cite>
-                                                    <span class="says">نوشته:</span></div>
-                                                <div class="comment-meta"><a href="#">بهمن 02, 1398 در 10:45
-                                                    بعدازظهر</a></div>
-                                                <p>کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه
-                                                    و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان
-                                                    رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد
-                                                    کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
-                                                    راهکارها و شرایط سخت تایپ به پایان رسد</p>
-                                                <div class="reply"><a href="#" class="comment-reply-link">پاسخ</a></div>
-                                            </div>
-                                        </li>
-                                        <li class="comment">
-                                            <div class="comment-body">
-                                                <div class="comment-author vcard"><img class="avatar photo"
-                                                                                       src="assets/images/testimonials/pic2.jpg"
-                                                                                       alt=""> <cite class="fn">آذر
-                                                    آتشفروز</cite>
-                                                    <span class="says">نوشته:</span></div>
-                                                <div class="comment-meta"><a href="#">بهمن 02, 1398 در 10:45
-                                                    بعدازظهر</a></div>
-                                                <p>کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه
-                                                    و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان
-                                                    رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد
-                                                    کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
-                                                    راهکارها و شرایط سخت تایپ به پایان رسد</p>
-                                                <div class="reply"><a href="#" class="comment-reply-link">پاسخ</a></div>
-                                            </div>
-                                        </li>
-                                        <li class="comment">
-                                            <div class="comment-body">
-                                                <div class="comment-author vcard"><img class="avatar photo"
-                                                                                       src="assets/images/testimonials/pic3.jpg"
-                                                                                       alt=""> <cite class="fn">آذر
-                                                    آتشفروز</cite>
-                                                    <span class="says">نوشته:</span></div>
-                                                <div class="comment-meta"><a href="#">بهمن 02, 1398 در 10:45
-                                                    بعدازظهر</a></div>
-                                                <p>کتابهای زیادی در شصت و سه درصد گذشته، حال و آینده شناخت فراوان جامعه
-                                                    و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان
-                                                    رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان فارسی ایجاد
-                                                    کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه
-                                                    راهکارها و شرایط سخت تایپ به پایان رسد</p>
-                                                <div class="reply"><a href="#" class="comment-reply-link">پاسخ</a></div>
-                                            </div>
                                         </li>
                                     </ol>
                                     <!-- comment list END -->
-                                    <!-- Form -->
-                                    <div class="comment-respond" id="respond">
-                                        <h4 class="comment-reply-title" id="reply-title">پاسخ دهید<small> <a
-                                                style="display:none;" href="#" id="cancel-comment-reply-link"
-                                                rel="nofollow">انصراف</a> </small></h4>
-                                        <form class="comment-form" id="commentform" method="post">
-                                            <p class="comment-form-author">
-                                                <label for="author">نام <span class="required">*</span></label>
-                                                <input type="text" value="" name="Author" placeholder="نام نویسنده"
-                                                       id="author">
-                                            </p>
-                                            <p class="comment-form-email">
-                                                <label for="email">پست&zwnj;الکترونیک <span
-                                                        class="required">*</span></label>
-                                                <input type="text" value="" placeholder="پست&zwnj;الکترونیک"
-                                                       name="email" id="email">
-                                            </p>
-                                            <p class="comment-form-url">
-                                                <label for="url">وبسایت</label>
-                                                <input type="text" value="" placeholder="وبسایت" name="url" id="url">
-                                            </p>
-                                            <p class="comment-form-comment">
-                                                <label for="comment">نظر</label>
-                                                <textarea rows="8" name="comment" placeholder="نظر"
-                                                          id="comment"></textarea>
-                                            </p>
-                                            <p class="form-submit">
-                                                <input type="submit" value="ارسال" class="submit" id="submit"
-                                                       name="submit">
-                                            </p>
-                                        </form>
-                                    </div>
-                                    <!-- Form -->
                                 </div>
                             </div>
                         </div>

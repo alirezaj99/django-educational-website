@@ -279,8 +279,8 @@
                                                                     </p>
                                                                 </form>
                                                             {% else %}
-                                                                <p class="alert alert-warning">برای ثبت پاسخ باید <a
-                                                                        href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
+                                                                <p class="alert alert-warning text-center">برای ثبت پاسخ باید <a
+                                                                        href="{% url 'account:login' %}?next={{ request.get_full_path }}">وارد</a>
                                                                     شوید.</p>
                                                             {% endif %}
 

@@ -4,7 +4,7 @@ from django.utils import timezone
 from ckeditor_uploader.fields import RichTextUploadingField
 import random
 import os
-from extensions.utils import jalali_converter_year, jalali_converter_month, jalali_converter_day
+from extensions.utils import jalali_converter_year, jalali_converter_month, jalali_converter_day, jalali_converter
 from django.db.models.signals import pre_save
 from django.db.models import Q
 
@@ -38,6 +38,14 @@ class BlogManager(models.Manager):
 class BlogTagManager(models.Manager):
     def get_active_tag(self):
         return self.get_queryset().filter(status=True)
+
+
+class CommentManager(models.Manager):
+    def get_active_comment(self):
+        return self.get_queryset().filter(active=True, parent__isnull=True)
+
+    def get_active_reply(self):
+        return self.get_queryset().filter(active=True, parent__isnull=False)
 
 
 # models
@@ -93,6 +101,40 @@ class Blog(models.Model):
 
     def get_jalali_date_for_url(self):
         return f'{jalali_converter_year(self.publish_time)}/{jalali_converter_month(self.publish_time)}/{jalali_converter_day(self.publish_time)}'
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='blog_comments',
+                             verbose_name='کاربر')
+    blog = models.ForeignKey(Blog, on_delete=models.SET_NULL, null=True, related_name='comments',
+                             verbose_name='دوره')
+    message = models.TextField(verbose_name='نظر')
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='replies',
+                               verbose_name='پاسخ')
+    active = models.BooleanField(default=True, verbose_name="فعال / غیرفعال")
+    created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
+    updated = models.DateTimeField(auto_now=True, verbose_name="زمان ویرایش")
+
+    objects = CommentManager()
+
+    class Meta:
+        verbose_name = 'نظر'
+        verbose_name_plural = 'نظرات'
+        ordering = ['-created']
+
+    def __str__(self):
+        return f'{str(self.blog)} | {str(self.user)} | {self.message[0:70]}'
+
+    def get_user_name(self):
+        if self.user.get_full_name():
+            return self.user.get_full_name()
+        else:
+            return self.user
+
+    def jalali_time(self):
+        return jalali_converter(self.created)
+
+    jalali_time.short_description = 'زمان ثبت'
 
 
 def set_blog_slug(sender, instance, *args, **kwargs):
