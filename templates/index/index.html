@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load static %}
 {% block head_title %}صفحه اصلی{% endblock %}
-
+{% url 'blog:blog_detail' blog.pk blog.slug %}
 {% block content %}
     <!-- Main Slider -->
     <div class="section-area section-sp1 ovpr-dark bg-fix online-cours"
@@ -184,159 +184,43 @@
                 <div class="row">
                     <div class="col-md-12 heading-bx left">
                         <h2 class="title-head">آخرین <span> مقالات</span></h2>
-                        <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک
-                            است.</p>
                     </div>
                 </div>
                 <div class="ttr-blog-grid-3 row" id="masonry" style="position: relative; height: 1676.11px;">
-                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
-                         style="position: absolute; right: 0px; top: 0px;">
-                        <div class="recent-news">
-                            <div class="action-box">
-                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
-                            </div>
-                            <div class="info-bx">
-                                <ul class="media-post">
-                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
-                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
-                                </ul>
-                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
-                                    راهکار</a></h5>
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.</p>
+                    {% for blog in last_blogs %}
+                        <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
+                             style="position: absolute; right: 0px; top: 0px;">
+                            <div class="recent-news">
+                                <div class="action-box">
+                                    <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"><img
+                                            src="{{ blog.image.url }}" alt="{{ blog.title }}"></a>
+                                </div>
+                                <div class="info-bx">
+                                    <ul class="media-post">
+                                        <li><a><i class="fa fa-calendar"></i>{{ blog.get_jalali_date_for_url }}
+                                        </a></li>
+                                        <li><a href="#"><i class="fa fa-user"></i>{{ blog.get_author_name }}</a></li>
+                                    </ul>
+                                    <h5 class="post-title"><a
+                                            href="{% url 'blog:blog_detail' blog.pk blog.slug %}">{{ blog.title }}</a>
+                                    </h5>
+                                    <p class="text-center">{{ blog.description|striptags|safe|truncatechars:100 }}</p>
 
 
-                                <div class="post-extra">
-                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
-                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
+                                    <div class="post-extra">
+                                        <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}" class="btn-link">بیشتر
+                                            بخوانید</a>
+                                        <a class="comments-bx"><i
+                                                class="fa fa-comments-o"></i>{{ blog.comments.get_active_comment.count }}
+                                            نظر</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
-                         style="position: absolute; right: 0px; top: 0px;">
-                        <div class="recent-news">
-                            <div class="action-box">
-                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
-                            </div>
-                            <div class="info-bx">
-                                <ul class="media-post">
-                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
-                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
-                                </ul>
-                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
-                                    راهکار</a></h5>
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.</p>
-
-
-                                <div class="post-extra">
-                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
-                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
-                         style="position: absolute; right: 0px; top: 0px;">
-                        <div class="recent-news">
-                            <div class="action-box">
-                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
-                            </div>
-                            <div class="info-bx">
-                                <ul class="media-post">
-                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
-                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
-                                </ul>
-                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
-                                    راهکار</a></h5>
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.</p>
-
-
-                                <div class="post-extra">
-                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
-                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
-                         style="position: absolute; right: 0px; top: 0px;">
-                        <div class="recent-news">
-                            <div class="action-box">
-                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
-                            </div>
-                            <div class="info-bx">
-                                <ul class="media-post">
-                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
-                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
-                                </ul>
-                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
-                                    راهکار</a></h5>
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.</p>
-
-
-                                <div class="post-extra">
-                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
-                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
-                         style="position: absolute; right: 0px; top: 0px;">
-                        <div class="recent-news">
-                            <div class="action-box">
-                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
-                            </div>
-                            <div class="info-bx">
-                                <ul class="media-post">
-                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
-                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
-                                </ul>
-                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
-                                    راهکار</a></h5>
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.</p>
-
-
-                                <div class="post-extra">
-                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
-                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post action-card col-lg-4 col-md-6 col-sm-12 col-xs-12 m-b40"
-                         style="position: absolute; right: 0px; top: 0px;">
-                        <div class="recent-news">
-                            <div class="action-box">
-                                <img src="{% static 'images/blog/latest-blog/pic1.jpg' %}" alt="">
-                            </div>
-                            <div class="info-bx">
-                                <ul class="media-post">
-                                    <li><a href="#"><i class="fa fa-calendar"></i>1398/11/28</a></li>
-                                    <li><a href="#"><i class="fa fa-user"></i>توسط مهران</a></li>
-                                </ul>
-                                <h5 class="post-title"><a href="blog-details.html">چطور موثر مطالعه کنیم همراه 20
-                                    راهکار</a></h5>
-                                <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان
-                                    گرافیک است.</p>
-
-
-                                <div class="post-extra">
-                                    <a href="#" class="btn-link">بیشتر بخوانید</a>
-                                    <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>20 نظر</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
+            <!-- RECENT BLOG END ==== -->
         </div>
-        <!-- RECENT BLOG END ==== -->
-    </div>
-    <!-- contact area END -->
+        <!-- contact area END -->
 {% endblock %}
