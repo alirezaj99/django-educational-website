@@ -28,7 +28,7 @@
                             <ul class="media-post">
                                 <li><a href="#"><i class="fa fa-calendar"></i>{{ blog.get_jalali_date_for_url }}</a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-comments-o"></i>15 نظر</a></li>
+                                <li><a href="#"><i class="fa fa-comments-o"></i>{{ blog.comments.get_active_comment.count }} دیدگاه</a></li>
                             </ul>
                         </div>
                     </div>

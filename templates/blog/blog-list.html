@@ -1,7 +1,9 @@
 {% extends 'Shared/Base.html' %}
 {% load render_partial %}
 {% load static %}
-{% block head_title %}مقالات{% endblock %}
+{% block head_title %}مقالات {% if request.GET.search %}جستجوی
+    {{ request.GET.search }}
+{% endif %}{% endblock %}
 {% block content %}
     <!-- inner page banner -->
     <div class="page-banner ovbl-dark" style="background-image:url({% static 'images/banner/banner2.jpg' %});">
@@ -18,6 +20,11 @@
             <ul class="list-inline">
                 <li><a href="{% url 'index:index_page' %}">خانه</a></li>
                 <li><a href="{% url 'blog:blog_list' %}">مقالات</a></li>
+                {% if request.GET.search %}
+                    <li>
+                        <a>جستجوی {{ request.GET.search }}</a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -29,41 +36,81 @@
                 <div class="row">
                     <!-- Left part start -->
                     <div class="col-lg-8">
-                        {% for blog in page_obj %}
-                            <div class="blog-post blog-md clearfix">
-                                <div class="ttr-post-media">
-                                    <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"><img
-                                            src="{{ blog.image.url }}" alt="{{ blog.title }}"></a>
-                                </div>
-                                <div class="ttr-post-info">
-                                    <ul class="media-post">
-                                        <li><a><i class="fa fa-calendar"></i>{{ blog.get_jalali_date_for_url }}</a></li>
-                                        <li><a href="#"><i class="fa fa-user"></i>{{ blog.get_author_name }}</a></li>
-                                    </ul>
-                                    <h5 class="post-title"><a
-                                            href="{% url 'blog:blog_detail' blog.pk blog.slug %}">{{ blog.title }}</a>
-                                    </h5>
-                                    <p>{{ blog.description|striptags|safe|truncatechars:100 }}</p>
+                        {% if page_obj %}
+                            {% for blog in page_obj %}
+                                <div class="blog-post blog-md clearfix">
+                                    <div class="ttr-post-media">
+                                        <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"><img
+                                                src="{{ blog.image.url }}" alt="{{ blog.title }}"></a>
+                                    </div>
+                                    <div class="ttr-post-info">
+                                        <ul class="media-post">
+                                            <li><a><i class="fa fa-calendar"></i>{{ blog.get_jalali_date_for_url }}</a>
+                                            </li>
+                                            <li><a href="#"><i class="fa fa-user"></i>{{ blog.get_author_name }}</a>
+                                            </li>
+                                        </ul>
+                                        <h5 class="post-title"><a
+                                                href="{% url 'blog:blog_detail' blog.pk blog.slug %}">{{ blog.title }}</a>
+                                        </h5>
+                                        <p class="text-justify">{{ blog.description|striptags|safe|truncatechars:100 }}</p>
 
-                                    <div class="post-extra">
-                                        <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}" class="btn-link">بیشتر
-                                            بخوانید</a>
-                                        <a href="#" class="comments-bx"><i class="fa fa-comments-o"></i>05 نظر</a>
+                                        <div class="post-extra">
+                                            <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}" class="btn-link">بیشتر
+                                                بخوانید</a>
+                                            <a href="#" class="comments-bx"><i
+                                                    class="fa fa-comments-o"></i>{{ blog.comments.get_active_comment.count }}
+                                                دیدگاه</a>
+                                        </div>
                                     </div>
                                 </div>
+                            {% endfor %}
+                            <!-- Pagination start -->
+                            {% if page_obj.paginator.num_pages != 1 %}
+                                <div class="pagination-bx rounded-sm gray clearfix">
+                                    <ul class="pagination">
+                                        {% if page_obj.has_previous %}
+                                            <li class="previous"><a
+                                                    href="?page={{ page_obj.previous_page_number }}"><i
+                                                    class="ti-arrow-right"></i> قبلی</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if page_obj.number|add:-2 <= page_obj.paginator.num_pages and page_obj.number|add:-2 >= 1 %}
+                                            <li>
+                                                <a href="?page={{ page_obj.number|add:-2 }}">{{ page_obj.number|add:-2 }}</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if page_obj.has_previous %}
+                                            <li>
+                                                <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                                            </li>
+                                        {% endif %}
+                                        <li class="active"><a
+                                                href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+                                        </li>
+                                        {% if page_obj.has_next %}
+                                            <li>
+                                                <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if page_obj.number|add:2 <= page_obj.paginator.num_pages %}
+                                            <li>
+                                                <a href="?page={{ page_obj.number|add:2 }}">{{ page_obj.number|add:2 }}</a>
+                                            </li>
+                                        {% endif %}
+                                        {% if page_obj.has_next %}
+                                            <li class="next"><a href="?page={{ page_obj.next_page_number }}">بعدی<i
+                                                    class="ti-arrow-left"></i></a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            <!-- Pagination END -->
+                        {% else %}
+                            <div class="col-lg-12">
+                                <p class="alert alert-warning text-center">دوره ای یافت نشد</p>
                             </div>
-                        {% endfor %}
-                        <!-- Pagination start -->
-                        <div class="pagination-bx rounded-sm gray clearfix">
-                            <ul class="pagination">
-                                <li class="previous"><a href="#"><i class="ti-arrow-right"></i> قبلی</a></li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li class="next"><a href="#">بعدی<i class="ti-arrow-left"></i></a></li>
-                            </ul>
-                        </div>
-                        <!-- Pagination END -->
+                        {% endif %}
                     </div>
                     <!-- Left part END -->
                     <!-- Side bar start -->

@@ -2,7 +2,7 @@
 {% load render_partial %}
 {% load widget_tweaks %}
 {% load static %}
-{% block head_title %}جزئیات مقاله{% endblock %}
+{% block head_title %}مقاله {{ object.title }}{% endblock %}
 {% block content %}
     <!-- inner page banner -->
     <div class="page-banner ovbl-dark" style="background-image:url({{ object.image.url }});">
@@ -38,7 +38,9 @@
                                 <ul class="media-post">
                                     <li><a><i class="fa fa-calendar"></i>{{ object.get_jalali_date_for_url }}
                                     </a></li>
-                                    <li><a href="#"><i class="fa fa-comments-o"></i>10 نظر</a></li>
+                                    <li><a href="#"><i
+                                            class="fa fa-comments-o"></i>{{ object.comments.get_active_comment.count }}
+                                        دیدگاه</a></li>
                                 </ul>
                                 <h5 class="post-title"><a href="#">{{ object.title }}</a></h5>
                                 {{ object.description|safe }}
