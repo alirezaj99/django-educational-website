@@ -23,6 +23,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, verbose_name='آدرس ایمیل')
     is_teacher = models.BooleanField(default=False, verbose_name='وضعیت مدرسی')
     is_student = models.BooleanField(default=False, verbose_name='وضعیت دانشجویی')
+    send_email = models.BooleanField(default=True, verbose_name='ارسال ایمیل')
 
     class Meta:
         verbose_name = "کاربر"

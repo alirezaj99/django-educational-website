@@ -4,6 +4,7 @@ from course_app.models import Course, CourseCategory
 from django.http import Http404
 from django.views.generic.edit import FormMixin
 from .forms import CommentForm
+from blog_app.models import Blog
 
 
 # Create your views here.
@@ -82,3 +83,20 @@ def sidebar_course_list(request):
         'courses': courses
     }
     return render(request, 'course/sidebar-course-list.html', context)
+
+
+def header_references(request):
+    context = {
+
+    }
+    return render(request, 'Shared/_HeaderReferences.html', context)
+
+
+def footer(request):
+    categories = CourseCategory.objects.get_active_category()[:4]
+    blogs = Blog.objects.get_publish_blog()[:8]
+    context = {
+        'categories': categories,
+        'blogs': blogs,
+    }
+    return render(request, 'Shared/Footer.html', context)

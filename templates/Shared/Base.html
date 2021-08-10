@@ -4,7 +4,8 @@
 <head>
     <!-- PAGE TITLE HERE ============================================= -->
     <title>{% block head_title %}{% endblock %} | سایت آموزشی</title>
-    {% include 'Shared/_HeaderReferences.html' %}
+    {% render_partial 'course_app.views.header_references' %}
+    {% block add_header_reference %}{% endblock %}
 </head>
 
 <body id="bg">
@@ -19,11 +20,12 @@
     </div>
     <!-- Content END-->
     <!-- Footer ==== -->
-    {% include 'Shared/Footer.html' %}
+    {% render_partial 'course_app.views.footer' %}
     <!-- Footer END ==== -->
     <button class="back-to-top fa fa-chevron-up"></button>
 </div>
 {% include 'Shared/_FooterReferences.html' %}
+{% block add_footer_reference %}{% endblock %}
 </body>
 
 

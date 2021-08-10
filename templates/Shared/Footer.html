@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="d-flex align-items-stretch">
                     <div class="pt-logo mr-auto">
-                        <a href="index.html"><img src="{% static 'images/logo-white.png' %}" alt=""/></a>
+                        <a href="{% url 'index:index_page' %}"><img src="{% static 'images/logo-white.png' %}" alt=""/></a>
                     </div>
                     <div class="pt-social-link">
                         <ul class="list-inline m-a0">
@@ -16,7 +16,11 @@
                         </ul>
                     </div>
                     <div class="pt-btn-join">
-                        <a href="#" class="btn ">عضو شوید</a>
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'course:course_list' %}" class="btn ">دوره ها</a>
+                        {% else %}
+                            <a href="{% url 'account:register' %}" class="btn ">عضو شوید</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -25,19 +29,19 @@
             <div class="row">
                 <div class="col-lg-4 col-md-12 col-sm-12 footer-col-4">
                     <div class="widget">
-                        <h5 class="footer-title">اشتراک در خبرنامه</h5>
-                        <p class="text-capitalize m-b20">از آخرین خبرهای مهم و مشورت های شغلی ما هر هفته باخبر
-                            شوید</p>
+                        <h5 class="footer-title">جستجوی دوره ها</h5>
+                        <p class="text-capitalize m-b20">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
+                            استفاده از طراحان گرافیک است.</p>
                         <div class="subscribe-form m-b20">
                             <form class="subscription-form"
-                                  action=" " method="post">
+                                  action="{% url 'course:course_list' %}" method="get">
                                 <div class="ajax-message"></div>
                                 <div class="input-group">
-                                    <input name="email" required="required" class="form-control"
-                                           placeholder="پست الکترونیک شما"
-                                           type="email">
+                                    <input name="search" required="required" class="form-control"
+                                           placeholder="دنبال چه دوره ای میگردی؟"
+                                           type="text">
                                     <span class="input-group-btn">
-												<button name="submit" value="Submit" type="submit" class="btn"><i
+												<button type="submit" class="btn"><i
                                                         class="fa fa-arrow-left"></i></button>
 											</span>
                                 </div>
@@ -47,36 +51,26 @@
                 </div>
                 <div class="col-12 col-lg-5 col-md-7 col-sm-12">
                     <div class="row">
-                        <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-6 col-lg-6 col-md-6 col-sm-6">
                             <div class="widget footer_widget">
-                                <h5 class="footer-title">شرکت</h5>
+                                <h5 class="footer-title">دسترسی سریع</h5>
                                 <ul>
-                                    <li><a href="index.html">خانه</a></li>
-                                    <li><a href="about-1.html">درباره ما</a></li>
-                                    <li><a href="faq-1.html">پرسش و پاسخ</a></li>
+                                    <li><a href="{% url 'index:index_page' %}">خانه</a></li>
+                                    <li><a href="about-1.html">پنل کاربری</a></li>
+                                    <li><a href="faq-1.html">درباره ما</a></li>
                                     <li><a href="contact-1.html">تماس با ما</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-4 col-lg-4 col-md-4 col-sm-4">
-                            <div class="widget footer_widget">
-                                <h5 class="footer-title">در تماس باشید</h5>
-                                <ul>
-                                    <li><a href="http://educhamp.themetrades.com/admin/index.html">داشبرد</a></li>
-                                    <li><a href="blog-classic-grid.html">بلاگ</a></li>
-                                    <li><a href="portfolio.html">نمونه کارها</a></li>
-                                    <li><a href="event.html">رویداد</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-4 col-lg-4 col-md-4 col-sm-4">
+                        <div class="col-6 col-lg-6 col-md-6 col-sm-6">
                             <div class="widget footer_widget">
                                 <h5 class="footer-title">دوره‌ها</h5>
                                 <ul>
-                                    <li><a href="courses.html">دوره‌ها</a></li>
-                                    <li><a href="courses-details.html">جزییات </a></li>
-                                    <li><a href="membership.html">عضویت</a></li>
-                                    <li><a href="profile.html">پروفایل</a></li>
+                                    {% for category in categories %}
+                                        <li>
+                                            <a href="{% url 'course:course_list' %}?categories={{ category.title }}">{{ category.title }}</a>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                         </div>
@@ -84,24 +78,13 @@
                 </div>
                 <div class="col-12 col-lg-3 col-md-5 col-sm-12 footer-col-4">
                     <div class="widget widget_gallery gallery-grid-4">
-                        <h5 class="footer-title">گالری</h5>
+                        <h5 class="footer-title">مقالات</h5>
                         <ul class="magnific-image">
-                            <li><a href="assets/images/gallery/pic1.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic1.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic2.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic2.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic3.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic3.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic4.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic4.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic5.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic5.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic6.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic6.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic7.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic7.jpg" alt=""></a></li>
-                            <li><a href="assets/images/gallery/pic8.jpg" class="magnific-anchor"><img
-                                    src="assets/images/gallery/pic8.jpg" alt=""></a></li>
+                            {% for blog in blogs %}
+                                <li><a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"
+                                       class="magnific-anchor"><img
+                                        src="{{ blog.image.url }}" alt="{{ blog.title }}"></a></li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>
