@@ -184,3 +184,12 @@ class MyComment(LoginRequiredMixin, ListView):
         return comments
 
     template_name = 'account/my-comment.html'
+
+
+class TeacherBlogs(LoginRequiredMixin, TeacherMixin, ListView):
+    def get_queryset(self):
+        user = self.request.user
+        blogs = user.blogs.all()
+        return blogs
+
+    template_name = 'account/teacher-blogs.html'
