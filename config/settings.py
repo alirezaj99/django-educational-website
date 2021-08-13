@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'order_app',
     'index_app',
     'blog_app',
+    'settings_app',
     # DJANGO CLEANUP
     'django_cleanup.apps.CleanupConfig',
 ]

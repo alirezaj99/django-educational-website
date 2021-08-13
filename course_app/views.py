@@ -5,6 +5,7 @@ from django.http import Http404
 from django.views.generic.edit import FormMixin
 from .forms import CommentForm
 from blog_app.models import Blog
+from settings_app.models import Settings
 
 
 # Create your views here.
@@ -69,8 +70,17 @@ class CourseDetail(FormMixin, DetailView):
 
 def site_header(request):
     categories = CourseCategory.objects.get_active_category()
+    settings = Settings.objects.first()
+    email = settings.email
+    instagram = settings.instagram
+    youtube = settings.youtube
+    twitter = settings.twitter
     context = {
-        'categories': categories
+        'categories': categories,
+        'email': email,
+        'instagram': instagram,
+        'youtube': youtube,
+        'twitter': twitter,
     }
     return render(request, 'Shared/Header.html', context)
 
@@ -86,8 +96,10 @@ def sidebar_course_list(request):
 
 
 def header_references(request):
+    settings = Settings.objects.first()
+    icon = settings.site_favicon.url
     context = {
-
+        'icon': icon
     }
     return render(request, 'Shared/_HeaderReferences.html', context)
 
@@ -95,8 +107,26 @@ def header_references(request):
 def footer(request):
     categories = CourseCategory.objects.get_active_category()[:4]
     blogs = Blog.objects.get_publish_blog()[:8]
+    settings = Settings.objects.first()
+    instagram = settings.instagram
+    youtube = settings.youtube
+    twitter = settings.twitter
+    site_title = settings.site_title
     context = {
         'categories': categories,
         'blogs': blogs,
+        'instagram': instagram,
+        'youtube': youtube,
+        'twitter': twitter,
+        'site_title': site_title,
     }
     return render(request, 'Shared/Footer.html', context)
+
+
+def site_title_view(request):
+    settings = Settings.objects.first()
+    site_title = settings.site_title
+    context = {
+        'site_title': site_title,
+    }
+    return render(request, 'Shared/site_title.html', context)
