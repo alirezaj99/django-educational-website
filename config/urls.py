@@ -23,6 +23,7 @@ from ckeditor_uploader.views import upload
 urlpatterns = [
     path('', include('index_app.urls', namespace='index')),
     path('', include('course_app.urls', namespace='course')),
+    path('', include('order_app.urls', namespace='order')),
     path('', include('blog_app.urls', namespace='blog')),
     path('account/', include('account_app.urls', namespace='account')),
     path('editor/uploads/', login_required(upload), name='ckeditor_upload'),

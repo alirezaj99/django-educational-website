@@ -18,7 +18,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'سفارش'
         verbose_name_plural = 'سفارش ها'
-        ordering = ['-created']
+        ordering = ['-payment_date', '-created']
 
     def __str__(self):
         return f'{str(self.user)}'
