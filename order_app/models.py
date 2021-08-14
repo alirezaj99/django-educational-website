@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from course_app.models import Course
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from account_app.models import User
 from extensions.utils import jalali_converter_date
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -94,3 +94,17 @@ def create_order(sender, **kwargs):
 
 
 post_save.connect(create_order, sender=User)
+
+
+def set_order_item_price(sender, instance, *args, **kwargs):
+    orders = Order.objects.filter(is_paid=False)
+    for order in orders:
+        items = order.items.filter(course_id=instance.id)
+        if items:
+            for item in items:
+                item.price = instance.price
+                item.discount = instance.discount
+                item.save()
+
+
+pre_save.connect(set_order_item_price, Course)
