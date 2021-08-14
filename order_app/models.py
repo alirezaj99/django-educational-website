@@ -3,7 +3,8 @@ from django.conf import settings
 from course_app.models import Course
 from django.db.models.signals import post_save
 from account_app.models import User
-from extensions.utils import jalali_converter,jalali_converter_date
+from extensions.utils import jalali_converter_date
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 # Create your models here.
@@ -28,7 +29,7 @@ class Order(models.Model):
     def get_total_price(self):
         amount = 0
         for item in self.items.all():
-            amount += item.price
+            amount += item.total_price()
         return amount
 
     get_total_price.short_description = 'جمع سفارش قابل پرداخت'
@@ -36,7 +37,7 @@ class Order(models.Model):
     def get_total_discount(self):
         amount = 0
         for item in self.items.all():
-            amount += item.course.total_discount()
+            amount += item.total_discount()
         return amount
 
     get_total_discount.short_description = 'جمع تخفیف'
@@ -44,7 +45,7 @@ class Order(models.Model):
     def get_price(self):
         amount = 0
         for item in self.items.all():
-            amount += item.course.price
+            amount += item.price
         return amount
 
     get_price.short_description = 'جمع سفارش اولیه'
@@ -56,9 +57,26 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name='سفارش')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='order_items', verbose_name='دوره')
-    price = models.IntegerField()
+    price = models.PositiveIntegerField()
+    discount = models.PositiveIntegerField(blank=True, null=True,
+                                           validators=[MinValueValidator(1), MaxValueValidator(100)],
+                                           verbose_name='درصد تخفیف')
     created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')
+
+    def total_price(self):
+        if self.discount:
+            total = (self.price * self.discount) / 100
+            return int(self.price - total)
+        else:
+            return self.price
+
+    def total_discount(self):
+        if self.discount:
+            total = (self.price * self.discount) / 100
+            return int(total)
+        else:
+            return 0
 
     def __str__(self):
         return f'{str(self.course)} | {str(self.order)}'
