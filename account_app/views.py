@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from order_app.models import Order, OrderItem
 from course_app.models import Course
 from django.http import Http404, HttpResponseRedirect
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView
 from .models import User, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import TeacherMixin, CourseValidMixin, CourseFieldMixin
@@ -201,3 +201,13 @@ class PaymentList(LoginRequiredMixin, ListView):
         return order
 
     template_name = 'account/payment-list.html'
+
+
+class PaymentDetail(LoginRequiredMixin, DetailView):
+    def get_object(self):
+        pk = self.kwargs.get('pk')
+        order = get_object_or_404(Order.objects.filter(user_id=self.request.user.id, is_paid=True),
+                                  pk=pk)
+        return order
+
+    template_name = 'account/payment-detail.html'

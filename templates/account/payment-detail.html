@@ -1,0 +1,62 @@
+{% extends 'account/AccountBase.html' %}
+{% load humanize %}
+{% block head_title %}جزئیات پرداخت{% endblock %}
+{% block page_title %}
+    <li>جزئیات پرداخت</li>{% endblock %}
+{% block content %}
+    <div class="row">
+        <!-- Your Profile Views Chart -->
+        <div class="col-lg-12 m-b30">
+            <div class="widget-box">
+                <div class="wc-title">
+                    <h4>جزئیات پرداخت</h4>
+                    <div class="mail-list-info mt-3 text-center" style="padding: 20px 0;margin-bottom: -20px">
+                        <div class="col-md-3">
+                            <span>{{ object.id }} #</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span>جمع کل : <span class="font-weight-bold" >{{ object.get_total_price|intcomma:False }} تومان</span></span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="text-success text-center font-weight-bold">پرداخت شده</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span>{{ object.jalali_time }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-inner">
+                    <div class="email-wrapper">
+                        <div class="mail-list-container">
+                            <div class="mail-box-list">
+                                {% for item in object.items.all %}
+                                    <div class="mail-list-info text-center" style="padding: 10px 0">
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-2">{{ forloop.counter }}</div>
+                                                <div class="col-md-10">
+                                                    <span>{{ item.course.title }}</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <span>{{ item.price|intcomma:False }} تومان</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a style="font-size: 14px"
+                                               href="{% url 'course:course_detail' item.course.pk item.course.slug %}"
+                                               class="badge badge-warning">لینک دوره</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Your Profile Views Chart END-->
+    </div>
+{% endblock %}
