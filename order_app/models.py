@@ -3,9 +3,11 @@ from django.conf import settings
 from course_app.models import Course
 from django.db.models.signals import post_save
 from account_app.models import User
+from extensions.utils import jalali_converter,jalali_converter_date
 
 
 # Create your models here.
+
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders',
@@ -46,6 +48,9 @@ class Order(models.Model):
         return amount
 
     get_price.short_description = 'جمع سفارش اولیه'
+
+    def jalali_time(self):
+        return jalali_converter_date(self.payment_date)
 
 
 class OrderItem(models.Model):

@@ -140,7 +140,7 @@ def profile_update(request):
 
 class Cart(LoginRequiredMixin, ListView):
     def get_queryset(self):
-        order = Order.objects.get(user_id=self.request.user.id,is_paid=False)
+        order = Order.objects.get(user_id=self.request.user.id, is_paid=False)
         items = order.items.all()
         return items
 
@@ -148,7 +148,7 @@ class Cart(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['order'] = Order.objects.get(user_id=self.request.user.id,is_paid=False)
+        context['order'] = Order.objects.get(user_id=self.request.user.id, is_paid=False)
         return context
 
 
@@ -193,3 +193,11 @@ class TeacherBlogs(LoginRequiredMixin, TeacherMixin, ListView):
         return blogs
 
     template_name = 'account/teacher-blogs.html'
+
+
+class PaymentList(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        order = Order.objects.filter(user_id=self.request.user.id, is_paid=True)
+        return order
+
+    template_name = 'account/payment-list.html'
