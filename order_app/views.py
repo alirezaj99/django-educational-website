@@ -50,6 +50,7 @@ def verify(request):
                 item.course.student.add(order.user)
             order.save()
             Order.objects.create(user_id=order.user.id, is_paid=False)
+            # todo : set is_student user
             return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
         elif result.Status == 101:
             return HttpResponse('Transaction submitted : ' + str(result.Status))

@@ -4,6 +4,7 @@
     <!-- PAGE TITLE HERE  -->
     <title>{% block head_title %}{% endblock %} | سایت آموزشی</title>
     {% include 'account/_HeaderReferences.html' %}
+    {% block add_header_reference %}{% endblock %}
 </head>
 
 <body class="ttr-pinned-sidebar">
@@ -30,6 +31,7 @@
 <div class="ttr-overlay"></div>
 
 {% include 'account/_FooterReferences.html' %}
+{% block add_footer_reference %}{% endblock %}
 
 </body>
 
