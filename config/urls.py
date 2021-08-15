@@ -19,10 +19,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
 from ckeditor_uploader.views import upload
+from azbankgateways.urls import az_bank_gateways_urls
 
 urlpatterns = [
     path('', include('index_app.urls', namespace='index')),
     path('', include('course_app.urls', namespace='course')),
+    path('bankgateways/', az_bank_gateways_urls()),
     path('', include('order_app.urls', namespace='order')),
     path('', include('blog_app.urls', namespace='blog')),
     path('account/', include('account_app.urls', namespace='account')),
