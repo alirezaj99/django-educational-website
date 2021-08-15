@@ -40,17 +40,20 @@ def send_request(request):
 
 @login_required()
 def verify(request):
+    user = request.user
     if request.GET.get('Status') == 'OK':
         result = client.service.PaymentVerification(MERCHANT, request.GET['Authority'], total_price)
         if result.Status == 100:
-            order = Order.objects.get(user_id=request.user.id, is_paid=False)
+            order = Order.objects.get(user_id=user.id, is_paid=False)
             order.is_paid = True
             order.payment_date = timezone.now()
             for item in order.items.all():
                 item.course.student.add(order.user)
             order.save()
             Order.objects.create(user_id=order.user.id, is_paid=False)
-            # todo : set is_student user
+            if not user.is_student:
+                user.is_student = True
+                user.save()
             return HttpResponse('Transaction success.\nRefID: ' + str(result.RefID))
         elif result.Status == 101:
             return HttpResponse('Transaction submitted : ' + str(result.Status))
