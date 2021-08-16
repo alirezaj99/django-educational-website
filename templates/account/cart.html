@@ -17,11 +17,15 @@
                         {% for item in object_list %}
                             <div class="card-courses-list admin-courses">
                                 <div class="card-courses-media">
-                                    <img src="{{ item.course.image.url }}" alt="{{ item.course.title }}">
+                                    <a target="_blank"
+                                       href="{% url 'course:course_detail' item.course.pk item.course.slug %}"><img
+                                            src="{{ item.course.image.url }}" alt="{{ item.course.title }}"></a>
                                 </div>
                                 <div class="card-courses-full-dec">
                                     <div class="card-courses-title">
-                                        <h4>{{ item.course.title }}</h4>
+                                        <a target="_blank"
+                                           href="{% url 'course:course_detail' item.course.pk item.course.slug %}">
+                                            <h4>{{ item.course.title }}</h4></a>
                                     </div>
                                     <div class="card-courses-list-bx">
                                         <ul class="card-courses-view">
@@ -40,11 +44,20 @@
                                                 <h4>{{ item.course.category_to_str }}</h4>
                                             </li>
                                             <li class="card-courses-price">
-                                                {% if item.discount %}
+                                                {% if item.price == 0 %}
+                                                    <h5 style="color:#018f23;" class="text-primary">رایگان !</h5>
+                                                {% elif item.discount == 100 %}
                                                     <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
+                                                    <h5 style="color:#018f23;" class="text-primary">رایگان !</h5>
+                                                {% elif item.discount < 100 %}
+                                                    <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
+                                                    <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
+                                                        تومان </h5>
+                                                {% else %}
+                                                    <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
+                                                        تومان </h5>
                                                 {% endif %}
-                                                <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
-                                                    تومان </h5>
+
                                             </li>
                                         </ul>
                                     </div>
@@ -83,7 +96,11 @@
                                 <span class="pl-3">مبلغ قابل پرداخت</span>
                             </div>
                             <div class="col-6 mb-3">
-                                <span>{{ order.get_total_price|intcomma:False }} تومان</span>
+                                {% if order.get_total_price == 0 %}
+                                    <span style="color: #018f23">رایگان</span>
+                                {% else %}
+                                    <span>{{ order.get_total_price|intcomma:False }} تومان</span>
+                                {% endif %}
                             </div>
                             <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
                             <div class="col-10" style="border-top: 1px solid rgba(0, 0, 0, 0.1);">
