@@ -15,7 +15,11 @@
                             <span>{{ object.id }} #</span>
                         </div>
                         <div class="col-md-3">
-                            <span>جمع کل : <span class="font-weight-bold" >{{ object.get_total_price|intcomma:False }} تومان</span></span>
+                            <span>جمع کل : {% if order.get_total_price == 0 %}
+                                <span class="font-weight-bold" style="color: #018f23">رایگان</span>
+                            {% else %}
+                                <span class="font-weight-bold">{{ order.get_total_price|intcomma:False }} تومان</span>
+                            {% endif %}</span>
                         </div>
                         <div class="col-md-3">
                             <span class="text-success text-center font-weight-bold">پرداخت شده</span>
@@ -41,7 +45,19 @@
 
                                         </div>
                                         <div class="col-md-4">
-                                            <span>{{ item.total_price|intcomma:False }} تومان</span>
+                                            {% if item.price == 0 %}
+                                                <span style="color:#018f23;" class="text-primary">رایگان !</span>
+                                            {% elif item.discount == 100 %}
+                                                <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
+                                                <span style="color:#018f23;" class="text-primary">رایگان !</span>
+                                            {% elif item.discount < 100 %}
+                                                <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
+                                                <span class="text-primary"> {{ item.total_price | intcomma:False }}
+                                                        تومان </span>
+                                            {% else %}
+                                                <span class="text-primary"> {{ item.total_price | intcomma:False }}
+                                                        تومان </span>
+                                            {% endif %}
                                         </div>
                                         <div class="col-md-4">
                                             <a style="font-size: 14px"

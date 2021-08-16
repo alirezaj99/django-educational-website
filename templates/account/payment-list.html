@@ -21,7 +21,11 @@
                                             <span>{{ order.id }} #</span>
                                         </div>
                                         <div class="col-md-3">
-                                            <span>{{ order.get_total_price|intcomma:False }} تومان</span>
+                                            {% if order.get_total_price == 0 %}
+                                                <span style="color: #018f23">رایگان</span>
+                                            {% else %}
+                                                <span>{{ order.get_total_price|intcomma:False }} تومان</span>
+                                            {% endif %}
                                         </div>
                                         <div class="col-md-3">
                                             <span class="text-success text-center font-weight-bold">پرداخت شده</span>
