@@ -65,7 +65,16 @@
                                             </div>
                                             <div class="cours-more-info">
                                                 <div class="price">
-                                                    {% if course.discount %}
+                                                    {% if course.price == 0 %}
+                                                        <h5>
+                                                            <span style="color: #018f23">رایگان !</span>
+                                                        </h5>
+                                                    {% elif course.discount == 100 %}
+                                                        <h5>
+                                                            <del style="color:#ff3f3f;">{{ course.price | intcomma:False }}</del>
+                                                            <span style="color: #018f23">رایگان !</span>
+                                                        </h5>
+                                                    {% elif course.discount < 100 %}
                                                         <h5>
                                                             <del style="color:#ff3f3f;">{{ course.price | intcomma:False }}</del>
                                                             {{ course.total_price | intcomma:False }} تومان

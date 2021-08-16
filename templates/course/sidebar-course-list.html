@@ -43,7 +43,13 @@
                         <div class="ttr-post-meta">
                             <ul>
                                 <li class="price">
-                                    <h5> {{ course.price | intcomma:False }} تومان </h5>
+                                    {% if course.total_price == 0 %}
+                                        <h5>
+                                            <span style="color: #018f23">رایگان !</span>
+                                        </h5>
+                                    {% else %}
+                                        <h5> {{ course.total_price | intcomma:False }} تومان </h5>
+                                    {% endif %}
                                 </li>
                                 <li class="review">{{ course.comments.get_active_comment.count }} دیدگاه</li>
                             </ul>
