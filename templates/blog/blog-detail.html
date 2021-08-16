@@ -38,7 +38,7 @@
                                 <ul class="media-post">
                                     <li><a><i class="fa fa-calendar"></i>{{ object.get_jalali_date_for_url }}
                                     </a></li>
-                                    <li><a href="#"><i
+                                    <li><a><i
                                             class="fa fa-comments-o"></i>{{ object.comments.get_active_comment.count }}
                                         دیدگاه</a></li>
                                 </ul>
@@ -120,14 +120,14 @@
                                                     </div>
                                                     <p class="text-justify">{{ comment.message }}</p>
                                                     <div class="reply"><a data-toggle="collapse"
-                                                                          href="#collapseExample{{ comment.id }}"
+                                                                          href="#comment{{ comment.id }}"
                                                                           role="button" aria-expanded="false"
                                                                           aria-controls="collapseExample"
                                                                           class="comment-reply-link">پاسخ</a>
                                                     </div>
                                                     <div class="replies mt-3">
                                                         <div class="comment-respond collapse mb-3"
-                                                             id="collapseExample{{ comment.id }}">
+                                                             id="comment{{ comment.id }}">
                                                             <h4 class="comment-reply-title" id="reply-title">پاسخ
                                                                 دهید<small>
                                                                 </small></h4>
