@@ -91,7 +91,7 @@
                                                 </form>
                                             {% else %}
                                                 <p class="alert alert-warning text-center">برای ثبت دیدگاه باید <a
-                                                        href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
+                                                        href="{% url 'account:login' %}?next={{ request.get_full_path }}">وارد</a>
                                                     شوید.</p>
                                             {% endif %}
                                         </div>
@@ -151,7 +151,7 @@
                                                             {% else %}
                                                                 <p class="alert alert-warning text-center">برای ثبت پاسخ
                                                                     باید <a
-                                                                            href="{% url 'account:login' %}?redirect={{ request.get_full_path }}">وارد</a>
+                                                                            href="{% url 'account:login' %}?next={{ request.get_full_path }}">وارد</a>
                                                                     شوید.</p>
                                                             {% endif %}
 
