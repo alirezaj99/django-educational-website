@@ -18,7 +18,8 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'price']
+    list_display = ['__str__', 'price', 'discount']
+    list_editable = ['discount']
 
     class meta:
         model = OrderItem
