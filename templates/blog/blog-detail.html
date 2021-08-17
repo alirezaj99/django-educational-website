@@ -41,6 +41,8 @@
                                     <li><a><i
                                             class="fa fa-comments-o"></i>{{ object.comments.get_active_comment.count }}
                                         دیدگاه</a></li>
+                                    <li><a><i
+                                            class="fa fa-eye"></i>{{ object.hits.all.count }} بازدید</a></li>
                                 </ul>
                                 <h5 class="post-title"><a href="#">{{ object.title }}</a></h5>
                                 {{ object.description|safe }}

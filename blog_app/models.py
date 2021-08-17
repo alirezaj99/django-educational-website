@@ -75,6 +75,7 @@ class Blog(models.Model):
     description = RichTextUploadingField(verbose_name="محتوا")
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر مقاله")
     tags = models.ManyToManyField(BlogTag, related_name='blogs', blank=True, verbose_name='تگ ها / برچسب ها')
+    hits = models.ManyToManyField('IpAddress', blank=True, related_name="articles", verbose_name="بازید")
     status = models.BooleanField(default=False, verbose_name="وضعیت")
     send_email = models.BooleanField(default=True, verbose_name='ارسال ایمیل')
     publish_time = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")
@@ -135,6 +136,23 @@ class Comment(models.Model):
         return jalali_converter(self.created)
 
     jalali_time.short_description = 'زمان ثبت'
+
+
+class IpAddress(models.Model):
+    ip_address = models.GenericIPAddressField(verbose_name="آی پی آدرس")
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
+
+    class Meta:
+        verbose_name = "آی پی آدرس"
+        verbose_name_plural = "آی پی آدرس ها"
+
+    def __str__(self):
+        return self.ip_address
+
+    def jtime(self):
+        return jalali_converter(self.create_time)
+
+    jtime.short_description = "زمان ثبت"
 
 
 def set_blog_slug(sender, instance, *args, **kwargs):

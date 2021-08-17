@@ -22,6 +22,9 @@ class BlogDetail(FormMixin, DetailView):
     def get_object(self, **kwargs):
         blog = get_object_or_404(Blog.objects.get_publish_blog(), pk=self.kwargs.get('pk'),
                                  slug=self.kwargs.get('slug'))
+        ip_address = self.request.user.ip_address
+        if ip_address not in blog.hits.all():
+            blog.hits.add(ip_address)
         return blog
 
     template_name = 'blog/blog-detail.html'
