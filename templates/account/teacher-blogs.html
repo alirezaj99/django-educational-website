@@ -27,18 +27,15 @@
                                     <ul class="card-courses-view">
                                         <li class="card-courses-user">
                                             <div class="card-courses-user-pic">
-                                                <img src="{{ blog.author.profile.avatar.url }}"
+                                                <img src="{{ blog.author.profile.get_avatar }}"
                                                      alt="{{ blog.get_author_name }}">
                                             </div>
                                             <div class="card-courses-user-info">
                                                 <h5>نویسنده</h5>
-                                                <h4>{{ blog.get_teacher_name }}</h4>
+                                                <h4>{{ blog.get_author_name }}</h4>
                                             </div>
                                         </li>
-                                        <li class="card-courses-categories">
-                                            <h5>دسته‌بندی</h5>
-                                            <h4>{{ blog.category_to_str }}</h4>
-                                        </li>
+
                                         <li class="card-courses-stats">
                                             {% if blog.status %}
                                                 <a style="color: #000" class="btn button-sm green radius-xl">تایید
@@ -56,9 +53,13 @@
                                         <p>{{ blog.description|striptags|safe|truncatewords:32 }}</p>
                                     </div>
                                     <div class="col-md-12">
-                                        <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"
-                                           class="btn green radius-xl outline">لینک
-                                            مقاله</a>
+                                        {% if blog.status %}
+                                            <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"
+                                               class="btn green radius-xl outline">لینک
+                                                مقاله</a>
+                                        {% else %}
+                                            <a class="btn red radius-xl outline">در انتظار تایید...</a>
+                                        {% endif %}
                                     </div>
 
                                 </div>

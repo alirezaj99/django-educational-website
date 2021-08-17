@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import (
     Register, Login, logout_view, add_course_to_order, profile_update, Cart, delete_course_from_order, MyCourses,
-    PasswordChange, CourseAdd, TeacherCourses, MyComment, TeacherBlogs, PaymentList, PaymentDetail
+    PasswordChange, CourseAdd, TeacherCourses, MyComment, TeacherBlogs, PaymentList, PaymentDetail, BlogCreate
 )
 
 app_name = 'account'
@@ -20,6 +20,7 @@ urlpatterns = [
     path('teacher-courses/', TeacherCourses.as_view(), name='teacher_courses'),
     path('my-comment/', MyComment.as_view(), name='my_comment'),
     path('teacher-blogs/', TeacherBlogs.as_view(), name='teacher_blogs'),
+    path('blog-create/', BlogCreate.as_view(), name='blog_create'),
     path('payments/', PaymentList.as_view(), name='payment_list'),
     path('payments/<int:pk>/', PaymentDetail.as_view(), name='payment_detail'),
 ]

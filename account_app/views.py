@@ -10,7 +10,8 @@ from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView, DetailView
 from .models import User, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .mixins import TeacherMixin, CourseValidMixin, CourseFieldMixin
+from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin)
+from blog_app.models import Blog
 
 
 # register view
@@ -196,6 +197,12 @@ class TeacherBlogs(LoginRequiredMixin, TeacherMixin, ListView):
         return blogs
 
     template_name = 'account/teacher-blogs.html'
+
+
+class BlogCreate(LoginRequiredMixin, TeacherMixin, BlogCreateFieldMixin, BlogCreateValidMixin, CreateView):
+    model = Blog
+    success_url = reverse_lazy('account:teacher_blogs')
+    template_name = 'account/blog-create.html'
 
 
 class PaymentList(LoginRequiredMixin, ListView):
