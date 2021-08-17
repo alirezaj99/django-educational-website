@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="ttr-seperate"></li>
-                {% if user.is_teacher %}
+                {% if user.is_teacher and user.is_superuser %}
                     <li>
                         <a href="{% url 'account:course_add' %}" class="ttr-material-button">
                             <span class="ttr-icon"><i class="ti-plus"></i></span>
