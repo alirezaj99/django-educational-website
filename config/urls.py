@@ -20,6 +20,7 @@ from django.conf.urls.static import static
 from django.contrib.auth.decorators import login_required
 from ckeditor_uploader.views import upload
 from azbankgateways.urls import az_bank_gateways_urls
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('', include('index_app.urls', namespace='index')),
@@ -30,6 +31,7 @@ urlpatterns = [
     path('account/', include('account_app.urls', namespace='account')),
     path('editor/uploads/', login_required(upload), name='ckeditor_upload'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('admin/login/', RedirectView.as_view(url='/account/login/')),
     path('admin/', admin.site.urls),
 ]
 
