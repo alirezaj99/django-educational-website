@@ -35,7 +35,7 @@
                     {% if request.user.profile.avatar %}
                         <a class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img
                                 style="height: 100%" alt=""
-                                src="{{ request.user.profile.avatar.url }}"
+                                src="{{ request.user.profile.get_avatar }}"
                                 width="32"
                                 height="32"></span></a>
                     {% endif %}

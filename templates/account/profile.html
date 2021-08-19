@@ -109,7 +109,7 @@
                                         {% if request.user.profile.avatar %}
                                             <div class="col-4">
                                                 <div class="avatar-thumb">
-                                                    <img src="{{ request.user.profile.avatar.url }}"
+                                                    <img src="{{ request.user.profile.get_avatar }}"
                                                          alt="{{ request.user.get_full_name }}">
                                                 </div>
                                             </div>
