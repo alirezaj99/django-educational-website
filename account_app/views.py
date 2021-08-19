@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, PasswordChangeView
-from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm
+from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm,VideoCreate
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from order_app.models import Order, OrderItem
-from course_app.models import Course
+from course_app.models import Course,Video
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView, DetailView
 from .models import User, Profile
@@ -169,6 +169,19 @@ class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherM
     model = Course
     template_name = 'account/course-add.html'
     success_url = reverse_lazy('account:profile')
+
+class VideoAdd(LoginRequiredMixin,TeacherMixin,CreateView):
+    model = Video
+    form_class = VideoCreate
+    template_name = 'account/video-add.html'
+    success_url = reverse_lazy('account:course_list')
+
+    def get_form_kwargs(self):
+        kwargs = super(VideoAdd, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return kwargs
 
 
 class TeacherCourses(LoginRequiredMixin, TeacherMixin, ListView):

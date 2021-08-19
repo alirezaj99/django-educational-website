@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.core.exceptions import ValidationError
 from .models import Profile
 from django.core import validators
+from course_app.models import Course, Video
 
 
 class CreateUserForm(UserCreationForm):
@@ -104,3 +105,25 @@ class AvatarForm(forms.Form):
     avatar = forms.ImageField(
         label="تصویر پروفایل", required=False
     )
+
+
+class VideoCreate(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super(VideoCreate, self).__init__(*args, **kwargs)
+        self.fields['course'].queryset = Course.objects.filter(teacher=user)
+   
+
+    class Meta:
+        model = Video
+        fields = [
+            'title',
+            'video',
+            'position',
+            'course',
+            'description',
+            'time',
+            'publish_time',
+        ]
+
+    
