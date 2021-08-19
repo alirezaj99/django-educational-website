@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Course, CourseCategory, Video, Comment, CourseTag
-
+from account_app.models import User
 
 # Register your models here.
 
@@ -10,6 +10,11 @@ class VideoCourseInlines(admin.TabularInline):
 
 
 class CourseAdmin(admin.ModelAdmin):
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "teacher":
+            kwargs["queryset"] = User.objects.filter(is_teacher=True)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
     list_display = ['title']
     inlines = [VideoCourseInlines]
 
