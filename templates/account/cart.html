@@ -3,123 +3,124 @@
 {% load humanize %}
 {% block head_title %}سبد خرید{% endblock %}
 {% block page_title %}
-    <li>سبد خرید</li>{% endblock %}
+<li>سبد خرید</li>{% endblock %}
 {% block content %}
-    <div class="row">
-        <!-- Your Profile Views Chart -->
-        <div class="col-lg-12 m-b30">
-            <div class="widget-box">
-                <div class="wc-title">
-                    <h4>سبد خرید</h4>
-                </div>
-                <div class="widget-inner">
-                    {% if object_list %}
-                        {% for item in object_list %}
-                            <div class="card-courses-list admin-courses">
-                                <div class="card-courses-media">
-                                    <a target="_blank"
-                                       href="{% url 'course:course_detail' item.course.pk item.course.slug %}"><img
-                                            src="{{ item.course.image.url }}" alt="{{ item.course.title }}"></a>
-                                </div>
-                                <div class="card-courses-full-dec">
-                                    <div class="card-courses-title">
-                                        <a target="_blank"
-                                           href="{% url 'course:course_detail' item.course.pk item.course.slug %}">
-                                            <h4>{{ item.course.title }}</h4></a>
-                                    </div>
-                                    <div class="card-courses-list-bx">
-                                        <ul class="card-courses-view">
-                                            <li class="card-courses-user">
-                                                <div class="card-courses-user-pic">
-                                                    <img src="{{ item.course.teacher.profile.get_avatar }}"
-                                                         alt="{{ item.course.get_teacher_name }}">
-                                                </div>
-                                                <div class="card-courses-user-info">
-                                                    <h5>مدرس</h5>
-                                                    <h4>{{ item.course.get_teacher_name }}</h4>
-                                                </div>
-                                            </li>
-                                            <li class="card-courses-categories">
-                                                <h5>دسته بندی</h5>
-                                                <h4>{{ item.course.category_to_str }}</h4>
-                                            </li>
-                                            <li class="card-courses-price">
-                                                {% if item.price == 0 %}
-                                                    <h5 style="color:#018f23;" class="text-primary">رایگان !</h5>
-                                                {% elif item.discount == 100 %}
-                                                    <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
-                                                    <h5 style="color:#018f23;" class="text-primary">رایگان !</h5>
-                                                {% elif item.discount < 100 %}
-                                                    <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
-                                                    <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
-                                                        تومان </h5>
-                                                {% else %}
-                                                    <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
-                                                        تومان </h5>
-                                                {% endif %}
-
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="row card-courses-dec">
-                                        <div class="col-md-12">
-                                            <h6 class="m-b10">توضیحات دوره</h6>
-                                            <p>{{ item.course.description|safe|truncatewords:43 }}</p>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <a href="{% url 'account:delete_course_to_order' item.pk %}"
-                                               class="btn red outline radius-xl ">حذف</a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <div class="row text-center" style="font-weight: bold;font-size: 19px;color: #333">
-                            <div class="col-6">
-                                <span class="pl-3">مبلغ کل</span>
-                            </div>
-                            <div class="col-6">
-                                <span>{{ order.get_price|intcomma:False }} تومان</span>
-                            </div>
-                        </div>
-                        <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #01ace5">
-                            <div class="col-6">
-                                <span class="pl-3">تخفیف</span>
-                            </div>
-                            <div class="col-6">
-                                <span>{{ order.get_total_discount|intcomma:False }} تومان</span>
-                            </div>
-                        </div>
-                        <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #333;">
-                            <div class="col-6">
-                                <span class="pl-3">مبلغ قابل پرداخت</span>
-                            </div>
-                            <div class="col-6 mb-3">
-                                {% if order.get_total_price == 0 %}
-                                    <span style="color: #018f23">رایگان</span>
-                                {% else %}
-                                    <span>{{ order.get_total_price|intcomma:False }} تومان</span>
-                                {% endif %}
-                            </div>
-                            <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
-                            <div class="col-10" style="border-top: 1px solid rgba(0, 0, 0, 0.1);">
-                                <a href="{% url 'order:request' %}">
-                                    <button class="btn btn-block btn-success mt-3">پرداخت</button>
-                                </a>
-                            </div>
-                            <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
-                        </div>
-                    {% else %}
-                        <div class="col-12 text-center">
-                            <p class="alert alert-warning text-center" style="font-family: iransans-light">سبد
-                                خرید
-                                شما خالی است.</p>
-                        </div>
-
-                    {% endif %}
-                </div>
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>سبد خرید</h4>
             </div>
-            <!-- Your Profile Views Chart END-->
+            <div class="widget-inner">
+                {% if object_list %}
+                {% for item in object_list %}
+                <div class="card-courses-list admin-courses">
+                    <div class="card-courses-media">
+                        <a target="_blank"
+                           href="{% url 'course:course_detail' item.course.pk item.course.slug %}"><img
+                                src="{{ item.course.image.url }}" alt="{{ item.course.title }}"></a>
+                    </div>
+                    <div class="card-courses-full-dec">
+                        <div class="card-courses-title">
+                            <a target="_blank"
+                               href="{% url 'course:course_detail' item.course.pk item.course.slug %}">
+                                <h4>{{ item.course.title }}</h4></a>
+                        </div>
+                        <div class="card-courses-list-bx">
+                            <ul class="card-courses-view">
+                                <li class="card-courses-user">
+                                    <div class="card-courses-user-pic">
+                                        <img src="{{ item.course.teacher.profile.get_avatar }}"
+                                             alt="{{ item.course.get_teacher_name }}">
+                                    </div>
+                                    <div class="card-courses-user-info">
+                                        <h5>مدرس</h5>
+                                        <h4>{{ item.course.get_teacher_name }}</h4>
+                                    </div>
+                                </li>
+                                <li class="card-courses-categories">
+                                    <h5>دسته بندی</h5>
+                                    <h4>{{ item.course.category_to_str }}</h4>
+                                </li>
+                                <li class="card-courses-price">
+                                    {% if item.price == 0 %}
+                                    <h5 style="color:#018f23;" class="text-primary">رایگان !</h5>
+                                    {% elif item.discount == 100 %}
+                                    <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
+                                    <h5 style="color:#018f23;" class="text-primary">رایگان !</h5>
+                                    {% elif item.discount < 100 %}
+                                    <del style="color:#ff3f3f;font-size: 17px">{{ item.price | intcomma:False }}</del>
+                                    <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
+                                        تومان </h5>
+                                    {% else %}
+                                    <h5 class="text-primary"> {{ item.total_price | intcomma:False }}
+                                        تومان </h5>
+                                    {% endif %}
+
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row card-courses-dec">
+                            <div class="col-md-12">
+                                <h6 class="m-b10">توضیحات دوره</h6>
+                                <p>{{ item.course.description|safe|truncatewords:43 }}</p>
+                            </div>
+                            <div class="col-md-12">
+                                <a href="{% url 'account:delete_course_to_order' item.pk %}"
+                                   class="btn red outline radius-xl ">حذف</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+                <div class="row text-center" style="font-weight: bold;font-size: 19px;color: #333">
+                    <div class="col-6">
+                        <span class="pl-3">مبلغ کل</span>
+                    </div>
+                    <div class="col-6">
+                        <span>{{ order.get_price|intcomma:False }} تومان</span>
+                    </div>
+                </div>
+                <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #01ace5">
+                    <div class="col-6">
+                        <span class="pl-3">تخفیف</span>
+                    </div>
+                    <div class="col-6">
+                        <span>{{ order.get_total_discount|intcomma:False }} تومان</span>
+                    </div>
+                </div>
+                <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #333;">
+                    <div class="col-6">
+                        <span class="pl-3">مبلغ قابل پرداخت</span>
+                    </div>
+                    <div class="col-6 mb-3">
+                        {% if order.get_total_price == 0 %}
+                        <span style="color: #018f23">رایگان</span>
+                        {% else %}
+                        <span>{{ order.get_total_price|intcomma:False }} تومان</span>
+                        {% endif %}
+                    </div>
+                    <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
+                    <div class="col-10" style="border-top: 1px solid rgba(0, 0, 0, 0.1);">
+                        <a href="{% url 'order:request' %}">
+                            <button class="btn btn-block btn-success mt-3">پرداخت</button>
+                        </a>
+                    </div>
+                    <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
+                </div>
+                {% else %}
+                <div class="col-12 text-center">
+                    <p class="alert alert-warning text-center" style="font-family: iransans-light">سبد
+                        خرید
+                        شما خالی است.</p>
+                </div>
+
+                {% endif %}
+            </div>
         </div>
+        <!-- Your Profile Views Chart END-->
+    </div>
+</div>
 {% endblock %}

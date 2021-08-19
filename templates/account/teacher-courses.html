@@ -12,11 +12,12 @@
                 <h4>دوره‌های مدرس</h4>
             </div>
             <div class="widget-inner">
+                {% if object_list %}
                 {% for course in object_list %}
                 <div class="card-courses-list admin-courses">
                     <div class="card-courses-media">
                         <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
-                                alt="{{ course.title }}"></a>
+                                                               alt="{{ course.title }}"></a>
                     </div>
                     <div class="card-courses-full-dec">
                         <div class="card-courses-title">
@@ -27,7 +28,7 @@
                                 <li class="card-courses-user">
                                     <div class="card-courses-user-pic">
                                         <img src="{{ course.teacher.profile.get_avatar }}"
-                                            alt="{{ course.get_teacher_name }}">
+                                             alt="{{ course.get_teacher_name }}">
                                     </div>
                                     <div class="card-courses-user-info">
                                         <h5>مدرس</h5>
@@ -63,8 +64,14 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% else %}
+                <div class="col-12 text-center">
+                    <p class="alert alert-warning text-center" style="font-family: iransans-light">دوره ای یافت نشد</p>
+                </div>
+                {% endif %}
             </div>
         </div>
         <!-- Your Profile Views Chart END-->
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

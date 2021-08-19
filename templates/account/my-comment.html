@@ -2,65 +2,71 @@
 {% load widget_tweaks %}
 {% block head_title %}دیدگاه های من{% endblock %}
 {% block page_title %}
-    <li>دیدگاه های من</li>{% endblock %}
+<li>دیدگاه های من</li>{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-lg-12 m-b30">
-            <div class="widget-box">
-                <div class="wc-title">
-                    <h4>دیدگاه های من</h4>
-                </div>
-                <div class="widget-inner">
-                    {% for comment in object_list %}
-                        <div class="card-courses-list admin-review">
-                            <div class="card-courses-full-dec">
-                                <div class="card-courses-title">
-                                    <h4>{{ comment.course.title }}</h4>
-                                </div>
-                                <div class="card-courses-list-bx">
-                                    <ul class="card-courses-view">
-                                        <li class="card-courses-user">
-                                            <div class="card-courses-user-pic">
-                                                <img src="{{ comment.user.profile.get_avatar }}"
-                                                     alt="{{ comment.get_user_name }}">
-                                            </div>
-                                            <div class="card-courses-user-info">
-                                                <h5>نویسنده</h5>
-                                                <h4>{{ comment.get_user_name }}</h4>
-                                            </div>
-                                        </li>
-                                        <li class="card-courses-stats">
-                                            {% if comment.active %}
-                                                <a style="color: #000" class="btn button-sm green radius-xl">تایید
-                                                    شده</a>
-                                            {% else %}
-                                                <a style="color: #fff" class="btn button-sm red radius-xl">تایید
-                                                    نشده</a>
-                                            {% endif %}
-                                        </li>
-                                        <li class="card-courses-categories">
-                                            <h5>زمان ثبت</h5>
-                                            <h4>{{ comment.jalali_time }}</h4>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="row card-courses-dec">
-                                    <div class="col-md-12">
-                                        {% if comment.parent %}
-                                            <h6 class="m-b10">پاسخ به <span
-                                                    class="text-danger">{{ comment.parent.get_user_name }}</span>
-                                            </h6>
-                                        {% endif %}
-                                        <p class="text-justify">{{ comment.message }}</p>
+<div class="row">
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>دیدگاه های من</h4>
+            </div>
+            <div class="widget-inner">
+                {% if object_list %}
+                {% for comment in object_list %}
+                <div class="card-courses-list admin-review">
+                    <div class="card-courses-full-dec">
+                        <div class="card-courses-title">
+                            <h4>{{ comment.course.title }}</h4>
+                        </div>
+                        <div class="card-courses-list-bx">
+                            <ul class="card-courses-view">
+                                <li class="card-courses-user">
+                                    <div class="card-courses-user-pic">
+                                        <img src="{{ comment.user.profile.get_avatar }}"
+                                             alt="{{ comment.get_user_name }}">
                                     </div>
-                                </div>
+                                    <div class="card-courses-user-info">
+                                        <h5>نویسنده</h5>
+                                        <h4>{{ comment.get_user_name }}</h4>
+                                    </div>
+                                </li>
+                                <li class="card-courses-stats">
+                                    {% if comment.active %}
+                                    <a style="color: #000" class="btn button-sm green radius-xl">تایید
+                                        شده</a>
+                                    {% else %}
+                                    <a style="color: #fff" class="btn button-sm red radius-xl">تایید
+                                        نشده</a>
+                                    {% endif %}
+                                </li>
+                                <li class="card-courses-categories">
+                                    <h5>زمان ثبت</h5>
+                                    <h4>{{ comment.jalali_time }}</h4>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row card-courses-dec">
+                            <div class="col-md-12">
+                                {% if comment.parent %}
+                                <h6 class="m-b10">پاسخ به <span
+                                        class="text-danger">{{ comment.parent.get_user_name }}</span>
+                                </h6>
+                                {% endif %}
+                                <p class="text-justify">{{ comment.message }}</p>
                             </div>
                         </div>
-                    {% endfor %}
+                    </div>
                 </div>
+                {% endfor %}
+                {% else %}
+                <div class="col-12 text-center">
+                    <p class="alert alert-warning text-center" style="font-family: iransans-light">دیدگاهی ای یافت نشد</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
 
 
