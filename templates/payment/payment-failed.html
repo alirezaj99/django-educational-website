@@ -1,0 +1,29 @@
+{% extends 'account/AccountBase.html' %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% block head_title %}نتیجه پرداخت{% endblock %}
+{% block page_title %}
+<li>نتیجه پرداخت</li>{% endblock %}
+{% block content %}
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>پرداخت ناموفق بود</h4>
+            </div>
+            <div class="widget-inner">
+                <div class="col-12 text-center">
+                    <i class="fa fa-times-circle text-danger mb-3" style="font-size:10rem"></i>
+                    <p class="alert alert-danger text-center" style="font-family: iransans-light;font-size:18px">پرداخت
+                        ناموفق بود. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت</p>
+                    <div class="badge badge-warning p-2 mt-2">
+                        <a style="color:#2b2b2b" href="{% url 'account:cart' %}">بازگشت به سبد خرید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Your Profile Views Chart END-->
+    </div>
+</div>
+{% endblock %}

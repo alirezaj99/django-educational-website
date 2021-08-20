@@ -14,6 +14,7 @@ class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders',
                              verbose_name='کاربر')
     is_paid = models.BooleanField(default=False, verbose_name='پرداخت شده/نشده؟')
+    is_free = models.BooleanField(default=False, verbose_name='رایگان؟')
     payment_date = models.DateTimeField(blank=True, null=True, verbose_name="تاریخ پرداخت")
     created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')

@@ -1,5 +1,5 @@
-from django.shortcuts import reverse, redirect
-from django.http import HttpResponse, Http404
+from django.shortcuts import reverse, redirect, render
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from order_app.models import Order
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
@@ -15,18 +15,10 @@ def go_to_gateway_view(request):
     if not order.items.all():
         return redirect('course:course_list')
     items = order.items.all()
-
     if order.get_total_price() == 0 and items:
-        order.is_paid = True
-        order.payment_date = timezone.now()
-        for item in items:
-            item.course.student.add(order.user)
+        order.is_free = True
         order.save()
-        Order.objects.create(user_id=order.user.id, is_paid=False)
-        if not user.is_student:
-            user.is_student = True
-            user.save()
-        return HttpResponse("پرداخت با موفقیت انجام شد.")
+        return redirect('order:call_back')
     total_price = order.get_total_price()
     rial_total_price = total_price * 10
     # خواندن مبلغ از هر جایی که مد نظر است
@@ -44,21 +36,32 @@ def go_to_gateway_view(request):
     bank.set_client_callback_url(reverse('order:call_back'))
     if phone_number:
         bank.set_mobile_number(user_mobile_number)  # اختیاری
-
     # در صورت تمایل اتصال این رکورد به رکورد فاکتور یا هر چیزی که بعدا بتوانید ارتباط بین محصول یا خدمات را با این
     # پرداخت برقرار کنید.
     bank_record = bank.ready()
-
     # هدایت کاربر به درگاه بانک
     return bank.redirect_gateway()
 
 
 @login_required()
-def callback_gateway_view(request):
+def callback_gateway_view(request, *args, **kwargs):
+    user = request.user
+    order = Order.objects.get(user_id=user.id, is_paid=False)
+    items = order.items.all()
+    if order.is_free:
+        order.is_paid = True
+        order.payment_date = timezone.now()
+        for item in items:
+            item.course.student.add(order.user)
+        order.save()
+        Order.objects.create(user_id=order.user.id, is_paid=False, is_free=False)
+        if not user.is_student:
+            user.is_student = True
+            user.save()
+        return render(request, 'payment/payment-success.html', {'order_id': order.id})
     tracking_code = request.GET.get(settings.TRACKING_CODE_QUERY_PARAM, None)
     if not tracking_code:
         raise Http404
-
     try:
         bank_record = bank_models.Bank.objects.get(tracking_code=tracking_code)
     except bank_models.Bank.DoesNotExist:
@@ -66,20 +69,16 @@ def callback_gateway_view(request):
 
     # در این قسمت باید از طریق داده هایی که در بانک رکورد وجود دارد، رکورد متناظر یا هر اقدام مقتضی دیگر را انجام دهیم
     if bank_record.is_success:
-        user = request.user
-        order = Order.objects.get(user_id=user.id, is_paid=False)
         order.is_paid = True
         order.payment_date = timezone.now()
-        items = order.items.all()
         for item in items:
             item.course.student.add(order.user)
         order.save()
-        Order.objects.create(user_id=order.user.id, is_paid=False)
+        Order.objects.create(user_id=order.user.id, is_paid=False, is_free=False)
         if not user.is_student:
             user.is_student = True
             user.save()
-        return HttpResponse("پرداخت با موفقیت انجام شد.")
+        return render(request, 'payment/payment-success.html', {'order_id': order.id})
 
     # پرداخت موفق نبوده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.
-    return HttpResponse(
-        "پرداخت با شکست مواجه شده است. اگر پول کم شده است ظرف مدت ۴۸ ساعت پول به حساب شما بازخواهد گشت.")
+    return render(request, 'payment/payment-failed.html')

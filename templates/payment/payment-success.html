@@ -1,0 +1,30 @@
+{% extends 'account/AccountBase.html' %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% block head_title %}نتیجه پرداخت{% endblock %}
+{% block page_title %}
+<li>نتیجه پرداخت</li>{% endblock %}
+{% block content %}
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>تایید پرداخت</h4>
+            </div>
+            <div class="widget-inner">
+                <div class="col-12 text-center">
+                    <i class="fa fa-check-circle text-success mb-3" style="font-size:10rem"></i>
+                    <p class="alert alert-success text-center" style="font-family: iransans-light;font-size:18px">پرداخت
+                        با موفقیت انجام شد. شناسه خرید {{ order_id }} #</p>
+                    <div class="badge badge-info p-2 mt-2">
+                        <a style="padding:0 10px;color:#2b2b2b" href="{% url 'account:payment_detail' order_id %}">مشاهده سفارش</a>
+                        <a style="padding:0 10px;color:#2b2b2b" href="{% url 'course:course_list' %}">دوره های من</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Your Profile Views Chart END-->
+    </div>
+</div>
+{% endblock %}
