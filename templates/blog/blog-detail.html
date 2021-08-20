@@ -58,12 +58,14 @@
                                 <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
                                 <h6>اشتراک</h6>
                                 <ul class="list-inline contact-social-bx">
-                                    <li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a>
+                                    <li><a target="_blank" href="whatsapp://send?text=http://127.0.0.1:8000{% url 'blog:blog_detail' object.pk object.slug %}" class="btn outline radius-xl"><i class="fa fa-whatsapp"></i></a>
                                     </li>
-                                    <li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a>
+                                    <li><a target="_blank" href="https://twitter.com/share?url=http://127.0.0.1:8000{% url 'blog:blog_detail' object.pk object.slug %}" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a target="_blank" href="https://t.me/share/url?url=http://127.0.0.1:8000{% url 'blog:blog_detail' object.pk object.slug %}" class="btn outline radius-xl"><i class="fa fa-telegram"></i></a>
                                     </li>
-                                    <li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a>
+                                    <li><a target="_blank" href="http://www.facebook.com/sharer.php?u=http://127.0.0.1:8000{% url 'blog:blog_detail' object.pk object.slug %}" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a>
+                                    </li>
+                                    <li><a target="_blank" href="mailto:?subject={{ object.title }}&body=http://127.0.0.1:8000{% url 'blog:blog_detail' object.pk object.slug %}" class="btn outline radius-xl"><i class="fa fa-envelope"></i></a>
                                     </li>
                                 </ul>
                                 <div class="ttr-divider bg-gray"><i class="icon-dot c-square"></i></div>
