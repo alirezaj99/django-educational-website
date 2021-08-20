@@ -16,7 +16,7 @@
                 <div class="card-courses-list admin-review">
                     <div class="card-courses-full-dec">
                         <div class="card-courses-title">
-                            <h4>{{ comment.course.title }}</h4>
+                            <h4><a href="{% url 'course:course_detail' comment.course.pk comment.course.slug %}" >{{ comment.course.title }}</a></h4>
                         </div>
                         <div class="card-courses-list-bx">
                             <ul class="card-courses-view">
@@ -43,6 +43,12 @@
                                     <h5>زمان ثبت</h5>
                                     <h4>{{ comment.jalali_time }}</h4>
                                 </li>
+                                {% if not comment.parent %}
+                                <li class="card-courses-categories">
+                                    <h5>تعداد پاسخ ها</h5>
+                                    <h4>{{ comment.replies.get_active_reply.count }}</h4>
+                                </li>
+                                {% endif %}
                             </ul>
                         </div>
                         <div class="row card-courses-dec">
