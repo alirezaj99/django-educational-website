@@ -6,6 +6,7 @@ from django.views.generic.edit import FormMixin
 from .forms import CommentForm
 from blog_app.models import Blog
 from settings_app.models import Settings
+from django.contrib import messages
 
 
 # Create your views here.
@@ -63,6 +64,7 @@ class CourseDetail(FormMixin, DetailView):
             except:
                 self.obj.parent_id = None
             form.save()
+            messages.success(self.request,'دیدگاه شما با موفقیت ثبت شد. منتظر تایید باشید')
         return super(CourseDetail, self).form_valid(form)
 
 

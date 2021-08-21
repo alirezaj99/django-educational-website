@@ -12,7 +12,7 @@ from .models import User, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin)
 from blog_app.models import Blog
-
+from django.contrib import messages
 
 # register view
 class Register(CreateView):
@@ -22,7 +22,7 @@ class Register(CreateView):
     template_name = 'registration/register.html'
 
     def form_valid(self, form):
-        # messages.success(self.request, 'با موفقیت ثبت نام شدی', 'success')
+        messages.success(self.request,'ثبت نام با موفقیت انجام شد. وارد شوید')
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -70,6 +70,10 @@ def logout_view(request):
 # password change view
 class PasswordChange(PasswordChangeView):
     success_url = reverse_lazy('account:profile')
+
+    def form_valid(self,form):
+        messages.success(self.request,'رمز عبور شما با موفقیت تغییر کرد')
+        return super().form_valid(form)
 
 
 # course
@@ -120,19 +124,20 @@ def profile_update(request):
         'web_site': profile.web_site,
     })
     avatar_form = AvatarForm(request.POST or None, request.FILES, initial={
-        'avatar': profile.avatar, })
+        'avatar': profile.avatar})
     if form.is_valid() and avatar_form.is_valid():
         user.first_name = form.cleaned_data.get('first_name')
         user.last_name = form.cleaned_data.get('last_name')
         user.save()
         profile.phone_number = form.cleaned_data.get('phone_number')
         profile.bio = form.cleaned_data.get('bio')
-        profile.website = form.cleaned_data.get('website')
+        profile.web_site = form.cleaned_data.get('web_site')
         try:
             profile.avatar = avatar_form.cleaned_data.get('avatar')
         except:
             profile.avatar = profile.avatar
         profile.save()
+        messages.success(request,'عملیات با موفقیت انجام شد')
         return HttpResponseRedirect(reverse('account:profile'))
 
     context = {
@@ -168,13 +173,21 @@ class MyCourses(LoginRequiredMixin, ListView):
 class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherMixin, CreateView):
     model = Course
     template_name = 'account/course-add.html'
-    success_url = reverse_lazy('account:profile')
+    success_url = reverse_lazy('account:teacher_courses')
+
+    def form_valid(self,form):
+        messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
+        return super().form_valid(form)
 
 class VideoAdd(LoginRequiredMixin,TeacherMixin,CreateView):
     model = Video
     form_class = VideoCreate
     template_name = 'account/video-add.html'
-    success_url = reverse_lazy('account:course_list')
+    success_url = reverse_lazy('account:teacher_courses')
+
+    def form_valid(self,form):
+        messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
+        return super().form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super(VideoAdd, self).get_form_kwargs()
@@ -216,6 +229,10 @@ class BlogCreate(LoginRequiredMixin, TeacherMixin, BlogCreateFieldMixin, BlogCre
     model = Blog
     success_url = reverse_lazy('account:teacher_blogs')
     template_name = 'account/blog-create.html'
+
+    def form_valid(self,form):
+        messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
+        return super().form_valid(form)
 
 
 class PaymentList(LoginRequiredMixin, ListView):

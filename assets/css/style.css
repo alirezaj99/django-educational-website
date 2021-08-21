@@ -4551,3 +4551,7 @@ h2.title-head.text-uppercase.m-b0 {
     padding: 10px 10px 10px 0;
     background-color: #e3ffe5;
 }
+
+.swal-footer {
+    text-align: center;
+  }

@@ -25,6 +25,15 @@
     <button class="back-to-top fa fa-chevron-up"></button>
 </div>
 {% include 'Shared/_FooterReferences.html' %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for m in messages %}
+        <script>
+            swal({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه',input: 'none',
+})
+        </script>
+    {% endfor %}
+{% endif %} 
 {% block add_footer_reference %}{% endblock %}
 </body>
 

@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from .models import Blog, BlogTag
 from .forms import CommentForm
 from django.views.generic.edit import FormMixin
-
+from django.contrib import messages
 
 # Create your views here.
 class BlogList(ListView):
@@ -58,6 +58,7 @@ class BlogDetail(FormMixin, DetailView):
             except:
                 self.obj.parent_id = None
             form.save()
+            messages.success(self.request,'دیدگاه شما با موفقیت ثبت شد. منتظر تایید باشید')
         return super(BlogDetail, self).form_valid(form)
 
 

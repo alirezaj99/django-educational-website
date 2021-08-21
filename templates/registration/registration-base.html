@@ -1,9 +1,10 @@
 {% load static %}
+{% load render_partial %}
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <!-- PAGE TITLE HERE ============================================= -->
-    <title>{% block head_title %}{% endblock %} | سایت آموزشی</title>
+    <title>{% block head_title %}{% endblock %} | {% render_partial 'course_app.views.site_title_view' %}</title>
     {% include 'Shared/_HeaderReferences.html' %}
 </head>
 
@@ -21,6 +22,15 @@
 </div>
 <!-- External JavaScripts -->
 {% include 'Shared/_FooterReferences.html' %}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for m in messages %}
+        <script>
+            swal({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه',input: 'none',
+})
+        </script>
+    {% endfor %}
+{% endif %} 
 </body>
 
 

@@ -1,8 +1,9 @@
+{% load render_partial %}
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <!-- PAGE TITLE HERE  -->
-    <title>{% block head_title %}{% endblock %} | سایت آموزشی</title>
+    <title>{% block head_title %}{% endblock %} | {% render_partial 'course_app.views.site_title_view' %}</title>
     {% include 'account/_HeaderReferences.html' %}
     {% block add_header_reference %}{% endblock %}
 </head>
@@ -31,6 +32,15 @@
 <div class="ttr-overlay"></div>
 
 {% include 'account/_FooterReferences.html' %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{% if messages %}
+    {% for m in messages %}
+        <script>
+            Swal.fire({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه'})
+        </script>
+    {% endfor %}
+{% endif %}
+
 {% block add_footer_reference %}{% endblock %}
 
 </body>
