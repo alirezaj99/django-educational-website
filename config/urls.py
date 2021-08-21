@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('order_app.urls', namespace='order')),
     path('', include('blog_app.urls', namespace='blog')),
     path('account/', include('account_app.urls', namespace='account')),
+    path('account/', include('django.contrib.auth.urls')),
     path('editor/uploads/', login_required(upload), name='ckeditor_upload'),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('admin/login/', RedirectView.as_view(url='/account/login/')),

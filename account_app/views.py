@@ -58,7 +58,7 @@ class Login(LoginView):
 
 
 # logout view
-@login_required(login_url='/account/login/')
+@login_required()
 def logout_view(request):
     logout(request)
     if request.GET.get('next'):
@@ -77,7 +77,7 @@ class PasswordChange(PasswordChangeView):
 
 
 # course
-@login_required(login_url='/account/login/')
+@login_required()
 def add_course_to_order(request, *args, **kwargs):
     user_courses = request.user.student_courses.get_publish_course()
     order = Order.objects.get(user_id=request.user.id, is_paid=False)
@@ -112,7 +112,7 @@ def delete_course_from_order(request, *args, **kwargs):
     raise Http404()
 
 
-@login_required(login_url='/account/login/')
+@login_required()
 def profile_update(request):
     user = User.objects.get(pk=request.user.pk)
     profile = Profile.objects.get(user_id=request.user.id)

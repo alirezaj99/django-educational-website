@@ -210,3 +210,6 @@ AZ_IRANIAN_BANK_GATEWAYS = {
     'BANK_PRIORITIES': [
     ],
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
