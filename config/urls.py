@@ -28,6 +28,7 @@ urlpatterns = [
     path('bankgateways/', az_bank_gateways_urls()),
     path('', include('order_app.urls', namespace='order')),
     path('', include('blog_app.urls', namespace='blog')),
+    path('contact/', include('contact_app.urls', namespace='contact')),
     path('account/', include('account_app.urls', namespace='account')),
     path('editor/uploads/', login_required(upload), name='ckeditor_upload'),
     path('ckeditor/', include('ckeditor_uploader.urls')),

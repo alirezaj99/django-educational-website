@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView, PasswordChangeView,PasswordResetView,PasswordResetConfirmView
-from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm, ResetForm,VideoCreate,PasswordResetForm
+from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm, ResetForm,VideoCreate
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from order_app.models import Order, OrderItem
@@ -258,7 +258,7 @@ class PasswordReset(PasswordResetView):
     form_class = ResetForm
 
     def form_valid(self, form):
-        messages.success(self.request,'لینک بازیابی رمز به ایمیل شما ارسال شد')
+        messages.success(self.request,'لینک بازیابی رمز عبور به ایمیل شما ارسال شد')
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):

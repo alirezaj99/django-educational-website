@@ -1,7 +1,7 @@
 from django import forms
 from .models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,PasswordResetForm
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import ValidationError
 from .models import Profile
 from django.core import validators
 from course_app.models import Course, Video
