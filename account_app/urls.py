@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     Register, Login, logout_view, add_course_to_order, profile_update, Cart, delete_course_from_order, MyCourses,
     PasswordChange, CourseAdd, TeacherCourses, MyComment, TeacherBlogs, PaymentList, PaymentDetail, BlogCreate,VideoAdd
+    , PasswordReset,PasswordResetConfirm
 )
 
 app_name = 'account'
@@ -24,4 +25,6 @@ urlpatterns = [
     path('blog-create/', BlogCreate.as_view(), name='blog_create'),
     path('payments/', PaymentList.as_view(), name='payment_list'),
     path('payments/<int:pk>/', PaymentDetail.as_view(), name='payment_detail'),
+    path('password-reset/',PasswordReset.as_view(), name='password_reset'),
+    path('reset/<uidb64>/<token>/', PasswordResetConfirm.as_view(), name='password_reset_confirm'),
 ]

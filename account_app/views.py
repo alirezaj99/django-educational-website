@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.views import LoginView, PasswordChangeView
-from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm,VideoCreate
+from django.contrib.auth.views import LoginView, PasswordChangeView,PasswordResetView,PasswordResetConfirmView
+from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm, ResetForm,VideoCreate,PasswordResetForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from order_app.models import Order, OrderItem
@@ -31,7 +31,7 @@ class Register(CreateView):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return HttpResponseRedirect('/courses/')
+            return HttpResponseRedirect('/')
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -251,3 +251,31 @@ class PaymentDetail(LoginRequiredMixin, DetailView):
         return order
 
     template_name = 'account/payment-detail.html'
+
+
+class PasswordReset(PasswordResetView):
+    success_url = reverse_lazy('account:login')
+    form_class = ResetForm
+
+    def form_valid(self, form):
+        messages.success(self.request,'لینک بازیابی رمز به ایمیل شما ارسال شد')
+        return super().form_valid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/')
+
+        return super().dispatch(request, *args, **kwargs)
+
+class PasswordResetConfirm(PasswordResetConfirmView):
+    success_url = reverse_lazy('account:login')
+
+    def form_valid(self, form):
+        messages.success(self.request,'بازیابی رمز عبور با موفقیت انجام شد. وارد شوید')
+        return super().form_valid(form)
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/')
+
+        return super().dispatch(request, *args, **kwargs)

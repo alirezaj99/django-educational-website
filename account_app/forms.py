@@ -1,7 +1,7 @@
 from django import forms
 from .models import User
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm,PasswordResetForm
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import Profile
 from django.core import validators
 from course_app.models import Course, Video
@@ -126,4 +126,16 @@ class VideoCreate(forms.ModelForm):
             'publish_time',
         ]
 
+
+class ResetForm(PasswordResetForm):
+    def __init__(self, *args, **kwargs):
+        super(ResetForm, self).__init__(*args, **kwargs)
     
+
+    def clean(self):
+        email = self.cleaned_data['email']
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise ValidationError('کاربری با مشخصات وارد شده یافت نشد')
+        return self.cleaned_data
