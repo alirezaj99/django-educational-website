@@ -5,8 +5,8 @@
             <div class="row d-flex justify-content-between">
                 <div class="topbar-left">
                     <ul>
-                        <li><a href="faq-1.html"><i class="fa fa-question-circle"></i>از ما بپرسید</a></li>
-                        <li><a href="javascript:;"><i class="fa fa-envelope-o"></i>{{ email }}</a></li>
+                        <li><a href="{% url 'contact:contact_create' %}"><i class="fa fa-phone"></i>تماس با ما</a></li>
+                        <li><a href="mailto:{{ email }}"><i class="fa fa-envelope-o"></i>{{ email }}</a></li>
                     </ul>
                 </div>
                 <div class="topbar-right">
@@ -43,12 +43,18 @@
                 <div class="secondary-menu">
                     <div class="secondary-inner">
                         <ul>
-                            <li><a target="_blank" href="https://youtube.com/{{ youtube }}" class="btn-link"><i
+                            {% if youtube %}
+                            <li><a target="_blank" href="{{ youtube }}" class="btn-link"><i
                                     class="fa fa-youtube-play"></i></a></li>
+                            {% endif %}
+                            {% if twitter %}        
                             <li><a target="_blank" href="https://twitter.com/{{ twitter }}" class="btn-link"><i
                                     class="fa fa-twitter"></i></a></li>
+                            {% endif %}
+                            {% if instagram %}        
                             <li><a target="_blank" href="https://www.instagram.com/{{ instagram }}" class="btn-link"><i
                                     class="fa fa-instagram"></i></a></li>
+                            {% endif %}        
                             <!-- Search Button ==== -->
                             <li class="search-btn">
                                 <button id="quik-search-btn" type="button" class="btn-link"><i
@@ -87,12 +93,8 @@
                             </ul>
                         </li>
                         <li><a href="{% url 'blog:blog_list' %}">مقالات</a>
+                        <li><a href="{% url 'contact:contact_create' %}" >تماس با ما</a></li>
                     </ul>
-                    <div class="nav-social-link">
-                        <a href="javascript:;"><i class="fa fa-facebook"></i></a>
-                        <a href="javascript:;"><i class="fa fa-google-plus"></i></a>
-                        <a href="javascript:;"><i class="fa fa-linkedin"></i></a>
-                    </div>
                 </div>
                 <!-- Navigation Menu END ==== -->
             </div>

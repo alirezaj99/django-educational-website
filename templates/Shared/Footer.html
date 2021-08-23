@@ -9,12 +9,18 @@
                     </div>
                     <div class="pt-social-link">
                         <ul class="list-inline m-a0">
-                            <li><a target="_blank" href="https://youtube.com/{{ youtube }}" class="btn-link"><i
-                                    class="fa fa-youtube-play"></i></a></li>
-                            <li><a target="_blank" href="https://twitter.com/{{ twitter }}" class="btn-link"><i
-                                    class="fa fa-twitter"></i></a></li>
-                            <li><a target="_blank" href="https://www.instagram.com/{{ instagram }}" class="btn-link"><i
-                                    class="fa fa-instagram"></i></a></li>
+                            {% if youtube %}
+                                <li><a target="_blank" href="{{ youtube }}" class="btn-link"><i
+                                        class="fa fa-youtube-play"></i></a></li>
+                            {% endif %}
+                            {% if twitter %}
+                                <li><a target="_blank" href="https://twitter.com/{{ twitter }}" class="btn-link"><i
+                                        class="fa fa-twitter"></i></a></li>
+                            {% endif %}
+                            {% if instagram %}
+                                <li><a target="_blank" href="https://www.instagram.com/{{ instagram }}" class="btn-link"><i
+                                        class="fa fa-instagram"></i></a></li>
+                            {% endif %}
                         </ul>
                     </div>
                     <div class="pt-btn-join">
@@ -60,7 +66,7 @@
                                     <li><a href="{% url 'index:index_page' %}">خانه</a></li>
                                     <li><a href="about-1.html">پنل کاربری</a></li>
                                     <li><a href="faq-1.html">درباره ما</a></li>
-                                    <li><a href="contact-1.html">تماس با ما</a></li>
+                                    <li><a href="{% url 'contact:contact_create' %}">تماس با ما</a></li>
                                 </ul>
                             </div>
                         </div>
