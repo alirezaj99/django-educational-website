@@ -1,0 +1,110 @@
+{% extends 'Shared/Base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block head_title %}تماس با ما{% endblock %}
+
+{% block content %}
+    <!-- inner page banner -->
+			<div class="page-banner ovbl-dark" style="background-image:url({% static 'images/banner/banner3.jpg' %});">
+				<div class="container">
+					<div class="page-banner-entry">
+						<h1 class="text-white">تماس با ما</h1>
+					</div>
+				</div>
+			</div>
+			<!-- Breadcrumb row -->
+			<div class="breadcrumb-row">
+				<div class="container">
+					<ul class="list-inline">
+						<li><a href="{% url 'index:index_page' %}">خانه</a></li>
+						<li href="{% url 'contact:contact_create' %}" >تماس با ما</li>
+					</ul>
+				</div>
+			</div>
+			<!-- Breadcrumb row END -->
+
+			<!-- inner page banner -->
+			<div class="page-banner contact-page section-sp2">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-5 col-md-5 m-b30">
+							<div class="bg-primary text-white contact-info-bx">
+								<h2 class="m-b10 title-head">اطلاعات <span> تماس </span></h2>
+								<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک</p>
+								<div class="widget widget_getintuch">
+									<ul>
+										<li><i class="ti-location-pin"></i>تهران- میدان یک - خیابان دو - کوچه سه- برج ما</li>
+										<li><i class="ti-mobile"></i>9800-123456 (پشتیبانی24 ساعته )</li>
+										<li><i class="ti-email"></i>info@example.com</li>
+									</ul>
+								</div>
+								<h5 class="m-t0 m-b20">ما را دنبال کنید</h5>
+								<ul class="list-inline contact-social-bx">
+									<li><a href="#" class="btn outline radius-xl"><i class="fa fa-facebook"></i></a></li>
+									<li><a href="#" class="btn outline radius-xl"><i class="fa fa-twitter"></i></a></li>
+									<li><a href="#" class="btn outline radius-xl"><i class="fa fa-linkedin"></i></a></li>
+									<li><a href="#" class="btn outline radius-xl"><i class="fa fa-google-plus"></i></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="col-lg-7 col-md-7">
+							<form class="contact-bx ajax-form" method="post">
+                                {% csrf_token %}    
+								<div class="ajax-message"></div>
+								<div class="heading-bx left">
+									<h2 class="title-head">ارتباط با  <span>ما</span></h2>
+									<p>حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص
+									</p>
+								</div>
+								<div class="row placeani">
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="input-group">
+												<label>نام</label>
+                                                {% render_field form.name class="form-control valid-character" %}
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="input-group">
+													<label>ایمیل</label>
+                                                {% render_field form.email class="form-control" %}
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="input-group">
+												<label>شماره تماس</label>
+                                                {% render_field form.phone_number class="form-control int-value" %}
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<div class="input-group">
+												<label>موضوع</label>
+												{% render_field form.subject class="form-control" %}
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<div class="form-group">
+											<div class="input-group">
+												<label>متن پیام</label>
+												{% render_field form.message class="form-control" %}
+											</div>
+										</div>
+									</div>
+									<div class="col-lg-12">
+										<button name="submit" type="submit" value="Submit" class="btn button-md"> ارسال پیام</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- inner page banner END -->
+{% endblock %}
