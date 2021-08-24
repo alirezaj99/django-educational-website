@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'azbankgateways',
+    'captcha',
     # MY APPS
     'account_app',
     'course_app',
@@ -212,5 +213,9 @@ AZ_IRANIAN_BANK_GATEWAYS = {
     ],
 }
 
-
+# email 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# recaptcha
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')

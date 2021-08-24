@@ -5,9 +5,18 @@ from django.core.exceptions import ValidationError
 from .models import Profile
 from django.core import validators
 from course_app.models import Course, Video
-
+from captcha.fields import ReCaptchaV3,ReCaptchaField
 
 class CreateUserForm(UserCreationForm):
+    recaptcha = ReCaptchaField(
+        label = 'تصویر امنیتی',
+        widget=ReCaptchaV3(api_params={
+            'h1':'fa'
+        }),
+        error_messages={
+            'required': 'تصویر امنیتی را تایید کنید'
+        }
+    )
     def __init__(self, *args, **kwargs):
         super(CreateUserForm, self).__init__(*args, **kwargs)
         self.fields['username'].required = True
@@ -36,7 +45,16 @@ class CreateUserForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-
+    recaptcha = ReCaptchaField(
+        label = 'تصویر امنیتی',
+        widget=ReCaptchaV3(api_params={
+            'h1':'fa'
+        }),
+        error_messages={
+            'required': 'تصویر امنیتی را تایید کنید'
+        }
+    )
+    
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
 
@@ -128,6 +146,16 @@ class VideoCreate(forms.ModelForm):
 
 
 class ResetForm(PasswordResetForm):
+    recaptcha = ReCaptchaField(
+            label = 'تصویر امنیتی',
+            widget=ReCaptchaV3(api_params={
+                'h1':'fa'
+            }),
+            error_messages={
+                'required': 'تصویر امنیتی را تایید کنید'
+            }
+    )
+
     def __init__(self, *args, **kwargs):
         super(ResetForm, self).__init__(*args, **kwargs)
     

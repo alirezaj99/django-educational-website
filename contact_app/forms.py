@@ -1,8 +1,9 @@
 from django import forms
 from .models import Contact
 from django.core.exceptions import ValidationError
+from extensions.utils import ModelFormWithRecaptcha
 
-class ContactCreateForm(forms.ModelForm):
+class ContactCreateForm(ModelFormWithRecaptcha):
     def __init__(self,*args, **kwargs):
         super(ContactCreateForm,self).__init__(*args, **kwargs)
     

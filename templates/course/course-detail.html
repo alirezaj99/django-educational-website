@@ -218,6 +218,7 @@
                                             {% if user.is_authenticated %}
                                                 <form class="comment-form" id="commentform" method="post">
                                                     {% csrf_token %}
+                                                    {{ form.recaptcha }} 
                                                     <p class="comment-form-comment">
                                                         <label for="comment">دیدگاه</label>
                                                         {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
@@ -283,6 +284,7 @@
                                                                 <form class="comment-form" id="commentform"
                                                                       method="post">
                                                                     {% csrf_token %}
+                                                                    {{ form.recaptcha }} 
                                                                     <p class="comment-form-comment">
                                                                         <label for="comment">دیدگاه</label>
                                                                         {% render_field form.message rows="1" placeholder="پاسخ" id="comment" style="height:auto" %}

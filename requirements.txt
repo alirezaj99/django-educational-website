@@ -8,6 +8,7 @@ Django==3.2.5
 django-ckeditor==6.1.0
 django-cleanup==5.2.0
 django-js-asset==1.2.2
+django-recaptcha==2.0.6
 django-render-partial==0.4
 django-widget-tweaks==1.4.8
 idna==3.2

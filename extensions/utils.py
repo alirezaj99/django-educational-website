@@ -1,8 +1,12 @@
+import captcha
 from . import jalali
 from django.utils import timezone
 from random import randint
 import uuid
+from django import forms
+from captcha.fields import ReCaptchaField,ReCaptchaV3
 
+# jalali converter
 
 def jalali_converter(time):
     jmonth = ["فروردین",
@@ -127,3 +131,16 @@ def jalali_converter_day(time):
 def get_filename(filename, request):
     uniq_str = uuid.uuid4().hex[:10]
     return f'image-{uniq_str.upper()}-{randint(99, 99999)}'
+
+# model forms with recaptcha 
+
+class ModelFormWithRecaptcha(forms.ModelForm):
+    recaptcha = ReCaptchaField(
+        label = 'تصویر امنیتی',
+        widget=ReCaptchaV3(api_params={
+            'h1':'fa'
+        }),
+        error_messages={
+            'required': 'تصویر امنیتی را تایید کنید'
+        }
+    )

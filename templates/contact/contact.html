@@ -54,7 +54,8 @@
 						</div>
 						<div class="col-lg-7 col-md-7">
 							<form class="contact-bx ajax-form" method="post">
-                                {% csrf_token %}    
+                                {% csrf_token %}
+								{{ form.recaptcha }}    
 								<div class="ajax-message"></div>
 								<div class="heading-bx left">
 									<h2 class="title-head">تماس با ما</h2>
