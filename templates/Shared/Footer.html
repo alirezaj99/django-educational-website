@@ -64,8 +64,8 @@
                                 <h5 class="footer-title">دسترسی سریع</h5>
                                 <ul>
                                     <li><a href="{% url 'index:index_page' %}">خانه</a></li>
-                                    <li><a href="about-1.html">پنل کاربری</a></li>
-                                    <li><a href="faq-1.html">درباره ما</a></li>
+                                    <li><a href="{% url 'course:course_list' %}">دوره‌ها</a></li>
+                                    <li><a href="{% url 'about_us:about_us' %}">درباره ما</a></li>
                                     <li><a href="{% url 'contact:contact_create' %}">تماس با ما</a></li>
                                 </ul>
                             </div>

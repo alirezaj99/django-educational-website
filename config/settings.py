@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'blog_app',
     'settings_app',
     'contact_app',
+    'about_app',
     # DJANGO CLEANUP
     'django_cleanup.apps.CleanupConfig',
 ]

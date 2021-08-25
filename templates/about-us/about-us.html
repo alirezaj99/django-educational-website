@@ -1,0 +1,154 @@
+{% extends 'Shared/Base.html' %}
+{% load static %}
+{% block head_title %}درباره ما{% endblock %}
+{% url 'blog:blog_detail' blog.pk blog.slug %}
+{% block content %}
+    <!-- Page Heading Box ==== -->
+			<div class="page-banner ovbl-dark" style="background-image:url({% static 'images/banner/banner2.jpg' %});">
+				<div class="container">
+					<div class="page-banner-entry">
+						<h1 class="text-white">درباره ما</h1>
+					</div>
+				</div>
+			</div>
+			<div class="breadcrumb-row">
+				<div class="container">
+					<ul class="list-inline">
+						<li><a href="{% url 'index:index_page' %}">خانه</a></li>
+						<li><a href="{% url 'about_us:about_us' %}">درباره ما</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- Page Heading Box END ==== -->
+			<!-- Page Content Box ==== -->
+			<div class="content-block">
+				<!-- About Us ==== -->
+				<div class="section-area section-sp1">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+								<div class="feature-container">
+									<div class="feature-md text-white m-b20">
+										<a href="#" class="icon-cell"><img src="{% static 'images/icon/icon1.png' %}" alt="" /></a>
+									</div>
+									<div class="icon-content">
+										<h5 class="ttr-tilte">جهـان‌بیـنی ما</h5>
+										<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+								<div class="feature-container">
+									<div class="feature-md text-white m-b20">
+										<a href="#" class="icon-cell"><img src="{% static 'images/icon/icon2.png' %}" alt="" /></a>
+									</div>
+									<div class="icon-content">
+										<h5 class="ttr-tilte">اصل كینگزستر</h5>
+										<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+								<div class="feature-container">
+									<div class="feature-md text-white m-b20">
+										<a href="#" class="icon-cell"><img src="{% static 'images/icon/icon3.png' %}" alt="" /></a>
+									</div>
+									<div class="icon-content">
+										<h5 class="ttr-tilte">کلید موفقیت</h5>
+										<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-6 col-sm-6 m-b30">
+								<div class="feature-container">
+									<div class="feature-md text-white m-b20">
+										<a href="#" class="icon-cell"><img src="{% static 'images/icon/icon4.png' %}" alt="" /></a>
+									</div>
+									<div class="icon-content">
+										<h5 class="ttr-tilte">جهـان‌بیـنی ما</h5>
+										<p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- About Us END ==== -->
+				<!-- Our Story ==== -->
+				<div class="section-area bg-gray section-sp1 our-story">
+					<div class="container">
+						<div class="row align-items-center d-flex">
+							<div class="col-lg-5 col-md-12 heading-bx">
+								<h2 class="m-b10">داستـان ما</h2>
+								<h5 class="fw4">این یک متن تستی است که در این قسمت قرارگرفته است.</h5>
+								<p>چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد
+									نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. کتابهای زیادی در شصت و سه درصد گذشته،
+									حال و آینده شناخت فراوان جامعه و متخصصان را می طلبد</p>
+								<a href="{% url 'course:course_list' %}" class="btn">دوره های ما</a>
+							</div>
+							<div class="col-lg-7 col-md-12 heading-bx p-lr">
+								<div class="video-bx">
+									<img src="{% static 'images/about/pic1.jpg' %}" alt="ایجوکمپ" />
+									<a href="https://aspb30.cdn.asset.aparat.com/aparat-video/8610f1537ab4d05b83cff7443c28e0ac35576122-1080p.mp4?wmsAuthSign=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6IjMyNWVlODhiNjg2NmJmNWMwYjM2N2VkNmJjNTEyNWIwIiwiZXhwIjoxNjI5OTE0MDA4LCJpc3MiOiJTYWJhIElkZWEgR1NJRyJ9.hj2cY9zlwQ1rWTqPb7RlmxYwNCfqa0UivtS9zwVrEFU" class="popup-youtube video"><i
+											class="fa fa-play"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Our Story END ==== -->
+				<!-- Our Status ==== -->
+				<div class="section-area content-inner section-sp1">
+					<div class="container">
+						<div class="section-content">
+							<div class="row text-center">
+								<div class="col-lg-4 col-md-4 col-sm-4 col-12 m-b30">
+									<div class="counter-style-1">
+										<div class="text-primary">
+											<span class="counter">{{ courses_count }}</span><span>+</span>
+										</div>
+										<span class="counter-text">دوره</span>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-4 col-12 m-b30">
+									<div class="counter-style-1">
+										<div class="text-black">
+											<span class="counter">{{ students_count }}</span><span>+</span>
+										</div>
+										<span class="counter-text">دانشجو</span>
+									</div>
+								</div>
+								<div class="col-lg-4 col-md-4 col-sm-4 col-12 m-b30">
+									<div class="counter-style-1">
+										<div class="text-primary">
+											<span class="counter">{{ teachers_count }}</span><span>+</span>
+										</div>
+										<span class="counter-text">مدرس</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- Our Status END ==== -->
+				<!-- About Content ==== -->
+				<div class="section-area section-sp2 bg-fix ovbl-dark join-bx text-center"
+					style="background-image:url({% static 'images/background/bg1.jpg' %});">
+					<div class="container">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="join-content-bx text-white">
+									<h2>یک مهارت لازم و اساسی را <br /> آنلاین یاد بگیرید</h2>
+									<h4><span class="counter">{{ courses_count }} </span>دوره آنلاین</h4>
+									<p> نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی و فرهنگ پیشرو در زبان
+										فارسی ایجاد کرد. در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها و شرایط سخت
+										تایپ به پایان رسد وزمان مورد نیاز شامل حروفچینی دستاوردهای اصلی و جوابگوی سوالات پیوسته اهل دنیای
+										موجود طراحی اساسا مورد استفاده قرار گیرد.</p>
+                                    <a style="font-size:17px" href="{% url 'course:course_list' %}" class="btn btn-block">دروه های ما</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+{% endblock %}
