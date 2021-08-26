@@ -208,7 +208,6 @@
                         </div>
                         <div class="clear" id="comment-list">
                             <div class="comments-area" id="comments">
-
                                 <div class="clearfix m-b20">
                                     <!-- Form -->
                                     <div class="comment-respond mb-3" id="respond">
@@ -223,6 +222,7 @@
                                                         <label for="comment">دیدگاه</label>
                                                         {% render_field form.message rows="8" placeholder="دیدگاه" id="comment" %}
                                                     </p>
+                                                    <input type="hidden" value id="parent_id" name="parent_id" >
                                                     <p class="form-submit">
                                                         <input type="submit" value="ثبت دیدگاه" class="submit"
                                                                id="submit"
@@ -268,44 +268,9 @@
                                                     <div class="comment-meta"><a>{{ comment.jalali_time }}</a>
                                                     </div>
                                                     <p class="text-justify">{{ comment.message }}</p>
-                                                    <div class="reply"><a data-toggle="collapse"
-                                                                          href="#comment{{ comment.id }}"
-                                                                          role="button" aria-expanded="false"
-                                                                          aria-controls="collapseExample"
-                                                                          class="comment-reply-link">پاسخ</a>
+                                                    <div class="reply"><a href="#comments" onclick="updateParentInput({{comment.id}})">پاسخ</a>
                                                     </div>
                                                     <div class="replies mt-3">
-                                                        <div class="comment-respond collapse mb-3"
-                                                             id="comment{{ comment.id }}">
-                                                            <h4 class="comment-reply-title" id="reply-title">پاسخ
-                                                                دهید<small>
-                                                                </small></h4>
-                                                            {% if user.is_authenticated %}
-                                                                <form class="comment-form" id="commentform"
-                                                                      method="post">
-                                                                    {% csrf_token %}
-                                                                    {{ form.recaptcha }} 
-                                                                    <p class="comment-form-comment">
-                                                                        <label for="comment">دیدگاه</label>
-                                                                        {% render_field form.message rows="1" placeholder="پاسخ" id="comment" style="height:auto" %}
-                                                                        <input type="hidden" name="parent_id"
-                                                                               value="{{ comment.id }}">
-                                                                    </p>
-                                                                    <p class="form-submit">
-                                                                        <input type="submit" value="ثبت پاسخ"
-                                                                               class="submit"
-                                                                               id="submit"
-                                                                               name="submit">
-                                                                    </p>
-                                                                </form>
-                                                            {% else %}
-                                                                <p class="alert alert-warning text-center">برای ثبت پاسخ
-                                                                    باید <a
-                                                                            href="{% url 'account:login' %}?next={{ request.get_full_path }}">وارد</a>
-                                                                    شوید.</p>
-                                                            {% endif %}
-
-                                                        </div>
                                                         {% for reply in comment.replies.get_active_reply %}
                                                             <ol class="children">
                                                                 <li class="comment odd parent">
@@ -347,3 +312,14 @@
     </div>
     <!-- contact area END -->
 {% endblock %}
+
+{% block add_footer_reference %}
+    <script>
+    function updateParentInput(num){
+    document.getElementById("parent_id").value = num;
+    }
+    var name1 = name
+    $("#reply-title").text("پاسخ خود را بنویسید");
+    </script>
+{% endblock %}
+

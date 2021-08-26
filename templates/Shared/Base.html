@@ -29,8 +29,16 @@
 {% if messages %}
     {% for m in messages %}
         <script>
-            swal({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه',input: 'none',
-})
+        {% if "success" in m.tags %}
+            swal({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه'
+            })
+        {% elif "error" in m.tags %}
+            swal({title:"ایجوکمپ",text:"{{ m }}",icon:"error",  confirmButtonText: 'باشه'
+            })
+        {% else %}
+            swal({title:"ایجوکمپ",text:"{{ m }}",icon:"info",  confirmButtonText: 'باشه'
+            })
+        {% endif %}
         </script>
     {% endfor %}
 {% endif %} 

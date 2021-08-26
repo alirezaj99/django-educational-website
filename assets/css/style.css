@@ -1624,6 +1624,11 @@ ol.comment-list {
     list-style: none;
     margin-bottom: 0;
     padding-left: 0;
+    background-color: #fffdeb;
+    padding: 10px;
+    border: 5px solid #fffdeb;
+    border-radius: 15px;
+    box-shadow: 0 0 9px rgb(12 12 0 / 30%);
 }
 
 ol.comment-list li.comment {

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ head_title }}</title>
+<style>
+    .container {
+        text-align:center;
+        padding : 10px;
+        background-color:#f0d8a8;
+    }
+    .message {
+        text-align:center;
+        margin-top:8px;
+        font-size:18px;
+    }
+    .message p {
+        margin-top:5px;
+        color:#4d111e;
+    }
+    .link {
+        text-align:center;
+        margin-top:8px;
+        font-size:16px;
+        background-color:#fff;
+        border: 5px solid #fff;
+        border-radius: 15px;
+    }
+    .link a {
+        text-decoration:none;
+        color:#000;
+    }
+</style>
+</head>
+
+
+<body class="text-center" dir="rtl">
+    <div class="container" >
+        <div class="message" >
+            <p>
+                {{ message }}
+            </p>
+        </div>
+        <div class="link" >
+            <a class="btn btn-info" target="_blank" href="http://{{ course_url }}#review" >لینک دوره {{ course_title }}</a>
+        </div>
+    </div>
+</body>
+
+</html>
