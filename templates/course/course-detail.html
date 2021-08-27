@@ -255,50 +255,52 @@
                                     {% endif %}
                                     <!-- Form -->
                                     <!-- comment list END -->
-                                    <ol class="comment-list">
-                                        <li class="comment">
-                                            {% for comment in object.comments.get_active_comment %}
-                                                <div class="comment-body {% if comment.user == object.teacher %}teacher-comment{% endif %}">
-                                                    <div class="comment-author vcard"><img class="avatar photo"
-                                                                                           src="{{ comment.user.profile.get_avatar }}"
-                                                                                           alt="{{ comment.get_user_name }}">
-                                                        <cite
-                                                                class="fn">{{ comment.get_user_name }}</cite>
-                                                        <span class="says">نوشته:</span></div>
-                                                    <div class="comment-meta"><a>{{ comment.jalali_time }}</a>
-                                                    </div>
-                                                    <p class="text-justify">{{ comment.message }}</p>
-                                                    <div class="reply"><a href="#comments" onclick="updateParentInput({{comment.id}})">پاسخ</a>
-                                                    </div>
-                                                    <div class="replies mt-3">
-                                                        {% for reply in comment.replies.get_active_reply %}
-                                                            <ol class="children">
-                                                                <li class="comment odd parent">
-                                                                    <div class="comment-body {% if reply.user == object.teacher %}teacher-comment{% endif %}">
-                                                                        <div class="comment-author vcard"><img
-                                                                                class="avatar photo"
-                                                                                src="{{ reply.user.profile.get_avatar }}"
-                                                                                alt="{{ reply.get_user_name }}"> <cite
-                                                                                class="fn">{{ reply.get_user_name }}</cite>
-                                                                            <span class="says">نوشته:</span></div>
-                                                                        <div class="comment-meta">
-                                                                            <a>{{ reply.jalali_time }}</a>
+                                    {% if object.comments.get_active_comment %}        
+                                        <ol class="comment-list">
+                                            <li class="comment">
+                                                {% for comment in object.comments.get_active_comment %}
+                                                    <div class="comment-body {% if comment.user == object.teacher %}teacher-comment{% endif %}">
+                                                        <div class="comment-author vcard"><img class="avatar photo"
+                                                                                            src="{{ comment.user.profile.get_avatar }}"
+                                                                                            alt="{{ comment.get_user_name }}">
+                                                            <cite
+                                                                    class="fn">{{ comment.get_user_name }}</cite>
+                                                            <span class="says">نوشته:</span></div>
+                                                        <div class="comment-meta"><a>{{ comment.jalali_time }}</a>
+                                                        </div>
+                                                        <p class="text-justify">{{ comment.message }}</p>
+                                                        <div class="reply"><a href="#comments" onclick="updateParentInput({{comment.id}})">پاسخ</a>
+                                                        </div>
+                                                        <div class="replies mt-3">
+                                                            {% for reply in comment.replies.get_active_reply %}
+                                                                <ol class="children">
+                                                                    <li class="comment odd parent">
+                                                                        <div class="comment-body {% if reply.user == object.teacher %}teacher-comment{% endif %}">
+                                                                            <div class="comment-author vcard"><img
+                                                                                    class="avatar photo"
+                                                                                    src="{{ reply.user.profile.get_avatar }}"
+                                                                                    alt="{{ reply.get_user_name }}"> <cite
+                                                                                    class="fn">{{ reply.get_user_name }}</cite>
+                                                                                <span class="says">نوشته:</span></div>
+                                                                            <div class="comment-meta">
+                                                                                <a>{{ reply.jalali_time }}</a>
+                                                                            </div>
+                                                                            <p class="text-justify pl-2">{{ reply.message }}</p>
                                                                         </div>
-                                                                        <p class="text-justify pl-2">{{ reply.message }}</p>
-                                                                    </div>
-                                                                    <!-- list END -->
-                                                                </li>
-                                                            </ol>
-                                                        {% endfor %}
+                                                                        <!-- list END -->
+                                                                    </li>
+                                                                </ol>
+                                                            {% endfor %}
+                                                        </div>
+
+
                                                     </div>
+                                                {% endfor %}
 
-
-                                                </div>
-                                            {% endfor %}
-
-                                            <!-- list END -->
-                                        </li>
-                                    </ol>
+                                                <!-- list END -->
+                                            </li>
+                                        </ol> 
+                                    {% endif %}
                                     <!-- comment list END -->
                                 </div>
                             </div>

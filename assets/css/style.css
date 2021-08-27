@@ -1710,7 +1710,7 @@ ol.comment-list li.comment .reply a {
 
 ol.comment-list li .children {
     list-style: none;
-    margin-right: 80px;
+    margin-right: 40px;
 }
 
 ol.comment-list li .children li {

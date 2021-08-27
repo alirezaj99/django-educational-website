@@ -1,11 +1,11 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Blog, BlogTag
 from .forms import CommentForm
 from django.views.generic.edit import FormMixin
 from django.contrib import messages
-from extensions.utils import EmailService
-from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
+
 
 # Create your views here.
 class BlogList(ListView):
@@ -54,35 +54,13 @@ class BlogDetail(FormMixin, DetailView):
             self.obj = form.save(commit=False)
             self.obj.blog = self.object
             self.obj.user = self.request.user
-            self.obj.active = True
+            self.obj.active = False
             try:
                 self.obj.parent_id = int(self.request.POST.get('parent_id'))
             except:
                 self.obj.parent_id = None
             form.save()
-            # send email
-            author_email = self.obj.blog.author.email
-            user_email = self.obj.user.email
-            if author_email == user_email :
-                author_email = False
-                user_email = False
-            parent_email = False
-            if self.obj.parent :
-                parent_email = self.obj.parent.user.email
-                if parent_email in [author_email,user_email]:
-                    parent_email = False    
-            current_site = get_current_site(self.request)
-            blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':self.obj.blog.pk,'slug':self.obj.blog.slug})}"
-            blog_title = self.obj.blog.title        
-            if author_email:
-                subject = f'برای مقاله شما {blog_title} دیدگاه جدیدی ثبت شد'
-                message = f'برای مقاله {blog_title} شما دیدگاه جدیدی توسط {self.obj.user} ثبت شده است.\n'
-                EmailService.send_email(subject,[author_email],'email/course-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
-            if parent_email:
-                subject = f'کابر {self.obj.user} به دیدگاه شما در مقاله {self.obj.parent.blog.title} پاسخ داد'
-                message = f'کابر {self.obj.user} به دیدگاه شما در مقاله {self.obj.parent.blog.title} پاسخ داد'
-                EmailService.send_email(subject,[parent_email],'email/course-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
-            # end send email
+            
             messages.success(self.request,'دیدگاه شما با موفقیت ثبت شد. منتظر تایید باشید')
         return super(BlogDetail, self).form_valid(form)
     

@@ -3,12 +3,12 @@ from django.utils import timezone
 import os
 import random
 from account_app.models import User
-from extensions.utils import jalali_converter, jalali_converter_year, jalali_converter_month, jalali_converter_day
+from extensions.utils import jalali_converter, jalali_converter_year, jalali_converter_month, jalali_converter_day,EmailService
 from django.db.models.signals import pre_save
 from ckeditor.fields import RichTextField
 from django.db.models import Q
 from django.core.validators import MinValueValidator, MaxValueValidator
-
+from django.urls import reverse
 
 # generate image name
 def get_filename_ext(filepath):
@@ -287,7 +287,7 @@ class Comment(models.Model):
     message = models.TextField(verbose_name='نظر')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='replies',
                                verbose_name='پاسخ')
-    active = models.BooleanField(default=True, verbose_name="فعال / غیرفعال")
+    active = models.BooleanField(default=False, verbose_name="فعال / غیرفعال")
     created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
     updated = models.DateTimeField(auto_now=True, verbose_name="زمان ویرایش")
 
@@ -297,6 +297,35 @@ class Comment(models.Model):
         verbose_name = 'نظر'
         verbose_name_plural = 'نظرات'
         ordering = ['-created']
+
+    def save(self):
+        if self.pk:
+            old = Comment.objects.get(pk=self.pk)
+            if self.active == True and old.active == False:
+                # send email
+                teacher_email = self.course.teacher.email
+                user_email = self.user.email
+                if teacher_email == user_email :
+                    teacher_email = False
+                    user_email = False
+                parent_email = False
+                if self.parent :
+                    parent_email = self.parent.user.email
+                    if parent_email in [teacher_email,user_email]:
+                        parent_email = False    
+                current_site = '127.0.0.1:8000'
+                course_url = f"{current_site}{reverse('course:course_detail' ,kwargs={'pk':self.course.pk,'slug':self.course.slug})}"
+                course_title = self.course.title        
+                if teacher_email:
+                    subject = f'برای دوره شما {course_title} دیدگاه جدیدی ثبت شد'
+                    message = f'برای دوره {course_title} شما دیدگاه جدیدی توسط {self.user} ثبت شده است.\n'
+                    EmailService.send_email(subject,[teacher_email],'email/course-comment.html',{'head_title':subject,'message':message,'course_url':course_url,'course_title':course_title})
+                if parent_email:
+                    subject = f'کابر {self.user} به دیدگاه شما در دوره {self.parent.course.title} پاسخ داد'
+                    message = f'کابر {self.user} به دیدگاه شما در دوره {self.parent.course.title} پاسخ داد'
+                    EmailService.send_email(subject,[parent_email],'email/course-comment.html',{'head_title':subject,'message':message,'course_url':course_url,'course_title':course_title})
+                # end send email
+        super(Comment, self).save()
 
     def __str__(self):
         return f'{str(self.course)} | {str(self.user)} | {self.message[0:70]}'

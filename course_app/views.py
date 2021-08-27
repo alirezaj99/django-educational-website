@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from course_app.models import Course, CourseCategory
 from django.http import Http404
@@ -7,9 +7,7 @@ from .forms import CommentForm
 from blog_app.models import Blog
 from settings_app.models import Settings
 from django.contrib import messages
-from extensions.utils import EmailService
-from django.contrib.sites.shortcuts import get_current_site
-
+from django.urls import reverse
 
 # Create your views here.
 
@@ -59,37 +57,14 @@ class CourseDetail(FormMixin, DetailView):
             self.obj = form.save(commit=False)
             self.obj.course = self.object
             self.obj.user = self.request.user
-            self.obj.active = True
+            self.obj.active = False
             try:
                 # id integer e.g. 15
                 self.obj.parent_id = int(self.request.POST.get('parent_id'))
             except:
                 self.obj.parent_id = None
             form.save()
-            # send email
-            teacher_email = self.obj.course.teacher.email
-            user_email = self.obj.user.email
-            if teacher_email == user_email :
-                teacher_email = False
-                user_email = False
-            parent_email = False
-            if self.obj.parent :
-                parent_email = self.obj.parent.user.email
-                if parent_email in [teacher_email,user_email]:
-                    parent_email = False    
-            current_site = get_current_site(self.request)
-            course_url = f"{current_site}{reverse('course:course_detail' ,kwargs={'pk':self.obj.course.pk,'slug':self.obj.course.slug})}"
-            course_title = self.obj.course.title        
-            if teacher_email:
-                subject = f'برای دوره شما {course_title} دیدگاه جدیدی ثبت شد'
-                message = f'برای دوره {course_title} شما دیدگاه جدیدی توسط {self.obj.user} ثبت شده است.\n'
-                EmailService.send_email(subject,[teacher_email],'email/course-comment.html',{'head_title':subject,'message':message,'course_url':course_url,'course_title':course_title})
-            if parent_email:
-                subject = f'کابر {self.obj.user} به دیدگاه شما در دوره {self.obj.parent.course.title} پاسخ داد'
-                message = f'کابر {self.obj.user} به دیدگاه شما در دوره {self.obj.parent.course.title} پاسخ داد'
-                EmailService.send_email(subject,[parent_email],'email/course-comment.html',{'head_title':subject,'message':message,'course_url':course_url,'course_title':course_title})
-            # end send email
-            messages.success(self.request,'دیدگاه شما با موفقیت ثبت شد.',extra_tags='success')
+            messages.success(self.request,'دیدگاه شما با موفقیت ثبت شد. منتظر تایید باشید')
         return super(CourseDetail, self).form_valid(form)
     def form_invalid(self, form):
         messages.error(self.request,'عملیات ناموفق بود. دوباره تلاش کنید',extra_tags='error')

@@ -4,10 +4,10 @@ from django.utils import timezone
 from ckeditor_uploader.fields import RichTextUploadingField
 import random
 import os
-from extensions.utils import jalali_converter_year, jalali_converter_month, jalali_converter_day, jalali_converter
+from extensions.utils import jalali_converter_year, jalali_converter_month, jalali_converter_day, jalali_converter,EmailService
 from django.db.models.signals import pre_save
 from django.db.models import Q
-
+from django.urls import reverse
 
 # generate image name
 def get_filename_ext(filepath):
@@ -112,7 +112,7 @@ class Comment(models.Model):
     message = models.TextField(verbose_name='نظر')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='replies',
                                verbose_name='پاسخ')
-    active = models.BooleanField(default=True, verbose_name="فعال / غیرفعال")
+    active = models.BooleanField(default=False, verbose_name="فعال / غیرفعال")
     created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
     updated = models.DateTimeField(auto_now=True, verbose_name="زمان ویرایش")
 
@@ -122,6 +122,35 @@ class Comment(models.Model):
         verbose_name = 'نظر'
         verbose_name_plural = 'نظرات'
         ordering = ['-created']
+
+    def save(self):
+        if self.pk:
+            old = Comment.objects.get(pk=self.pk)
+            if self.active == True and old.active == False:
+                # send email
+                author_email = self.blog.author.email
+                user_email = self.user.email
+                if author_email == user_email :
+                    author_email = False
+                    user_email = False
+                parent_email = False
+                if self.parent :
+                    parent_email = self.parent.user.email
+                    if parent_email in [author_email,user_email]:
+                        parent_email = False    
+                current_site = '127.0.0.1:8000'
+                blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':self.blog.pk,'slug':self.blog.slug})}"
+                blog_title = self.blog.title        
+                if author_email:
+                    subject = f'برای مقاله شما {blog_title} دیدگاه جدیدی ثبت شد'
+                    message = f'برای مقاله {blog_title} شما دیدگاه جدیدی توسط {self.user} ثبت شده است.\n'
+                    EmailService.send_email(subject,[author_email],'email/blog-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
+                if parent_email:
+                    subject = f'کابر {self.user} به دیدگاه شما در مقاله {self.parent.blog.title} پاسخ داد'
+                    message = f'کابر {self.user} به دیدگاه شما در مقاله {self.parent.blog.title} پاسخ داد'
+                    EmailService.send_email(subject,[parent_email],'email/blog-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
+                # end send email
+        super(Comment, self).save()
 
     def __str__(self):
         return f'{str(self.blog)} | {str(self.user)} | {self.message[0:70]}'
