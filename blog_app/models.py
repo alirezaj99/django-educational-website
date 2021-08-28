@@ -5,7 +5,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 import random
 import os
 from extensions.utils import jalali_converter_year, jalali_converter_month, jalali_converter_day, jalali_converter,EmailService
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save,post_save
 from django.db.models import Q
 from django.urls import reverse
 
@@ -76,8 +76,7 @@ class Blog(models.Model):
     image = models.ImageField(upload_to=upload_image_path, verbose_name="تصویر مقاله")
     tags = models.ManyToManyField(BlogTag, related_name='blogs', blank=True, verbose_name='تگ ها / برچسب ها')
     hits = models.ManyToManyField('IpAddress', blank=True, related_name="articles", verbose_name="بازید")
-    status = models.BooleanField(default=False, verbose_name="وضعیت")
-    send_email = models.BooleanField(default=True, verbose_name='ارسال ایمیل')
+    status = models.BooleanField(default=False, verbose_name="وضعیت انتشار")
     publish_time = models.DateTimeField(default=timezone.now, verbose_name="زمان انتشار")
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
@@ -88,6 +87,26 @@ class Blog(models.Model):
         verbose_name = "مقاله"
         verbose_name_plural = "مقالات"
         ordering = ['-publish_time']
+
+    def save(self):
+        if self.pk:
+            old = Blog.objects.get(pk=self.pk)
+            if self.status == True and old.status == False:
+                # sned email
+                users = User.objects.filter(send_email = True)
+                users_email = [user.email for user in users]
+                current_site = '127.0.0.1:8000'
+                blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':self.pk,'slug':self.slug})}"
+                blog_title = self.title      
+                blog_author = self.get_author_name()   
+                if users_email:
+                    subject = f'ایجوکمپ | مقاله جدیدی با عنوان {blog_title} انتشار یافت'
+                    message = f'مقاله جدیدی با عنوان {blog_title} توسط {blog_author} انتشار یافت روی لینک زیر کلیلک کنید و آن را مطالعه کنید.'
+                    EmailService.send_email(subject,users_email,'email/blog-create.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
+                # end send email
+        super(Blog, self).save()
+
+
 
     def __str__(self):
         return self.title
@@ -187,5 +206,52 @@ class IpAddress(models.Model):
 def set_blog_slug(sender, instance, *args, **kwargs):
     instance.slug = instance.title.replace(' ', '-')
 
+def send_blog_email_users(sender,instance, **kwargs):
+    if kwargs['created'] and instance.status == True :
+        usres = User.objects.filter(send_email = True)
+        users_email = [user.email for user in usres]
+        # sned email
+        current_site = '127.0.0.1:8000'
+        blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':instance.pk,'slug':instance.slug})}"
+        blog_title = instance.title      
+        blog_author = instance.get_author_name()   
+        if users_email:
+            subject = f'ایجوکمپ | مقاله جدیدی با عنوان {blog_title} انتشار یافت'
+            message = f'مقاله جدیدی با عنوان {blog_title} توسط {blog_author} انتشار یافت روی لینک زیر کلیلک کنید و آن را مطالعه کنید.'
+            EmailService.send_email(subject,users_email,'email/blog-create.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
+        # end send email
+        
+def send_blog_comment_email_users(sender,instance, **kwargs):
+    if kwargs['created'] and instance.active == True :
+        # send email
+        author_email = instance.blog.author.email
+        user_email = instance.user.email
+        if author_email == user_email :
+            author_email = False
+            user_email = False
+        parent_email = False
+        if instance.parent :
+            parent_email = instance.parent.user.email
+            if parent_email in [author_email,user_email]:
+                parent_email = False    
+        current_site = '127.0.0.1:8000'
+        blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':instance.blog.pk,'slug':instance.blog.slug})}"
+        blog_title = instance.blog.title        
+        if author_email:
+            subject = f'برای مقاله شما {blog_title} دیدگاه جدیدی ثبت شد'
+            message = f'برای مقاله {blog_title} شما دیدگاه جدیدی توسط {instance.user} ثبت شده است.\n'
+            EmailService.send_email(subject,[author_email],'email/blog-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
+        if parent_email:
+            subject = f'کابر {instance.user} به دیدگاه شما در مقاله {instance.parent.blog.title} پاسخ داد'
+            message = f'کابر {instance.user} به دیدگاه شما در مقاله {instance.parent.blog.title} پاسخ داد'
+            EmailService.send_email(subject,[parent_email],'email/blog-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
+        # end send email
+        
 
 pre_save.connect(set_blog_slug, Blog)
+post_save.connect(send_blog_email_users, sender=Blog)
+post_save.connect(send_blog_comment_email_users, sender=Comment)
+
+
+
+
