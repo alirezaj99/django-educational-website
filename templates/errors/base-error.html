@@ -1,0 +1,26 @@
+{% load static %}
+{% load render_partial %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <!-- PAGE TITLE HERE ============================================= -->
+    <title>{% block head_title %}{% endblock %} | {% render_partial 'course_app.views.site_title_view' %}</title>
+    {% include 'Shared/_HeaderReferences.html' %}
+</head>
+
+<body id="bg">
+<div class="page-wraper">
+    <div id="loading-icon-bx"></div>
+    <div class="account-form">
+        <div class="account-head" style="background-image:url({% static 'images/background/bg2.jpg' %});">
+            <a href="index.html"><img src="{% static 'images/logo-white-2.png' %}" alt=""></a>
+        </div>
+        <div class="account-form-inner">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+<!-- External JavaScripts -->
+{% include 'Shared/_FooterReferences.html' %}
+</body>
+</html>

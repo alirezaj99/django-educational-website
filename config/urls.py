@@ -37,6 +37,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
+handler404 = 'config.views.view_404'
+handler403 = 'config.views.view_403'
+handler400 = 'config.views.view_400'
+handler500 = 'config.views.view_500'
+
 if settings.DEBUG:
     # ADD ROOT MEDIA FILES
     urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

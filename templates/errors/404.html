@@ -1,0 +1,15 @@
+{% extends 'errors/base-error.html' %}
+{% block head_title %}ارور 404{% endblock %}
+{% block content %}
+    <div class="account-container">
+        <div class="error-page">
+            <h3>اوه نه :(</h3>
+            <h2 class="error-title">404</h2>
+            <h5>صفحه‌ای که دنبال آن می‌گردید موجود نیست</h5>
+            <p>صفحه‌ای که دنبال آن می‌گردید ممکن است  ناموجود، حذف یا موقتا جابه‌جا شده باشد</p>
+            <div class="">
+                <a href="{% url 'index:index_page' %}" class="btn outline black">برگشت به خانه</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
