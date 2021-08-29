@@ -30,6 +30,12 @@ class User(AbstractUser):
         verbose_name_plural = "کاربران"
         ordering = ['-is_superuser', '-is_teacher']
 
+    def fullname_or_username(self):
+        if self.get_full_name():
+            return self.get_full_name()
+        else:
+            return self.username    
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='کاربر')

@@ -15,6 +15,7 @@
                             <li><a href="{% url 'account:register' %}">ثبت ‌نام</a></li>
                             <li><a href="{% url 'account:login' %}">ورود</a></li>
                         {% else %}
+                            <li><a>{{ user.fullname_or_username }}</a></li>
                             <li><a href="{% url 'account:profile' %}">حساب کاربری</a></li>
                             <li><a href="{% url 'account:logout' %}?next={{ request.get_full_path }}">خروج</a></li>
                         {% endif %}
