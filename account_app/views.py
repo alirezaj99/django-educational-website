@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordChangeView,PasswordResetView,PasswordResetConfirmView
-from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, AvatarForm, ResetForm,VideoCreate
+from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, ResetForm,VideoCreate,UserUpdateForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from order_app.models import Order, OrderItem
 from course_app.models import Course,Video
 from django.http import Http404, HttpResponseRedirect
-from django.views.generic import CreateView, ListView, DetailView
-from .models import User, Profile
+from django.views.generic import CreateView, ListView, DetailView ,TemplateView
+from .models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin)
 from blog_app.models import Blog
@@ -112,39 +112,33 @@ def delete_course_from_order(request, *args, **kwargs):
     raise Http404()
 
 
-@login_required()
-def profile_update(request):
-    user = User.objects.get(pk=request.user.pk)
-    profile = Profile.objects.get(user_id=request.user.id)
-    form = ProfileUpdateForm(request.user, request.POST or None, initial={
-        'first_name': user.first_name,
-        'last_name': user.last_name,
-        'phone_number': f'0{profile.phone_number}',
-        'bio': profile.bio,
-        'web_site': profile.web_site,
-    })
-    avatar_form = AvatarForm(request.POST or None, request.FILES, initial={
-        'avatar': profile.avatar})
-    if form.is_valid() and avatar_form.is_valid():
-        user.first_name = form.cleaned_data.get('first_name')
-        user.last_name = form.cleaned_data.get('last_name')
-        user.save()
-        profile.phone_number = form.cleaned_data.get('phone_number')
-        profile.bio = form.cleaned_data.get('bio')
-        profile.web_site = form.cleaned_data.get('web_site')
-        try:
-            profile.avatar = avatar_form.cleaned_data.get('avatar')
-        except:
-            profile.avatar = profile.avatar
-        profile.save()
-        messages.success(request,'عملیات با موفقیت انجام شد')
-        return HttpResponseRedirect(reverse('account:profile'))
+class ProfileUpdate(LoginRequiredMixin,TemplateView):
+    user_form = UserUpdateForm
+    profile_form = ProfileUpdateForm
+    template_name = 'account/profile.html'
 
-    context = {
-        'form': form,
-        'avatar_form': avatar_form,
-    }
-    return render(request, 'account/profile.html', context)
+    def post(self,request):
+        post_data = request.POST or None
+        file_data = request.FILES or None       
+
+        user_form = UserUpdateForm(post_data,instance=request.user)
+        profile_form = ProfileUpdateForm(post_data,file_data,instance=request.user.profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,'عملیات با موفقیت انجام شد')
+            return HttpResponseRedirect(reverse_lazy('account:profile'))
+      
+        context = {
+            'user_form' : user_form,
+            'profile_form' : profile_form,
+        }
+
+        return render(request,'account/profile.html',context)
+
+    def get(self,request,*args, **kwargs):
+        return self.post(request,*args, **kwargs)
 
 
 class Cart(LoginRequiredMixin, ListView):
