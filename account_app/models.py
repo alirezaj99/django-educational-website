@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 import os
 from django.db.models.signals import post_save
 import random
-
+from django.core.validators import RegexValidator
 
 # generate image name
 def get_filename_ext(filepath):
@@ -38,8 +38,12 @@ class User(AbstractUser):
 
 
 class Profile(models.Model):
+    # validator
+    phone_number_validator = RegexValidator(regex=r'^[0][9]\d{9}$',message='شماره موبایل نامعتبر است.',flags=0,)
+    #end validator
+    
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name='کاربر')
-    phone_number = models.PositiveIntegerField(blank=True, unique=True, null=True, verbose_name='شماره تماس')
+    phone_number = models.CharField(max_length=11,unique=True,verbose_name='شماره موبایل',validators=[phone_number_validator],blank=True,null=True)
     web_site = models.URLField(blank=True, null=True, verbose_name='آدرس وب سایت')
     bio = models.TextField(max_length=700, blank=True, null=True, verbose_name='بیوگرافی')
     avatar = models.ImageField(upload_to=upload_avatar_path, blank=True, null=True, verbose_name='تصویر آواتار')
