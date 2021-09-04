@@ -10,7 +10,10 @@ class OrderItemInlines(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'is_paid', 'get_total_price', 'payment_date']
+    list_display = ['user','get_price','get_total_discount','get_total_price', 'is_paid','is_free', 'jalali_payment_time']
+    list_filter = ['is_paid','is_free','payment_date']
+    search_fields = ['user__username','user__email','user__first_name','user__last_name']
+
     inlines = [OrderItemInlines]
 
     class meta:
@@ -18,8 +21,9 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['__str__', 'price', 'discount']
-    list_editable = ['discount']
+    list_display = ['order', 'course', 'price','discount']
+    list_filter = ['created']
+    search_fields = ['order__user__username','order__user__email','order__user__first_name','order__user__last_name','course__title','course__description','course__tags__title','price','discount']
 
     class meta:
         model = OrderItem

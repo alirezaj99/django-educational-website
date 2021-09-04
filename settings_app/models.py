@@ -1,7 +1,8 @@
 from django.db import models
 import os
 import random
-
+from django.utils.html import format_html
+from extensions.utils import jalali_converter
 
 # generate image name
 def get_filename_ext(filepath):
@@ -37,3 +38,22 @@ class Settings(models.Model):
         verbose_name = 'تنظیم سایت'
         verbose_name_plural = 'تنظیمات سایت'
         ordering = ['-create_time']
+
+    def jalali_time(self):
+        return jalali_converter(self.create_time)
+    
+    jalali_time.short_description = 'زمان ایجاد'
+
+    def jalali_update_time(self):
+        return jalali_converter(self.update_time)
+    
+    jalali_update_time.short_description = 'آخرین بروزرسانی'
+
+    def show_favicon_in_admin(self):
+        if self.site_favicon:
+            return format_html(
+                "<img width=55px height=55px  src='{}' >".format(self.site_favicon.url))
+        else:
+            return ''
+
+    show_favicon_in_admin.short_description = 'آیکون (favicon)'

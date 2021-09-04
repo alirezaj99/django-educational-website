@@ -9,8 +9,10 @@ from ckeditor.fields import RichTextField
 from django.db.models import Q
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
+from django.utils.html import format_html
 
 # generate image name
+
 def get_filename_ext(filepath):
     base_name = os.path.basename(filepath)
     name, ext = os.path.splitext(base_name)
@@ -79,8 +81,8 @@ class CourseCategory(models.Model):
     title = models.CharField(max_length=200, unique=True, verbose_name='عنوان دسته بندی')
     position = models.IntegerField(default=0, verbose_name='اولویت قرارگیری')
     status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name='زمان ایجاد')
+    update_time = models.DateTimeField(auto_now=True,verbose_name='زمان بروزرسانی')
 
     objects = CourseCategoryManager()
 
@@ -98,17 +100,16 @@ class CourseCategory(models.Model):
 
 class CourseTag(models.Model):
     title = models.CharField(max_length=200, unique=True, verbose_name='عنوان برچسب')
-    position = models.IntegerField(default=0, verbose_name='اولویت قرارگیری')
     status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name='زمان ایجاد')
+    update_time = models.DateTimeField(auto_now=True,verbose_name='زمان بروزرسانی')
 
     objects = CourseTagManager()
 
     class Meta:
         verbose_name = 'برچسب'
         verbose_name_plural = 'برچسب ها'
-        ordering = ['position', '-create_time']
+        ordering = ['-create_time']
 
     def __str__(self):
         return self.title
@@ -171,6 +172,8 @@ class Course(models.Model):
         else:
             return self.price
 
+    total_price.short_description = 'جمع مبلغ کل'
+
     def total_discount(self):
         if self.discount:
             total = (self.price * self.discount) / 100
@@ -204,6 +207,8 @@ class Course(models.Model):
                 return total % 60
 
         return f"{hour_return()}:{minute_return()}:{second_return()}"
+
+    total_time.short_description = 'مدت زمان'
 
     def jalali_time(self):
         return jalali_converter(self.publish_time)
@@ -247,13 +252,26 @@ class Course(models.Model):
         else:
             return self.teacher
 
+    get_teacher_name.short_description = 'مدرس' 
+
     def count_of_student(self):
         count = self.student.all().count()
         return count
+    
+    count_of_student.short_description = 'تعداد دانشجو ها'
 
     def category_to_str(self):
         return " - ".join([category.title for category in self.categories.get_active_category()])
+    category_to_str.short_description = 'دسته بندی'
 
+    def show_image_in_admin(self):
+        if self.image:
+            return format_html(
+                "<img width=100px height=75px  src='{}' >".format(self.image.url))
+        else:
+            return ''
+
+    show_image_in_admin.short_description = 'تصویر'
 
 class Video(models.Model):
     title = models.CharField(max_length=200, verbose_name="عنوان جلسه")
@@ -287,7 +305,7 @@ class Comment(models.Model):
     message = models.TextField(verbose_name='نظر')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='replies',
                                verbose_name='پاسخ')
-    active = models.BooleanField(default=False, verbose_name="فعال / غیرفعال")
+    active = models.BooleanField(default=False, verbose_name="تایید شده / نشده ؟")
     created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
     updated = models.DateTimeField(auto_now=True, verbose_name="زمان ویرایش")
 
@@ -341,6 +359,17 @@ class Comment(models.Model):
 
     jalali_time.short_description = 'زمان ثبت'
 
+    def get_message(self):
+        return self.message[:100]
+
+    get_message.short_description = 'دیدگاه'
+
+    def get_parent_user(self):
+        if self.parent:
+            return self.parent.user.username
+        return ''
+
+    get_parent_user.short_description = 'پاسخ به کاربر'
 
 def set_course_slug(sender, instance, *args, **kwargs):
     instance.slug = instance.title.replace(' ', '-')

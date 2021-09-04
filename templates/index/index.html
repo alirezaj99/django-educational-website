@@ -222,8 +222,6 @@
                                             href="{% url 'blog:blog_detail' blog.pk blog.slug %}">{{ blog.title }}</a>
                                     </h5>
                                     <p class="text-center">{{ blog.description|striptags|safe|truncatechars:100 }}</p>
-
-
                                     <div class="post-extra">
                                         <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}" class="btn-link">بیشتر
                                             بخوانید</a>

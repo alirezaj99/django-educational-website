@@ -3,7 +3,7 @@ from django.conf import settings
 from course_app.models import Course
 from django.db.models.signals import post_save, pre_save
 from account_app.models import User
-from extensions.utils import jalali_converter_date
+from extensions.utils import jalali_converter
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -52,13 +52,19 @@ class Order(models.Model):
     get_price.short_description = 'جمع سفارش اولیه'
 
     def jalali_time(self):
-        return jalali_converter_date(self.payment_date)
+        return jalali_converter(self.created)
+    
+    jalali_time.short_description = 'زمان ایجاد'
 
+    def jalali_payment_time(self):
+        return jalali_converter(self.payment_date)
+    
+    jalali_payment_time.short_description = 'زمان پرداخت'
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name='سفارش')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='order_items', verbose_name='دوره')
-    price = models.PositiveIntegerField()
+    price = models.PositiveIntegerField(verbose_name='قیمت')
     discount = models.PositiveIntegerField(blank=True, null=True,
                                            validators=[MinValueValidator(1), MaxValueValidator(100)],
                                            verbose_name='درصد تخفیف')

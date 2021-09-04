@@ -1,4 +1,5 @@
 from django.db import models
+from extensions.utils import jalali_converter
 
 # Create your models here.
 
@@ -19,3 +20,16 @@ class Contact(models.Model):
     
     def __str__(self):
         return f'{self.subject} | {self.message[:40]}'
+
+    def jalali_time(self):
+        return jalali_converter(self.create_time)
+
+    jalali_time.short_description = 'زمان ثبت'
+
+    def get_message(self):
+        if len(self.message) <= 100:
+            return self.message[:100]
+        else:
+            return f'{self.message[:100]} ...'    
+    
+    get_message.short_description = 'پیام'

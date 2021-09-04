@@ -8,6 +8,7 @@ from extensions.utils import jalali_converter_year, jalali_converter_month, jala
 from django.db.models.signals import pre_save,post_save
 from django.db.models import Q
 from django.urls import reverse
+from django.utils.html import format_html,strip_tags,html_safe
 
 # generate image name
 def get_filename_ext(filepath):
@@ -53,8 +54,8 @@ class CommentManager(models.Manager):
 class BlogTag(models.Model):
     title = models.CharField(max_length=200, unique=True, verbose_name='عنوان برچسب')
     status = models.BooleanField(default=True, verbose_name='فعال/غیرفعال')
-    create_time = models.DateTimeField(auto_now_add=True)
-    update_time = models.DateTimeField(auto_now=True)
+    create_time = models.DateTimeField(auto_now_add=True,verbose_name='زمان ایجاد')
+    update_time = models.DateTimeField(auto_now=True,verbose_name='زمان بروزرسانی')
 
     objects = BlogTagManager()
 
@@ -122,6 +123,26 @@ class Blog(models.Model):
     def get_jalali_date_for_url(self):
         return f'{jalali_converter_year(self.publish_time)}/{jalali_converter_month(self.publish_time)}/{jalali_converter_day(self.publish_time)}'
 
+    get_jalali_date_for_url.short_description = 'تاریخ انتشار'
+
+    def get_description(self):
+         return strip_tags(self.description[:130])
+
+    get_description.short_description = 'توضیحات'
+
+    def count_of_hints(self):
+        return self.hits.all().count()
+
+    count_of_hints.short_description = 'تعداد بازدید'
+
+    def show_image_in_admin(self):
+        if self.image:
+            return format_html(
+                "<img width=100px height=75px  src='{}' >".format(self.image.url))
+        else:
+            return ''
+
+    show_image_in_admin.short_description = 'تصویر' 
 
 class Comment(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='blog_comments',
@@ -131,7 +152,7 @@ class Comment(models.Model):
     message = models.TextField(verbose_name='نظر')
     parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.SET_NULL, related_name='replies',
                                verbose_name='پاسخ')
-    active = models.BooleanField(default=False, verbose_name="فعال / غیرفعال")
+    active = models.BooleanField(default=False, verbose_name="تایید شده / نشده")
     created = models.DateTimeField(auto_now_add=True, verbose_name="زمان ثبت")
     updated = models.DateTimeField(auto_now=True, verbose_name="زمان ویرایش")
 
@@ -180,11 +201,24 @@ class Comment(models.Model):
         else:
             return self.user
 
+    get_user_name.short_description = 'نویسنده'
+
+    def get_message(self):
+        return self.message[:100]
+
+    get_message.short_description = 'دیدگاه'
+    
     def jalali_time(self):
         return jalali_converter(self.created)
 
     jalali_time.short_description = 'زمان ثبت'
 
+    def get_parent_user(self):
+        if self.parent:
+            return self.parent.user.username
+        return ''
+
+    get_parent_user.short_description = 'پاسخ به کاربر'
 
 class IpAddress(models.Model):
     ip_address = models.GenericIPAddressField(verbose_name="آی پی آدرس")
