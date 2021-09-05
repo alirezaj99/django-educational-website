@@ -54,7 +54,6 @@ class BlogCreateFieldMixin():
                            "tags",
                            "hits",
                            "status",
-                           "send_email",
                            "publish_time", ]
         elif request.user.is_teacher:
             self.fields = ["title",

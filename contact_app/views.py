@@ -9,6 +9,7 @@ from django.contrib import messages
 from settings_app.models import Settings
 # Create your views here.
 
+
 class ContactCreate(CreateView):
     model = Contact
     form_class = ContactCreateForm
@@ -16,17 +17,20 @@ class ContactCreate(CreateView):
     success_url = reverse_lazy('contact:contact_create')
 
     def form_valid(self, form):
-        messages.success(self.request,'پیام شما با موفقیت ارسال شد')
+        messages.success(self.request, 'پیام شما با موفقیت ارسال شد', extra_tags='sucess')
         return super().form_valid(form)
-    
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'عملیات ناموفق بود', extra_tags='error')
+        return super().form_invalid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         setting = Settings.objects.first()
-        context["address"] = setting.address 
-        context["phone_number"] = setting.phone_number 
-        context["email"] = setting.email 
-        context["instagram"] = setting.instagram 
-        context["twitter"] = setting.twitter 
-        context["youtube"] = setting.youtube 
+        context["address"] = setting.address
+        context["phone_number"] = setting.phone_number
+        context["email"] = setting.email
+        context["instagram"] = setting.instagram
+        context["twitter"] = setting.twitter
+        context["youtube"] = setting.youtube
         return context
-    
