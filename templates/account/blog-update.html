@@ -1,6 +1,6 @@
-{% extends 'account/AccountBase.html' %} {% load widget_tweaks %} {% block head_title %}ایجاد مقاله{% endblock %} {% block add_header_reference %}
+{% extends 'account/AccountBase.html' %} {% load widget_tweaks %} {% block head_title %}ویرایش مقاله{% endblock %} {% block add_header_reference %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> {% endblock %} {% block page_title %}
-<li>ایجاد مقاله</li>{% endblock %} {% block content %}
+<li>ویرایش مقاله</li>{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12 m-b30 login-error text-justify">
         {% if form.non_field_errors %}
@@ -118,7 +118,7 @@
                         <div class="col-sm-2">
                         </div>
                         <div class="col-sm-7">
-                            <button type="submit" class="btn">ایجاد مقاله</button>
+                            <button type="submit" class="btn">ویرایش مقاله</button>
                         </div>
                     </div>
                 </form>

@@ -1,9 +1,5 @@
-{% extends 'account/AccountBase.html' %}
-{% load widget_tweaks %}
-{% block head_title %}مقاله های مدرس{% endblock %}
-{% block page_title %}
-<li>مقاله های مدرس</li>{% endblock %}
-{% block content %}
+{% extends 'account/AccountBase.html' %} {% load widget_tweaks %} {% block head_title %}مقاله های مدرس{% endblock %} {% block page_title %}
+<li>مقاله های مدرس</li>{% endblock %} {% block content %}
 <div class="row">
     <!-- Your Profile Views Chart -->
     <div class="col-lg-12 m-b30">
@@ -12,12 +8,10 @@
                 <h4>مقاله های مدرس</h4>
             </div>
             <div class="widget-inner">
-                {% if object_list %}
-                {% for blog in object_list %}
+                {% if object_list %} {% for blog in object_list %}
                 <div class="card-courses-list admin-blogs">
                     <div class="card-courses-media">
-                        <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"><img src="{{ blog.image.url }}"
-                                                                                      alt="{{ blog.title }}"></a>
+                        <a><img src="{{ blog.image.url }}" alt="{{ blog.title }}"></a>
                     </div>
                     <div class="card-courses-full-dec">
                         <div class="card-courses-title">
@@ -28,8 +22,7 @@
                             <ul class="card-courses-view">
                                 <li class="card-courses-user">
                                     <div class="card-courses-user-pic">
-                                        <img src="{{ blog.author.profile.get_avatar }}"
-                                             alt="{{ blog.get_author_name }}">
+                                        <img src="{{ blog.author.profile.get_avatar }}" alt="{{ blog.get_author_name }}">
                                     </div>
                                     <div class="card-courses-user-info">
                                         <h5>نویسنده</h5>
@@ -40,11 +33,9 @@
                                 <li class="card-courses-stats">
                                     {% if blog.status %}
                                     <a style="color: #000" class="btn button-sm green radius-xl">تایید
-                                        شده</a>
-                                    {% else %}
+                                        شده</a> {% else %}
                                     <a style="color: #fff" class="btn button-sm red radius-xl">تایید
-                                        نشده</a>
-                                    {% endif %}
+                                        نشده</a> {% endif %}
                                 </li>
                             </ul>
                         </div>
@@ -53,24 +44,24 @@
                                 <h6 class="m-b10">توضیحات دوره</h6>
                                 <p>{{ blog.description|striptags|safe|truncatewords:32 }}</p>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 {% if blog.status %}
-                                <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}"
-                                   class="btn green radius-xl outline">لینک
-                                    مقاله</a>
-                                {% else %}
-                                <a class="btn red radius-xl outline">در انتظار تایید...</a>
-                                {% endif %}
+                                <a href="{% url 'blog:blog_detail' blog.pk blog.slug %}" class="btn green radius-xl outline">لینک
+                                    مقاله</a> {% else %}
+                                <a class="btn red radius-xl outline">در انتظار تایید...</a> {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                {% if not blog.status %}
+                                <a href="{% url 'account:blog_update' blog.pk%}" class="btn green radius-xl outline">ویرایش</a> {% endif %}
                             </div>
 
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-                {% else %}
+                {% endfor %} {% else %}
                 <div class="col-12 text-center">
-                    <p class="alert alert-warning text-center" style="font-family: iransans-light">مقاله ای یافت
-                        نشد</p>
+                    <p class="alert alert-warning text-center" style="font-family: iransans-light">مقاله ای یافت نشد
+                    </p>
                 </div>
                 {% endif %}
             </div>

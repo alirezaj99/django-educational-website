@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordChangeView,PasswordResetView,PasswordResetConfirmView
+from django.views.generic.edit import UpdateView
 from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, ResetForm,VideoCreate,UserUpdateForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -10,7 +11,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView, DetailView ,TemplateView
 from .models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin)
+from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin,TeacherBlogUpadteMixin,TeacherCourseUpadteMixin)
 from blog_app.models import Blog
 from django.contrib import messages
 
@@ -172,6 +173,13 @@ class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherM
     def form_valid(self,form):
         messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
         return super().form_valid(form)
+    
+    
+class CourseUpdate(LoginRequiredMixin,TeacherMixin,TeacherCourseUpadteMixin,CourseFieldMixin,UpdateView):
+    model = Course
+    template_name = 'account/course-update.html'
+    success_url = reverse_lazy('account:teacher_courses')
+
 
 class VideoAdd(LoginRequiredMixin,TeacherMixin,CreateView):
     model = Video
@@ -227,7 +235,11 @@ class BlogCreate(LoginRequiredMixin, TeacherMixin, BlogCreateFieldMixin, BlogCre
     def form_valid(self,form):
         messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
         return super().form_valid(form)
-
+    
+class BlogUpdate(LoginRequiredMixin,TeacherMixin,TeacherBlogUpadteMixin,BlogCreateFieldMixin,UpdateView):
+    model = Blog
+    template_name = 'account/blog-update.html'
+    success_url = reverse_lazy('account:teacher_blogs')
 
 class PaymentList(LoginRequiredMixin, ListView):
     def get_queryset(self):

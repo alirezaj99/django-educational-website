@@ -44,42 +44,42 @@
                     </a>
                 </li>
                 <li class="ttr-seperate"></li>
-                {% if user.is_teacher and user.is_superuser %}
-                    <li>
-                        <a href="{% url 'account:course_add' %}" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-plus"></i></span>
-                            <span class="ttr-label">ایجاد دوره</span>
-                        </a>
-                    </li>
-                    <li class="ttr-seperate"></li>
-                    <li>
-                        <a href="{% url 'account:video_course_add' %}" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-video-camera"></i></span>
-                            <span class="ttr-label">اضاف کردن ویدیو به دوره</span>
-                        </a>
-                    </li>
-                    <li class="ttr-seperate"></li>
-                    <li>
-                        <a href="{% url 'account:teacher_courses' %}" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-blackboard"></i></span>
-                            <span class="ttr-label">دوره های مدرس</span>
-                        </a>
-                    </li>
-                    <li class="ttr-seperate"></li>
-                    <li>
-                        <a href="{% url 'account:blog_create' %}" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-plus"></i></span>
-                            <span class="ttr-label">درخواست ایجاد مقاله</span>
-                        </a>
-                    </li>
-                    <li class="ttr-seperate"></li>
-                    <li>
-                        <a href="{% url 'account:teacher_blogs' %}" class="ttr-material-button">
-                            <span class="ttr-icon"><i class="ti-write"></i></span>
-                            <span class="ttr-label">مقاله های مدرس</span>
-                        </a>
-                    </li>
-                    <li class="ttr-seperate"></li>
+                {% if user.is_teacher or user.is_superuser %}
+                <li>
+                    <a href="{% url 'account:course_add' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-plus"></i></span>
+                        <span class="ttr-label">ایجاد دوره</span>
+                    </a>
+                </li>
+                <li class="ttr-seperate"></li>
+                <li>
+                    <a href="{% url 'account:video_course_add' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-video-camera"></i></span>
+                        <span class="ttr-label">اضاف کردن ویدیو به دوره</span>
+                    </a>
+                </li>
+                <li class="ttr-seperate"></li>
+                <li>
+                    <a href="{% url 'account:teacher_courses' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-blackboard"></i></span>
+                        <span class="ttr-label">دوره های مدرس</span>
+                    </a>
+                </li>
+                <li class="ttr-seperate"></li>
+                <li>
+                    <a href="{% url 'account:blog_create' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-plus"></i></span>
+                        <span class="ttr-label">درخواست ایجاد مقاله</span>
+                    </a>
+                </li>
+                <li class="ttr-seperate"></li>
+                <li>
+                    <a href="{% url 'account:teacher_blogs' %}" class="ttr-material-button">
+                        <span class="ttr-icon"><i class="ti-write"></i></span>
+                        <span class="ttr-label">مقاله های مدرس</span>
+                    </a>
+                </li>
+                <li class="ttr-seperate"></li>
                 {% endif %}
                 <li>
                     <a href="{% url 'account:password_change' %}" class="ttr-material-button">

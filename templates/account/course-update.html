@@ -1,6 +1,6 @@
-{% extends 'account/AccountBase.html' %} {% load widget_tweaks %} {% block head_title %}ایجاد مقاله{% endblock %} {% block add_header_reference %}
+{% extends 'account/AccountBase.html' %} {% load widget_tweaks %} {% block head_title %}ویرایش دوره{% endblock %} {% block add_header_reference %}
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> {% endblock %} {% block page_title %}
-<li>ایجاد مقاله</li>{% endblock %} {% block content %}
+<li>ویرایش دوره</li>{% endblock %} {% block content %}
 <div class="row">
     <div class="col-lg-12 m-b30 login-error text-justify">
         {% if form.non_field_errors %}
@@ -8,19 +8,9 @@
             {% for error in form.non_field_errors %}
             <span>{{ error }}</span> {% endfor %}
         </div>
-        {% endif %} {% if form.author.errors %}
-        <div class="alert alert-danger my-1">
-            {% for error in form.author.errors %}
-            <span>{{ error }}</span> {% endfor %}
-        </div>
         {% endif %} {% if form.title.errors %}
         <div class="alert alert-danger my-1">
             {% for error in form.title.errors %}
-            <span>{{ error }}</span> {% endfor %}
-        </div>
-        {% endif %} {% if form.description.errors %}
-        <div class="alert alert-danger my-1">
-            {% for error in form.description.errors %}
             <span>{{ error }}</span> {% endfor %}
         </div>
         {% endif %} {% if form.image.errors %}
@@ -28,28 +18,42 @@
             {% for error in form.image.errors %}
             <span>{{ error }}</span> {% endfor %}
         </div>
+        {% endif %} {% if form.description.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.description.errors %}
+            <span>{{ error }}</span> {% endfor %}
+        </div>
+        {% endif %} {% if form.price.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.price.errors %}
+            <span>{{ error }}</span> {% endfor %}
+        </div>
+        {% endif %} {% if form.discount.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.discount.errors %}
+            <span>{{ error }}</span> {% endfor %}
+        </div>
+        {% endif %} {% if avatar_form.categories.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in avatar_form.categories.errors %}
+            <span>{{ error }}</span> {% endfor %}
+        </div>
         {% endif %} {% if form.tags.errors %}
         <div class="alert alert-danger my-1">
             {% for error in form.tags.errors %}
             <span>{{ error }}</span> {% endfor %}
         </div>
-        {% endif %} {% if form.hits.errors %}
+        {% endif %} {% if form.level.errors %}
         <div class="alert alert-danger my-1">
-            {% for error in form.hits.errors %}
+            {% for error in form.level.errors %}
             <span>{{ error }}</span> {% endfor %}
         </div>
-        {% endif %} {% if form.status.errors %}
+        {% endif %} {% if form.language.errors %}
         <div class="alert alert-danger my-1">
-            {% for error in form.status.errors %}
-            <span>{{ error }}</span> {% endfor %}
-        </div>
-        {% endif %} {% if form.publish_time.errors %}
-        <div class="alert alert-danger my-1">
-            {% for error in form.publish_time.errors %}
+            {% for error in form.language.errors %}
             <span>{{ error }}</span> {% endfor %}
         </div>
         {% endif %}
-
     </div>
     <div class="col-lg-12 m-b30">
         <div class="widget-box">
@@ -60,22 +64,14 @@
                 <form method="post" enctype="multipart/form-data" class="edit-profile m-b30">
                     {% csrf_token %}
                     <div class="">
-                        {% if user.is_superuser %}
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">نویسنده</label>
-                            <div class="col-sm-7">
-                                {% render_field form.author class="form-control" %}
-                            </div>
-                        </div>
-                        {% endif %}
-                        <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">عنوان مقاله</label>
+                            <label class="col-sm-2 col-form-label">عنوان دوره</label>
                             <div class="col-sm-7">
                                 {% render_field form.title class="form-control" %}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">تصویر</label>
+                            <label class="col-sm-2 col-form-label">تصویر دوره</label>
                             <div class="col-sm-7">
                                 {% render_field form.image class="form-control" %}
                             </div>
@@ -87,38 +83,47 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">برچسب ها / تگ ها</label>
+                            <label class="col-sm-2 col-form-label">قیمت</label>
                             <div class="col-sm-7">
-                                {% render_field form.tags class="form-control" class="textarea" %}
+                                {% render_field form.price class="form-control" %}
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">زمان انتشار</label>
+                            <label class="col-sm-2 col-form-label">تخفیف</label>
                             <div class="col-sm-7">
-                                {% render_field form.publish_time class="form-control"%}
+                                {% render_field form.discount class="form-control" class="textarea" %}
                             </div>
                         </div>
-                        {% if user.is_superuser %}
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">بازدید ها</label>
+                            <label class="col-sm-2 col-form-label">دسته بندی</label>
                             <div class="col-sm-7">
-                                {% render_field form.hits class="form-control" style="height: 150px" %}
+                                {% render_field form.categories class="form-control" style="height: 150px" %}
                             </div>
                         </div>
-
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">وضعیت انتشار</label>
+                            <label class="col-sm-2 col-form-label">برچسب / تگ</label>
                             <div class="col-sm-7">
-                                {% render_field form.status class="form-control" %}
+                                {% render_field form.tags class="form-control" style="height: 150px" %}
                             </div>
                         </div>
-                        {% endif %}
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">سطح دوره</label>
+                            <div class="col-sm-7">
+                                {% render_field form.level class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">زبان دوره</label>
+                            <div class="col-sm-7">
+                                {% render_field form.language class="form-control" %}
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2">
                         </div>
                         <div class="col-sm-7">
-                            <button type="submit" class="btn">ایجاد مقاله</button>
+                            <button type="submit" class="btn">ویرایش دوره</button>
                         </div>
                     </div>
                 </form>
@@ -131,18 +136,22 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $(document).ready(function() {
+        $('#id_level').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#id_language').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
         $('#id_tags').select2();
     });
 </script>
 <script>
     $(document).ready(function() {
-        $('#id_hits').select2();
+        $('#id_categories').select2();
     });
 </script>
-{% if user.is_superuser %}
-<script>
-    $(document).ready(function() {
-        $('#id_author').select2();
-    });
-</script>
-{% endif %} {% endblock %}
+{% endblock %}

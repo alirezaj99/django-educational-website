@@ -1,9 +1,5 @@
-{% extends 'account/AccountBase.html' %}
-{% load widget_tweaks %}
-{% block head_title %}دوره های مدرس{% endblock %}
-{% block page_title %}
-<li>دوره های مدرس</li>{% endblock %}
-{% block content %}
+{% extends 'account/AccountBase.html' %} {% load widget_tweaks %} {% block head_title %}دوره های مدرس{% endblock %} {% block page_title %}
+<li>دوره های مدرس</li>{% endblock %} {% block content %}
 <div class="row">
     <!-- Your Profile Views Chart -->
     <div class="col-lg-12 m-b30">
@@ -12,12 +8,10 @@
                 <h4>دوره‌های مدرس</h4>
             </div>
             <div class="widget-inner">
-                {% if object_list %}
-                {% for course in object_list %}
+                {% if object_list %} {% for course in object_list %}
                 <div class="card-courses-list admin-courses">
                     <div class="card-courses-media">
-                        <a href="{{ course.course_url }}"><img src="{{ course.image.url }}"
-                                                               alt="{{ course.title }}"></a>
+                        <a><img src="{{ course.image.url }}" alt="{{ course.title }}"></a>
                     </div>
                     <div class="card-courses-full-dec">
                         <div class="card-courses-title">
@@ -27,8 +21,7 @@
                             <ul class="card-courses-view">
                                 <li class="card-courses-user">
                                     <div class="card-courses-user-pic">
-                                        <img src="{{ course.teacher.profile.get_avatar }}"
-                                             alt="{{ course.get_teacher_name }}">
+                                        <img src="{{ course.teacher.profile.get_avatar }}" alt="{{ course.get_teacher_name }}">
                                     </div>
                                     <div class="card-courses-user-info">
                                         <h5>مدرس</h5>
@@ -42,11 +35,9 @@
                                 <li class="card-courses-stats">
                                     {% if course.status %}
                                     <a style="color: #000" class="btn button-sm green radius-xl">تایید
-                                        شده</a>
-                                    {% else %}
+                                        شده</a> {% else %}
                                     <a style="color: #fff" class="btn button-sm red radius-xl">تایید
-                                        نشده</a>
-                                    {% endif %}
+                                        نشده</a> {% endif %}
                                 </li>
                             </ul>
                         </div>
@@ -56,17 +47,18 @@
                                 <p>{{ course.description|safe|truncatewords:32 }}</p>
                             </div>
                             <div class="col-md-12">
+                                {% if course.status %}
                                 <a href="{{ course.course_url }}" class="btn green radius-xl outline">لینک
-                                    دوره</a>
+                                    دوره</a> {% endif %} {% if not course.status or user.is_superuser %}
+                                <a href="{% url 'account:course_update' course.pk %}" class=" btn yellow radius-xl outline ">ویرایش</a> {% endif %}
                             </div>
 
                         </div>
                     </div>
                 </div>
-                {% endfor %}
-                {% else %}
-                <div class="col-12 text-center">
-                    <p class="alert alert-warning text-center" style="font-family: iransans-light">دوره ای یافت نشد</p>
+                {% endfor %} {% else %}
+                <div class="col-12 text-center ">
+                    <p class="alert alert-warning text-center " style="font-family: iransans-light ">دوره ای یافت نشد</p>
                 </div>
                 {% endif %}
             </div>
