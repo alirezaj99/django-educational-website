@@ -8,7 +8,7 @@ from blog_app.models import Blog
 
 def index_page(request):
     last_courses = Course.objects.get_publish_course()[:8]
-    popular_courses = Course.objects.get_popular_course()
+    popular_courses = Course.objects.get_popular_course()[:8]
     courses_count = Course.objects.get_publish_course().count()
     teachers_count = User.objects.filter(is_teacher=True, is_active=True).count()
     students_count = User.objects.filter(is_student=True, is_active=True).count()

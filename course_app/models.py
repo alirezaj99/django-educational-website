@@ -49,8 +49,8 @@ class CourseManager(models.Manager):
         return self.get_queryset().filter(lookup, status=True).distinct()
 
     def get_popular_course(self):
-        return self.get_queryset().annotate(q_count=models.Count('student')).order_by('-q_count',
-                                                                                      '-publish_time').distinct()[:8]
+        return self.get_queryset().annotate(q_count=models.Count('student')).filter(status=True).order_by('-q_count',
+                                                                                      '-publish_time').distinct()
 
 
 class CourseCategoryManager(models.Manager):
