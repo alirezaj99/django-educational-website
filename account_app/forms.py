@@ -92,7 +92,10 @@ class VideoCreate(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user')
         super(VideoCreate, self).__init__(*args, **kwargs)
-        self.fields['course'].queryset = Course.objects.filter(teacher=user)
+        if user.is_superuser:
+            self.fields['course'].queryset = Course.objects.filter(teacher=user)
+        else:
+            self.fields['course'].queryset = Course.objects.filter(teacher=user,status=True)
    
 
     class Meta:

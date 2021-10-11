@@ -77,7 +77,38 @@ class PasswordChange(PasswordChangeView):
         return super().form_valid(form)
 
 
-# course
+# password reset view
+class PasswordReset(PasswordResetView):
+    success_url = reverse_lazy('account:login')
+    form_class = ResetForm
+
+    def form_valid(self, form):
+        messages.success(self.request,'لینک بازیابی رمز عبور به ایمیل شما ارسال شد')
+        return super().form_valid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+# password reset confirm view
+class PasswordResetConfirm(PasswordResetConfirmView):
+    success_url = reverse_lazy('account:login')
+
+    def form_valid(self, form):
+        messages.success(self.request,'بازیابی رمز عبور با موفقیت انجام شد. وارد شوید')
+        return super().form_valid(form)
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return HttpResponseRedirect('/')
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+# add course to order view
 @login_required()
 def add_course_to_order(request, *args, **kwargs):
     user_courses = request.user.student_courses.get_publish_course()
@@ -102,6 +133,7 @@ def add_course_to_order(request, *args, **kwargs):
     return redirect('account:cart')
 
 
+# delete course from order view
 @login_required()
 def delete_course_from_order(request, *args, **kwargs):
     item_id = kwargs['pk']
@@ -142,6 +174,7 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
         return self.post(request,*args, **kwargs)
 
 
+# cart view
 class Cart(LoginRequiredMixin, ListView):
     def get_queryset(self):
         order = Order.objects.get(user_id=self.request.user.id, is_paid=False)
@@ -156,6 +189,7 @@ class Cart(LoginRequiredMixin, ListView):
         return context
 
 
+# my courses view
 class MyCourses(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
@@ -165,6 +199,7 @@ class MyCourses(LoginRequiredMixin, ListView):
     template_name = 'account/my-courses.html'
 
 
+# add course view
 class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherMixin, CreateView):
     model = Course
     template_name = 'account/course-add.html'
@@ -174,13 +209,26 @@ class CourseAdd(LoginRequiredMixin, CourseValidMixin, CourseFieldMixin, TeacherM
         messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
         return super().form_valid(form)
     
-    
+
+# update course view    
 class CourseUpdate(LoginRequiredMixin,TeacherMixin,TeacherCourseUpadteMixin,CourseFieldMixin,UpdateView):
     model = Course
     template_name = 'account/course-update.html'
     success_url = reverse_lazy('account:teacher_courses')
 
 
+# teacher videos view
+class VideoList(LoginRequiredMixin,TeacherMixin,ListView):
+    
+    def get_queryset(self):
+        user = self.request.user
+        videos = Video.objects.filter(course__teacher=user)
+        return videos
+
+    template_name = 'account/video-list.html'
+
+
+# add video view
 class VideoAdd(LoginRequiredMixin,TeacherMixin,CreateView):
     model = Video
     form_class = VideoCreate
@@ -199,6 +247,14 @@ class VideoAdd(LoginRequiredMixin,TeacherMixin,CreateView):
         return kwargs
 
 
+# update video view
+class VideoUpdate(LoginRequiredMixin,UpdateView):
+    # model = Video
+    # template_name = 'account/video-update.html'
+    # success_url = reverse_lazy('account:teacher_videos')
+    pass
+
+# teacher courses course view
 class TeacherCourses(LoginRequiredMixin, TeacherMixin, ListView):
     def get_queryset(self):
         user = self.request.user
@@ -209,6 +265,7 @@ class TeacherCourses(LoginRequiredMixin, TeacherMixin, ListView):
     template_name = 'account/teacher-courses.html'
 
 
+# my comments view
 class MyComment(LoginRequiredMixin, ListView):
     def get_queryset(self):
         user = self.request.user
@@ -218,6 +275,7 @@ class MyComment(LoginRequiredMixin, ListView):
     template_name = 'account/my-comment.html'
 
 
+# teacher blogs view
 class TeacherBlogs(LoginRequiredMixin, TeacherMixin, ListView):
     def get_queryset(self):
         user = self.request.user
@@ -227,6 +285,7 @@ class TeacherBlogs(LoginRequiredMixin, TeacherMixin, ListView):
     template_name = 'account/teacher-blogs.html'
 
 
+# add blog view
 class BlogCreate(LoginRequiredMixin, TeacherMixin, BlogCreateFieldMixin, BlogCreateValidMixin, CreateView):
     model = Blog
     success_url = reverse_lazy('account:teacher_blogs')
@@ -236,11 +295,15 @@ class BlogCreate(LoginRequiredMixin, TeacherMixin, BlogCreateFieldMixin, BlogCre
         messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
         return super().form_valid(form)
     
+
+# update blog view    
 class BlogUpdate(LoginRequiredMixin,TeacherMixin,TeacherBlogUpadteMixin,BlogCreateFieldMixin,UpdateView):
     model = Blog
     template_name = 'account/blog-update.html'
     success_url = reverse_lazy('account:teacher_blogs')
 
+
+# paymant list view
 class PaymentList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         order = Order.objects.filter(user_id=self.request.user.id, is_paid=True)
@@ -249,6 +312,7 @@ class PaymentList(LoginRequiredMixin, ListView):
     template_name = 'account/payment-list.html'
 
 
+# detail view
 class PaymentDetail(LoginRequiredMixin, DetailView):
     def get_object(self):
         pk = self.kwargs.get('pk')
@@ -258,30 +322,3 @@ class PaymentDetail(LoginRequiredMixin, DetailView):
 
     template_name = 'account/payment-detail.html'
 
-
-class PasswordReset(PasswordResetView):
-    success_url = reverse_lazy('account:login')
-    form_class = ResetForm
-
-    def form_valid(self, form):
-        messages.success(self.request,'لینک بازیابی رمز عبور به ایمیل شما ارسال شد')
-        return super().form_valid(form)
-
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return HttpResponseRedirect('/')
-
-        return super().dispatch(request, *args, **kwargs)
-
-class PasswordResetConfirm(PasswordResetConfirmView):
-    success_url = reverse_lazy('account:login')
-
-    def form_valid(self, form):
-        messages.success(self.request,'بازیابی رمز عبور با موفقیت انجام شد. وارد شوید')
-        return super().form_valid(form)
-    
-    def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return HttpResponseRedirect('/')
-
-        return super().dispatch(request, *args, **kwargs)

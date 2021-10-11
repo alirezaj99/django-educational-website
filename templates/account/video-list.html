@@ -1,0 +1,59 @@
+{% extends 'account/AccountBase.html' %}
+{% load humanize %}
+{% block head_title %}ویدیو های مدرس{% endblock %}
+{% block page_title %}
+<li>ویدیو های مدرس</li>{% endblock %}
+{% block content %}
+<div class="row">
+    <!-- Your Profile Views Chart -->
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>ویدیو های مدرس</h4>
+            </div>
+            <div class="widget-inner">
+                {% if object_list %}
+					<table class="table table-striped" >
+					  <thead>
+					    <tr>
+					      <th scope="col">عنوان</th>
+					      <th scope="col">دوره</th>
+					      <th scope="col">قسمت</th>
+					      <th scope="col">وضعیت انتشار</th>
+					    </tr>
+					  </thead>
+					  <tbody>
+					  	{% for video in object_list %}
+						    <tr>
+						      <td>
+						      	{% if video.status %}
+						      	    <a target="_blank" href="{{ video.video.url }}">{{ video.title }}</a>
+						      	{% else %}
+						      		{{ video.title }}
+						      	{% endif %}
+						      </td>
+						      <td><a target="_blank" href="{% url 'course:course_detail' video.course.id video.course.slug %}">{{ video.course }}</a></td>
+						      <td>{{ video.position }}</td>
+						      <td>
+						      	{% if video.status %}
+                       			    <span class="font-weight-bold text-success" >تایید شده</span>
+                       			{% else %}
+                       			    <span class="font-weight-bold text-danger" >تایید نشده</span>
+                       			{% endif %}
+						      </td>
+						    </tr>					
+					  	{% endfor %}
+					  </tbody>
+					</table>                	
+                {% else %}
+                <div class="col-12 text-center">
+                    <p class="alert alert-warning text-center" style="font-family: iransans-light">پرداختی ثبت نشده است</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+    <!-- Your Profile Views Chart END-->
+</div>
+{% endblock %}
