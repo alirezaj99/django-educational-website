@@ -1,0 +1,143 @@
+{% extends 'account/AccountBase.html' %}
+{% load widget_tweaks %}
+{% block head_title %}ویرایش ویدیو{% endblock %}
+{% block add_header_reference %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+{% block page_title %}
+<li>ویرایش ویدیو</li>{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 m-b30 login-error text-justify">
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.title.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.title.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.video.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.video.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.position.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.position.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.course.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.course.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.description.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.description.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.time.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.time.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if form.publish_time.errors %}
+        <div class="alert alert-danger my-1">
+            {% for error in form.publish_time.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>ویرایش ویدیو</h4>
+            </div>
+            <div class="widget-inner">
+                <form method="post" enctype="multipart/form-data" class="edit-profile m-b30">
+                    {% csrf_token %}
+                    <div class="">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">عنوان ویدیو</label>
+                            <div class="col-sm-7">
+                                {% render_field form.title class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">فایل ویدیو</label>
+                            <div class="col-sm-7">
+                                {% render_field form.video class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">شماره جلسه</label>
+                            <div class="col-sm-7">
+                                {% render_field form.position class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">دوره</label>
+                            <div class="col-sm-7">
+                                {% render_field form.course class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">توضیحات ( یک خط )</label>
+                            <div class="col-sm-7">
+                                {% render_field form.description class="form-control" class="textarea" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">طول زمان ویدیو</label>
+                            <div class="col-sm-7">
+                                {% render_field form.time class="form-control" style="height: 150px" %}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">زمان انتشار</label>
+                            <div class="col-sm-7">
+                                {% render_field form.publish_time class="form-control" style="height: 150px" %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                        </div>
+                        <div class="col-sm-7">
+                            <button type="submit" class="btn">ویرایش ویدیو</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block add_footer_reference %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_course').select2();
+    });
+</script>
+{% endblock %}

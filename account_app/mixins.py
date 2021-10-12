@@ -2,7 +2,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from blog_app.models import Blog
-from course_app.models import Course
+from course_app.models import Course,Video
 
 class TeacherMixin():
     def dispatch(self, request, *args, **kwargs):
@@ -94,3 +94,11 @@ class BlogCreateValidMixin():
             self.obj.author = self.request.user
             self.obj.status = False
         return super().form_valid(form)
+
+class VideoUpdateMixin():
+     def dispatch(self,request,pk,*args,**kwargs):
+        user = request.user
+        video = get_object_or_404(Video,pk=pk)
+        if request.user.is_superuser or video.course.teacher == user :
+            return super().dispatch(request, *args, **kwargs)
+        raise Http404()

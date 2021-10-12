@@ -11,7 +11,7 @@ from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView, DetailView ,TemplateView
 from .models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin,TeacherBlogUpadteMixin,TeacherCourseUpadteMixin)
+from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin,TeacherBlogUpadteMixin,TeacherCourseUpadteMixin,VideoUpdateMixin)
 from blog_app.models import Blog
 from django.contrib import messages
 
@@ -247,12 +247,23 @@ class VideoAdd(LoginRequiredMixin,TeacherMixin,CreateView):
         return kwargs
 
 
-# update video view
-class VideoUpdate(LoginRequiredMixin,UpdateView):
-    # model = Video
-    # template_name = 'account/video-update.html'
-    # success_url = reverse_lazy('account:teacher_videos')
-    pass
+class VideoUpdate(LoginRequiredMixin,TeacherMixin,VideoUpdateMixin,UpdateView):
+    model = Video
+    form_class = VideoCreate
+    template_name = 'account/video-update.html'
+    success_url = reverse_lazy('account:teacher_videos')
+
+    def form_valid(self,form):
+        messages.success(self.request,'درخواست شما با موفقیت ثبت شد')
+        return super().form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(VideoUpdate, self).get_form_kwargs()
+        kwargs.update({
+            'user': self.request.user
+        })
+        return kwargs    
+
 
 # teacher courses course view
 class TeacherCourses(LoginRequiredMixin, TeacherMixin, ListView):

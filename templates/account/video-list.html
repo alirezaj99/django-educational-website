@@ -20,6 +20,7 @@
 					      <th scope="col">دوره</th>
 					      <th scope="col">قسمت</th>
 					      <th scope="col">وضعیت انتشار</th>
+					      <th scope="col">وضعیت</th>
 					    </tr>
 					  </thead>
 					  <tbody>
@@ -41,6 +42,7 @@
                        			    <span class="font-weight-bold text-danger" >تایید نشده</span>
                        			{% endif %}
 						      </td>
+						      <td><a class="badge badge-warning p-2" href="{% url 'account:video_course_update' video.pk %}">ویرایش</a></td>
 						    </tr>					
 					  	{% endfor %}
 					  </tbody>

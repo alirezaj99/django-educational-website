@@ -1,8 +1,8 @@
 from django.urls import path
 from .views import (
     Register, Login, logout_view, add_course_to_order, Cart, delete_course_from_order, MyCourses,
-    PasswordChange, CourseAdd, TeacherCourses, MyComment, TeacherBlogs, PaymentList, PaymentDetail, BlogCreate,VideoAdd
-    , PasswordReset,PasswordResetConfirm,ProfileUpdate,BlogUpdate,CourseUpdate,VideoList
+    PasswordChange, CourseAdd, TeacherCourses, MyComment, TeacherBlogs, PaymentList, PaymentDetail, BlogCreate,VideoAdd,VideoUpdate
+    ,PasswordReset,PasswordResetConfirm,ProfileUpdate,BlogUpdate,CourseUpdate,VideoList
 )
 
 app_name = 'account'
@@ -21,6 +21,7 @@ urlpatterns = [
     path('course-update/<int:pk>/', CourseUpdate.as_view(), name='course_update'),
     path('teacher-videos-courses/', VideoList.as_view(), name='teacher_videos'),
     path('video-course-add/', VideoAdd.as_view(), name='video_course_add'),
+    path('video-course-update/<int:pk>/', VideoUpdate.as_view(), name='video_course_update'),
     path('teacher-courses/', TeacherCourses.as_view(), name='teacher_courses'),
     path('my-comment/', MyComment.as_view(), name='my_comment'),
     path('teacher-blogs/', TeacherBlogs.as_view(), name='teacher_blogs'),
