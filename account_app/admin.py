@@ -20,7 +20,7 @@ class ProfileAdmin(admin.ModelAdmin):
     class meta:
         model = Profile
 
-UserAdmin.list_display += ('is_teacher', 'is_student','send_email',)
+UserAdmin.list_display += ('is_active','is_teacher', 'is_student','send_email',)
 UserAdmin.list_filter += ('is_teacher', 'is_student','send_email',)
 admin.site.register(User, UserAdmin)
 admin.site.register(Profile,ProfileAdmin)
