@@ -86,6 +86,22 @@
                                     <input type="email" value="{{user.email}}"  class="form-control" disabled="disabled">
                                 </div>
                             </div>
+                            {% if user.is_teacher %}
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">وضعیت مدرسی</label>
+                                    <div class="col-sm-1">
+                                        <input type="checkbox" class="form-control" checked disabled >
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if user.is_student %}
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">وضعیت دانشجویی</label>
+                                    <div class="col-sm-1">
+                                        <input type="checkbox" class="form-control" checked disabled >
+                                    </div>
+                                </div>  
+                            {% endif %}
                             <div class="form-group row">
                                 <label class="col-sm-2 col-form-label">نام</label>
                                 <div class="col-sm-7">
