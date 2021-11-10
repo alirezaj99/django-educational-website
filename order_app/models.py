@@ -6,9 +6,7 @@ from account_app.models import User
 from extensions.utils import jalali_converter
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-
 # Create your models here.
-
 
 class Order(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders',
@@ -96,8 +94,8 @@ class OrderItem(models.Model):
 
 def create_order(sender, **kwargs):
     if kwargs['created']:
-        profile = Order(user=kwargs['instance'], is_paid=False)
-        profile.save()
+        order = Order(user=kwargs['instance'], is_paid=False)
+        order.save()
 
 
 post_save.connect(create_order, sender=User)

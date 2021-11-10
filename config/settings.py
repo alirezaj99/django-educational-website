@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'account_app',
     'course_app',
     'order_app',
+    'cart_app',
     'index_app',
     'blog_app',
     'settings_app',
