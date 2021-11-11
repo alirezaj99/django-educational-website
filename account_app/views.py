@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreateFieldMixin, BlogCreateValidMixin,TeacherBlogUpadteMixin,TeacherCourseUpadteMixin,VideoUpdateMixin)
 from blog_app.models import Blog
 from django.contrib import messages
+from cart_app.models import Cart,CartItem
 
 # register view
 class Register(CreateView):
@@ -110,35 +111,61 @@ class PasswordResetConfirm(PasswordResetConfirmView):
 
 # add course to order view
 @login_required()
-def add_course_to_order(request, *args, **kwargs):
+def add_course_to_cart(request, pk, *args, **kwargs):
     user_courses = request.user.student_courses.get_publish_course()
-    order = Order.objects.get(user_id=request.user.id, is_paid=False)
-    if order is None:
-        Order.objects.create(user_id=request.user.id, is_paid=False)
-    course_id = kwargs['pk']
-    course = Course.objects.get(id=course_id)
+    cart = Cart.objects.get(user_id=request.user.id)
+    if not cart or cart is None:
+        Cart.objects.create(user_id=request.user.id)
+    course_id = pk
+    try:
+        course = Course.objects.get(id=course_id)
+    except Course.DoesNotExist:
+        raise Http404()
     if course in user_courses:
         return redirect('account:my_courses')
     if course is None or not course.status:
         raise Http404()
-    item = order.items.filter(course_id=course_id).first()
-    if item in order.items.all():
+    item = cart.items.filter(course_id=course_id).first()
+    if item in cart.items.all():
         return redirect('account:cart')
     else:
         if course.discount and 0 < course.discount <= 100 and course.price > 0:
             discount = course.discount
         else:
             discount = None
-        order.items.create(course_id=course_id, price=course.price, discount=discount)
+        cart.items.create(course_id=course_id,price=course.price,discount=discount)
     return redirect('account:cart')
+
+# @login_required()
+# def add_course_to_order(request, *args, **kwargs):
+#     user_courses = request.user.student_courses.get_publish_course()
+#     order = Order.objects.get(user_id=request.user.id, is_paid=False)
+#     if order is None:
+#         Order.objects.create(user_id=request.user.id, is_paid=False)
+#     course_id = kwargs['pk']
+#     course = Course.objects.get(id=course_id)
+#     if course in user_courses:
+#         return redirect('account:my_courses')
+#     if course is None or not course.status:
+#         raise Http404()
+#     item = order.items.filter(course_id=course_id).first()
+#     if item in order.items.all():
+#         return redirect('account:cart')
+#     else:
+#         if course.discount and 0 < course.discount <= 100 and course.price > 0:
+#             discount = course.discount
+#         else:
+#             discount = None
+#         order.items.create(course_id=course_id, price=course.price, discount=discount)
+#     return redirect('account:cart')
 
 
 # delete course from order view
 @login_required()
-def delete_course_from_order(request, *args, **kwargs):
-    item_id = kwargs['pk']
-    if item_id is not None:
-        item = get_object_or_404(OrderItem, pk=item_id)
+def delete_course_from_cart(request, pk, *args, **kwargs):
+    item_id = pk
+    if item_id:
+        item = get_object_or_404(CartItem, pk=item_id)
         if item is not None:
             item.delete()
             return redirect('account:cart')
@@ -175,17 +202,17 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
 
 
 # cart view
-class Cart(LoginRequiredMixin, ListView):
+class CartView(LoginRequiredMixin, ListView):
     def get_queryset(self):
-        order = Order.objects.get(user_id=self.request.user.id, is_paid=False)
-        items = order.items.all()
+        cart = Cart.objects.get(user_id=self.request.user.id)
+        items = cart.items.all()
         return items
 
     template_name = 'account/cart.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['order'] = Order.objects.get(user_id=self.request.user.id, is_paid=False)
+        context['cart'] = Cart.objects.get(user_id=self.request.user.id)
         return context
 
 

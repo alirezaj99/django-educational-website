@@ -67,7 +67,7 @@
                                 <p>{{ item.course.description|safe|truncatewords:43 }}</p>
                             </div>
                             <div class="col-md-12">
-                                <a href="{% url 'account:delete_course_to_order' item.pk %}"
+                                <a href="{% url 'account:delete_course_to_cart' item.pk %}"
                                    class="btn red outline radius-xl ">حذف</a>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         <span class="pl-3">مبلغ کل</span>
                     </div>
                     <div class="col-6">
-                        <span>{{ order.get_price|intcomma:False }} تومان</span>
+                        <span>{{ cart.get_price|intcomma:False }} تومان</span>
                     </div>
                 </div>
                 <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #01ace5">
@@ -88,7 +88,7 @@
                         <span class="pl-3">تخفیف</span>
                     </div>
                     <div class="col-6">
-                        <span>{{ order.get_total_discount|intcomma:False }} تومان</span>
+                        <span>{{ cart.get_total_discount|intcomma:False }} تومان</span>
                     </div>
                 </div>
                 <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #333;">
@@ -96,10 +96,10 @@
                         <span class="pl-3">مبلغ قابل پرداخت</span>
                     </div>
                     <div class="col-6 mb-3">
-                        {% if order.get_total_price == 0 %}
+                        {% if cart.get_total_price == 0 %}
                         <span style="color: #018f23">رایگان</span>
                         {% else %}
-                        <span>{{ order.get_total_price|intcomma:False }} تومان</span>
+                        <span>{{ cart.get_total_price|intcomma:False }} تومان</span>
                         {% endif %}
                     </div>
                     <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
