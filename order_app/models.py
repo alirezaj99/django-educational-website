@@ -3,8 +3,9 @@ from django.conf import settings
 from course_app.models import Course
 from django.db.models.signals import post_save, pre_save
 from account_app.models import User
-from extensions.utils import jalali_converter
+from extensions.utils import jalali_converter,jalali_converter_date
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 # Create your models here.
 
@@ -92,24 +93,54 @@ class OrderItem(models.Model):
         ordering = ['-created']
 
 
-def create_order(sender, **kwargs):
-    if kwargs['created']:
-        order = Order(user=kwargs['instance'], is_paid=False)
+class CouponCode(models.Model):
+    code = models.CharField(max_length=50,verbose_name='کد تخفیف',unique=True)
+    discount = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='درصد تخفیف')
+    start = models.DateField(default=timezone.now,verbose_name='زمان شروع')
+    end = models.DateField(verbose_name='زمان پایان')
+    status = models.BooleanField(default=True,verbose_name='فعال / غیرفعال؟')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
+    update = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')
+    
+    class Meta:
+        verbose_name = 'کد تخفیف'
+        verbose_name_plural = 'کد های تخفیف'
+        ordering = ['-status', '-created']
+
+    def __str__(self):
+        return f'{self.code} | {self.discount} %'
+    
+    def jalali_start(self):
+        return jalali_converter_date(self.start)
+    
+    jalali_start.short_description = 'تاریخ شروع'
+    
+    def jalali_end(self):
+        return jalali_converter_date(self.end)
+    
+    jalali_end.short_description = 'تاریخ پایان'
+
+
+def create_order(sender,created,instance,**kwargs):
+    if created:
+        order = Order(user=instance, is_paid=False)
         order.save()
 
 
 post_save.connect(create_order, sender=User)
 
 
-def set_order_item_price(sender, instance, *args, **kwargs):
-    orders = Order.objects.filter(is_paid=False)
-    for order in orders:
-        items = order.items.filter(course_id=instance.id)
-        if items:
-            for item in items:
-                item.price = instance.price
-                item.discount = instance.discount
-                item.save()
+# def set_order_item_price(sender, instance, *args, **kwargs):
+#     orders = Order.objects.filter(is_paid=False)
+#     for order in orders:
+#         items = order.items.filter(course_id=instance.id)
+#         if items:
+#             for item in items:
+#                 item.price = instance.price
+#                 item.discount = instance.discount
+#                 item.save()
 
 
-pre_save.connect(set_order_item_price, Course)
+# pre_save.connect(set_order_item_price, Course)
+
+

@@ -1,0 +1,102 @@
+{% extends 'account/AccountBase.html' %}
+{% load widget_tweaks %}
+{% load humanize %}
+{% block head_title %}پرداخت{% endblock %}
+{% block page_title %}
+<li>پرداخت</li>{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-lg-12 m-b30">
+        <div class="widget-box">
+            <div class="wc-title">
+                <h4>پرداخت</h4>
+            </div>
+            <div class="widget-inner">
+                <div class="row">
+                <div class="col-md-8 text-center">
+                {% if items %}
+                    <div class="col-12 pb-3" >
+                        <span class="font-weight-bold" >خلاصه سفارش</span>
+                    </div>
+                    {% for item in items %}
+                        <div class="col-12 mb-2">
+                            <p class="mb-1" >{{item.course.title}}</p>
+                            <img src="{{ item.course.image.url }}" width="100">
+                            <hr>
+                        </div>
+                    {% endfor %}
+                </div>    
+                <div class="col-md-4 text-center">
+                    <div class="col-12 mb-2">
+                        <span class="pl-3">مبلغ کل دوره ها</span>
+                    </div>
+                    <div class="col-12">
+                        <span>{{ cart.get_price|intcomma:False }} تومان</span>
+                        <hr>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <span class="pl-3">تخفیف دوره ها</span>
+                    </div>
+                    <div class="col-12">
+                        <span class="text-danger" >{{ cart.get_total_courses_discount|intcomma:False }} تومان</span>
+                        <hr>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <span class="pl-3">جمع</span>
+                    </div>
+                    <div class="col-12">
+                        <span>{{ cart.get_total_courses_price|intcomma:False }} تومان</span>
+                        <hr>
+                    </div>
+                    {% if cart.coupon_code %}
+
+                    <div class="col-12 mb-2">
+                        <span class="pl-3">کد تخفیف</span>
+                    </div>
+                    <div class="col-12">
+                        <span class="text-danger" >{{ cart.get_coupen_code_price|intcomma:False }} تومان</span>
+                        <hr>
+                    </div>
+                    {% endif %}
+                    <div class="col-12 mb-2 font-weight-bold">
+                        <span class="pl-3">مبلغ قابل پرداخت</span>
+                    </div>
+                    <div class="col-12 font-weight-bold">
+                        <span>{{ cart.get_total_price|intcomma:False }} تومان</span>
+                        <hr>
+                    </div>
+                    {% if not cart.coupon_code %}
+                         <div class="col-12 mb-3">
+                                <form method="post" action="{% url 'account:apply_coupon_code' %}" >
+                                        {% csrf_token %}
+                                        <div style="width: 80%;float: right;" >
+                                            {% render_field coupon_form.code class="form-control" placeholder="کد تخفیف" %}
+                                        </div>
+                                        <div>
+                                            <button type="submit" class="btn bg-info" >ثبت</button>
+                                        </div>
+                                </form>
+                        </div>
+                    {% endif %}
+                    {% if cart.coupon_code %}
+                    <div class="col-12 mb-2">
+                        <div class="alert alert-info font-weight-bold" >
+                            <p class="m-0 byekan" > ٪ {{ cart.coupon_code.discount }} تخفیف بابت کد تخفیف {{ cart.coupon_code.code }} </p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="col-12">
+                        <button class="btn btn-block" >پرداخت</button>
+                    </div>
+                </div>
+                </div>
+                {% else %}
+                <div class="col-12 text-center">
+                    <p class="alert alert-warning text-center" style="font-family: iransans-light">سفارشی ای یافت نشد</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

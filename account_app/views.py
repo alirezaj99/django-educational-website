@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect, resolve_url, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, PasswordChangeView,PasswordResetView,PasswordResetConfirmView
 from django.views.generic.edit import UpdateView
-from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, ResetForm,VideoCreate,UserUpdateForm
+from .forms import LoginForm, CreateUserForm, ProfileUpdateForm, ResetForm,VideoCreate,UserUpdateForm,CoupenCodeForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from order_app.models import Order, OrderItem
+from order_app.models import Order, OrderItem,CouponCode
 from course_app.models import Course,Video
 from django.http import Http404, HttpResponseRedirect
 from django.views.generic import CreateView, ListView, DetailView ,TemplateView
@@ -212,9 +212,44 @@ class CartView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['cart'] = Cart.objects.get(user_id=self.request.user.id)
+        cart = Cart.objects.get(user_id=self.request.user.id)
+        cart.coupon_code = None
+        cart.save()
+        context['cart'] = cart
         return context
 
+# apply coupon code
+@login_required()
+def apply_coupon_code(request):
+    if request.method == 'POST':
+        form = CoupenCodeForm(request.POST)
+        if form.is_valid():
+            code = form.cleaned_data['code']
+            try:
+                coupon = CouponCode.objects.get(code=code)
+                cart = Cart.objects.get(user=request.user)
+                cart.coupon_code = coupon
+                cart.save()
+                messages.error(request,'ok')
+                return redirect('account:checkout')
+            except CouponCode.DoesNotExist:
+                messages.error(request,'کد تخفیف نامعتبر است.')
+    return redirect('account:checkout')
+
+# checkout view
+@login_required()
+def checkout(request):
+    cart = Cart.objects.get(user_id=request.user.id)
+    items = cart.items.all()
+    if items.count() < 1:
+        raise Http404()
+    coupon_form = CoupenCodeForm(request.POST)
+    context = {
+        'cart':cart,    
+        'items':items,
+        'coupon_form':coupon_form,    
+    }
+    return render(request,'account/checkout.html',context)
 
 # my courses view
 class MyCourses(LoginRequiredMixin, ListView):

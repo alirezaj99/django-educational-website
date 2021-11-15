@@ -133,3 +133,6 @@ class ResetForm(PasswordResetForm):
         except User.DoesNotExist:
             raise ValidationError('کاربری با مشخصات وارد شده یافت نشد')
         return self.cleaned_data
+
+class CoupenCodeForm(forms.Form):
+    code = forms.CharField(max_length=50,label='کد تخفیف',required=True)

@@ -85,27 +85,27 @@
                 </div>
                 <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #01ace5">
                     <div class="col-6">
-                        <span class="pl-3">تخفیف</span>
+                        <span class="pl-3">تخفیف دوره ها</span>
                     </div>
                     <div class="col-6">
-                        <span>{{ cart.get_total_discount|intcomma:False }} تومان</span>
+                        <span>{{ cart.get_total_courses_discount|intcomma:False }} تومان</span>
                     </div>
                 </div>
                 <div class="row text-center mt-3" style="font-weight: bold;font-size: 19px;color: #333;">
                     <div class="col-6">
-                        <span class="pl-3">مبلغ قابل پرداخت</span>
+                        <span class="pl-3">جمع</span>
                     </div>
                     <div class="col-6 mb-3">
                         {% if cart.get_total_price == 0 %}
                         <span style="color: #018f23">رایگان</span>
                         {% else %}
-                        <span>{{ cart.get_total_price|intcomma:False }} تومان</span>
+                        <span>{{ cart.get_total_courses_price|intcomma:False }} تومان</span>
                         {% endif %}
                     </div>
                     <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>
                     <div class="col-10" style="border-top: 1px solid rgba(0, 0, 0, 0.1);">
-                        <a href="{% url 'order:request' %}">
-                            <button class="btn btn-block btn-success mt-3">پرداخت</button>
+                        <a href="{% url 'account:checkout' %}">
+                            <button class="btn btn-block btn-success mt-3">تکمیل خرید</button>
                         </a>
                     </div>
                     <div class="col-1" style="border-top: 1px solid rgba(0, 0, 0, 0.1);"></div>

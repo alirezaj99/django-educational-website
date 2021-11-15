@@ -2,13 +2,15 @@ from django.urls import path
 from .views import (
     Register, Login, logout_view, add_course_to_cart, CartView, delete_course_from_cart, MyCourses,
     PasswordChange, CourseAdd, TeacherCourses, MyComment, TeacherBlogs, PaymentList, PaymentDetail, BlogCreate,VideoAdd,VideoUpdate
-    ,PasswordReset,PasswordResetConfirm,ProfileUpdate,BlogUpdate,CourseUpdate,VideoList
+    ,PasswordReset,PasswordResetConfirm,ProfileUpdate,BlogUpdate,CourseUpdate,VideoList,checkout,apply_coupon_code
 )
 
 app_name = 'account'
 
 urlpatterns = [
     path('cart/', CartView.as_view(), name='cart'),
+    path('checkout/', checkout, name='checkout'),
+    path('apply-coupon-code/', apply_coupon_code, name='apply_coupon_code'),
     path('register/', Register.as_view(), name='register'),
     path('login/', Login.as_view(), name='login'),
     path('password-change/', PasswordChange.as_view(), name='password_change'),

@@ -3,10 +3,12 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from course_app.models import Course
 from django.core.validators import MinValueValidator,MaxValueValidator
+from order_app.models import CouponCode
 # models 
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart',
                              verbose_name='کاربر')
+    coupon_code = models.ForeignKey(CouponCode,on_delete=models.SET_NULL,related_name='carts',blank=True,null=True,verbose_name='کد تخفیف')
     created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')
 
@@ -19,23 +21,41 @@ class Cart(models.Model):
         amount = 0
         for item in self.items.all():
             amount += item.total_price()
-        return amount
+        if self.coupon_code:    
+            total = amount - (amount * self.coupon_code.discount) / 100    
+            return int(total)
+        return int(amount)
 
     get_total_price.short_description = 'جمع سفارش قابل پرداخت'
 
-    def get_total_discount(self):
+
+    def get_total_courses_price(self):
+        amount = 0
+        for item in self.items.all():
+            amount += item.total_price()
+        return int(amount)
+
+    def get_total_courses_discount(self):
         amount = 0
         for item in self.items.all():
             amount += item.total_discount()
         return amount
 
-    get_total_discount.short_description = 'جمع تخفیف'
+    get_total_courses_discount.short_description = 'جمع تخفیف دوره ها'
+
+
+    def get_coupen_code_price(self):
+        amount = (self.get_total_courses_price()  * self.coupon_code.discount) / 100
+        return int(amount)
+
+    get_coupen_code_price.short_description = 'مبلغ تخفیف کد تخفیف'
+
 
     def get_price(self):
         amount = 0
         for item in self.items.all():
             amount += item.price
-        return amount
+        return int(amount)
 
 
     def __str__(self):
