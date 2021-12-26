@@ -96,8 +96,8 @@ class OrderItem(models.Model):
 class CouponCode(models.Model):
     code = models.CharField(max_length=50,verbose_name='کد تخفیف',unique=True)
     discount = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(100)],verbose_name='درصد تخفیف')
-    start = models.DateField(default=timezone.now,verbose_name='زمان شروع')
-    end = models.DateField(verbose_name='زمان پایان')
+    start = models.DateTimeField(default=timezone.now,verbose_name='زمان شروع')
+    end = models.DateTimeField(verbose_name='زمان پایان')
     status = models.BooleanField(default=True,verbose_name='فعال / غیرفعال؟')
     created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
     update = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')

@@ -80,8 +80,9 @@
                     {% endif %}
                     {% if cart.coupon_code %}
                     <div class="col-12 mb-2">
-                        <div class="alert alert-info font-weight-bold" >
-                            <p class="m-0 byekan" > ٪ {{ cart.coupon_code.discount }} تخفیف بابت کد تخفیف {{ cart.coupon_code.code }} </p>
+                        <div class="row alert alert-info font-weight-bold justify-content-center" style="font-family: iransans-medium;" >
+                            <p class="m-0 byekan ml-2" > ٪ {{ cart.coupon_code.discount }} تخفیف بابت کد تخفیف {{ cart.coupon_code.code }} </p>
+                            <a href="#" style="color:red;font-size: 1.25rem;" ><i class="fa fa-close"></i></a>
                         </div>
                     </div>
                     {% endif %}

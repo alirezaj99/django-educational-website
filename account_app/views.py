@@ -15,6 +15,7 @@ from .mixins import (TeacherMixin, CourseValidMixin, CourseFieldMixin, BlogCreat
 from blog_app.models import Blog
 from django.contrib import messages
 from cart_app.models import Cart,CartItem
+from django.utils import timezone
 
 # register view
 class Register(CreateView):
@@ -224,13 +225,14 @@ def apply_coupon_code(request):
     if request.method == 'POST':
         form = CoupenCodeForm(request.POST)
         if form.is_valid():
+            time = timezone.now()
             code = form.cleaned_data['code']
             try:
-                coupon = CouponCode.objects.get(code=code)
+                coupon = CouponCode.objects.get(code__exact=code,start__lte=time,end__gte=time,status=True)
                 cart = Cart.objects.get(user=request.user)
                 cart.coupon_code = coupon
                 cart.save()
-                messages.error(request,'ok')
+                messages.error(request,'کد تخفیف با موفقیت اعمال شد.')
                 return redirect('account:checkout')
             except CouponCode.DoesNotExist:
                 messages.error(request,'کد تخفیف نامعتبر است.')
