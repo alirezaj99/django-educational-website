@@ -67,22 +67,26 @@
                     </div>
                     {% if not cart.coupon_code %}
                          <div class="col-12 mb-3">
+                             <div class="justify-content-center" >
                                 <form method="post" action="{% url 'account:apply_coupon_code' %}" >
                                         {% csrf_token %}
-                                        <div style="width: 80%;float: right;" >
+                                        <div style="width: 100%;" class="text-center" >
                                             {% render_field coupon_form.code class="form-control" placeholder="کد تخفیف" %}
-                                        </div>
-                                        <div>
-                                            <button type="submit" class="btn bg-info" >ثبت</button>
+                                            <button type="submit" class="mt-2 btn btn-block bg-info" >ثبت کد تخفیف</button>
                                         </div>
                                 </form>
+                            </div>
                         </div>
                     {% endif %}
                     {% if cart.coupon_code %}
                     <div class="col-12 mb-2">
-                        <div class="row alert alert-info font-weight-bold justify-content-center" style="font-family: iransans-medium;" >
+                        <div class=" alert alert-info font-weight-bold justify-content-center" style="font-family: iransans-medium;" >
                             <p class="m-0 byekan ml-2" > ٪ {{ cart.coupon_code.discount }} تخفیف بابت کد تخفیف {{ cart.coupon_code.code }} </p>
-                            <a href="#" style="color:red;font-size: 1.25rem;" ><i class="fa fa-close"></i></a>
+                                <form action="{% url 'account:remove_coupon_code' %}" class="mt-2" >
+                                    <button type="submit" style="background:none; border:none; padding:0; cursor: pointer;">
+                                        <i class="fa fa-close" style="color:red;font-size: 1.3rem;"></i>
+                                    </button>
+                                </form>
                         </div>
                     </div>
                     {% endif %}

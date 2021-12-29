@@ -232,12 +232,25 @@ def apply_coupon_code(request):
                 cart = Cart.objects.get(user=request.user)
                 cart.coupon_code = coupon
                 cart.save()
-                messages.error(request,'کد تخفیف با موفقیت اعمال شد.')
+                messages.success(request,'کد تخفیف با موفقیت اعمال شد.')
                 return redirect('account:checkout')
             except CouponCode.DoesNotExist:
                 messages.error(request,'کد تخفیف نامعتبر است.')
     return redirect('account:checkout')
 
+# remove coupon code from cart
+@login_required()
+def remove_coupon_code(request):
+    cart = Cart.objects.get(user=request.user)
+    if cart.coupon_code:
+        print(cart.coupon_code)
+        cart.coupon_code = None
+        cart.save()
+        messages.success(request,'کد تخفیف با موفقیت حذف شد')
+        return redirect('account:checkout')
+    else:
+        raise Http404()
+        
 # checkout view
 @login_required()
 def checkout(request):
