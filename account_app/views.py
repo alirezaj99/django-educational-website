@@ -255,9 +255,20 @@ def remove_coupon_code(request):
 @login_required()
 def checkout(request):
     cart = Cart.objects.get(user_id=request.user.id)
+
+    if cart.coupon_code:
+        time = timezone.now()
+        try :
+            coupon = CouponCode.objects.get(code__exact=cart.coupon_code.code,start__lte=time,end__gte=time,status=True)
+        except:
+            cart.coupon_code = None
+            cart.save()
+            messages.error(request,'کد تخفیف منقضی شده است.')
+
     items = cart.items.all()
     if items.count() < 1:
         raise Http404()
+        
     coupon_form = CoupenCodeForm(request.POST)
     context = {
         'cart':cart,    
