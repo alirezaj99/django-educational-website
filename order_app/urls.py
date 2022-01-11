@@ -5,5 +5,5 @@ app_name = 'order'
 
 urlpatterns = [
     path('payment/request/', go_to_gateway_view, name='request'),
-    path('payment/call-back/', callback_gateway_view, name='call_back'),
+    path('payment/call-back/<str:order_id>/', callback_gateway_view, name='call_back'),
 ]

@@ -254,6 +254,7 @@ def remove_coupon_code(request):
 # checkout view
 @login_required()
 def checkout(request):
+    print(request.META.get('HTTP_REFERER'))
     cart = Cart.objects.get(user_id=request.user.id)
 
     if cart.coupon_code:
@@ -405,7 +406,7 @@ class BlogUpdate(LoginRequiredMixin,TeacherMixin,TeacherBlogUpadteMixin,BlogCrea
 # paymant list view
 class PaymentList(LoginRequiredMixin, ListView):
     def get_queryset(self):
-        order = Order.objects.filter(user_id=self.request.user.id, is_paid=True)
+        order = Order.objects.filter(user_id=self.request.user.id)
         return order
 
     template_name = 'account/payment-list.html'
@@ -415,7 +416,7 @@ class PaymentList(LoginRequiredMixin, ListView):
 class PaymentDetail(LoginRequiredMixin, DetailView):
     def get_object(self):
         pk = self.kwargs.get('pk')
-        order = get_object_or_404(Order.objects.filter(user_id=self.request.user.id, is_paid=True),
+        order = get_object_or_404(Order.objects.filter(user_id=self.request.user.id),
                                   pk=pk)
         return order
 

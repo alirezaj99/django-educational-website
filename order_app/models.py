@@ -10,9 +10,17 @@ from django.utils import timezone
 # Create your models here.
 
 class Order(models.Model):
+    
+    STATUS_CHOICES = {
+        ('w','waiting'), # در انتظار پدراخت
+        ('s','success'), # پرداخت موفق
+        ('f','failed'), # پرداخت ناموفق
+    }
+
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders',
                              verbose_name='کاربر')
-    is_paid = models.BooleanField(default=False, verbose_name='پرداخت شده/نشده؟')
+    coupon_code = models.ForeignKey("CouponCode",on_delete=models.SET_NULL,related_name='orders',blank=True,null=True,verbose_name='کد تخفیف')
+    status = models.CharField(max_length=1,choices=STATUS_CHOICES,default='w')
     is_free = models.BooleanField(default=False, verbose_name='رایگان؟')
     payment_date = models.DateTimeField(blank=True, null=True, verbose_name="تاریخ پرداخت")
     created = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
@@ -30,6 +38,9 @@ class Order(models.Model):
         amount = 0
         for item in self.items.all():
             amount += item.total_price()
+        if self.coupon_code:    
+            total = amount - (amount * self.coupon_code.discount) / 100    
+            return int(total)
         return amount
 
     get_total_price.short_description = 'جمع سفارش قابل پرداخت'
@@ -123,7 +134,7 @@ class CouponCode(models.Model):
 
 def create_order(sender,created,instance,**kwargs):
     if created:
-        order = Order(user=instance, is_paid=False)
+        order = Order(user=instance)
         order.save()
 
 

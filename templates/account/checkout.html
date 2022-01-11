@@ -91,7 +91,10 @@
                     </div>
                     {% endif %}
                     <div class="col-12">
-                        <button class="btn btn-block" >پرداخت</button>
+                        <form action="{% url 'order:request' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-block" >پرداخت</button>
+                        </form>
                     </div>
                 </div>
                 </div>
