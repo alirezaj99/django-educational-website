@@ -29,7 +29,13 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-md-3">
-                                    <span class="text-success text-center font-weight-bold">پرداخت شده</span>
+                                    {% if order.status == "s" %}
+                                        <span class="text-success text-center font-weight-bold">پرداخت شده</span>
+                                    {% elif order.status == "f" %}
+                                        <span class="text-danger text-center font-weight-bold">پرداخت ناموفق</span>
+                                    {% else %}
+                                        <span class="text-danger text-center font-weight-bold">در انتظار پرداخت</span>
+                                    {% endif %}
                                 </div>
                                 <div class="col-md-3">
                                     <div class="row">

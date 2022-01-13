@@ -106,7 +106,7 @@ def callback_gateway_view(request, *args, **kwargs):
     order.payment_date = timezone.now()
     order.save()
     for item in cart.items.all():
-            item.delete()
+        item.delete()
     cart.coupon_code = None
     cart.save()
     return render(request, 'payment/payment-failed.html')

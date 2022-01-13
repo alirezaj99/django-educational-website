@@ -15,14 +15,24 @@
                             <span>{{ object.id }} #</span>
                         </div>
                         <div class="col-md-3">
-                            <span>جمع کل : {% if order.get_total_price == 0 %}
+                            <span>جمع کل : {% if object.get_total_price == 0 %}
                                 <span class="font-weight-bold" style="color: #018f23">رایگان</span>
                             {% else %}
-                                <span class="font-weight-bold">{{ order.get_total_price|intcomma:False }} تومان</span>
-                            {% endif %}</span>
+                                <span class="font-weight-bold">{{ object.get_total_price|intcomma:False }} تومان</span>
+                            {% endif %}
+                            {% if object.coupon_code %}
+                                <span class="font-weight-bold text-danger mr-3">{{ object.coupon_code.discount }} % کد تخفیف</span>
+                            {% endif %}
+                            </span>
                         </div>
                         <div class="col-md-3">
-                            <span class="text-success text-center font-weight-bold">پرداخت شده</span>
+                            {% if object.status == "s" %}
+                                <span class="text-success text-center font-weight-bold">پرداخت شده</span>
+                            {% elif object.status == "f" %}
+                                <span class="text-danger text-center font-weight-bold">پرداخت ناموفق</span>
+                            {% else %}
+                                <span class="text-danger text-center font-weight-bold">در انتظار پرداخت</span>
+                            {% endif %}
                         </div>
                         <div class="col-md-4">
                             <span>{{ object.jalali_time }}</span>
