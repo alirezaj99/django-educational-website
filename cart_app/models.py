@@ -57,6 +57,10 @@ class Cart(models.Model):
             amount += item.price
         return int(amount)
 
+    def count_of_items(self):
+        return str(self.items.all().count())
+
+    count_of_items.short_description = 'تعداد دوره ها'
 
     def __str__(self):
         return f'{str(self.user)}'
