@@ -11,7 +11,7 @@ from cart_app.models import Cart
 @login_required()
 def go_to_gateway_view(request):
 
-    if not str(request.META.get('HTTP_REFERER')) == "http://127.0.0.1:8000/account/checkout/":
+    if not str(request.META.get('HTTP_REFERER'))[-17:] in ["account/checkout/","/account/checkout"]:
         raise Http404("previous page")
 
     user = request.user

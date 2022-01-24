@@ -137,30 +137,6 @@ def add_course_to_cart(request, pk, *args, **kwargs):
         cart.items.create(course_id=course_id,price=course.price,discount=discount)
     return redirect('account:cart')
 
-# @login_required()
-# def add_course_to_order(request, *args, **kwargs):
-#     user_courses = request.user.student_courses.get_publish_course()
-#     order = Order.objects.get(user_id=request.user.id, is_paid=False)
-#     if order is None:
-#         Order.objects.create(user_id=request.user.id, is_paid=False)
-#     course_id = kwargs['pk']
-#     course = Course.objects.get(id=course_id)
-#     if course in user_courses:
-#         return redirect('account:my_courses')
-#     if course is None or not course.status:
-#         raise Http404()
-#     item = order.items.filter(course_id=course_id).first()
-#     if item in order.items.all():
-#         return redirect('account:cart')
-#     else:
-#         if course.discount and 0 < course.discount <= 100 and course.price > 0:
-#             discount = course.discount
-#         else:
-#             discount = None
-#         order.items.create(course_id=course_id, price=course.price, discount=discount)
-#     return redirect('account:cart')
-
-
 # delete course from order view
 @login_required()
 def delete_course_from_cart(request, pk, *args, **kwargs):
