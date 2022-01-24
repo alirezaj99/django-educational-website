@@ -35,9 +35,19 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% if messages %}
     {% for m in messages %}
-        <script>
-            Swal.fire({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه'})
-        </script>
+        {% if "success" in m.tags %}
+            <script>
+                Swal.fire({title:"ایجوکمپ",text:"{{ m }}",icon:"success",  confirmButtonText: 'باشه'})
+            </script>
+        {% elif "error" in m.tags %}
+            <script>
+                Swal.fire({title:"ایجوکمپ",text:"{{ m }}",icon:"error",  confirmButtonText: 'باشه'})
+            </script>
+        {% else %}
+            <script>
+                Swal.fire({title:"ایجوکمپ",text:"{{ m }}",icon:"info",  confirmButtonText: 'باشه'})
+            </script>
+        {% endif %}
     {% endfor %}
 {% endif %}
 
