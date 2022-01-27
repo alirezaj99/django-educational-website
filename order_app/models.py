@@ -11,11 +11,11 @@ from django.utils import timezone
 
 class Order(models.Model):
     
-    STATUS_CHOICES = {
+    STATUS_CHOICES = [
         ('w','waiting'), # در انتظار پدراخت
         ('s','success'), # پرداخت موفق
         ('f','failed'), # پرداخت ناموفق
-    }
+    ]
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='orders',
                              verbose_name='کاربر')
