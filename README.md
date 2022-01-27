@@ -1,3 +1,5 @@
-django educational website source code written in python (django) by : Alireza Javabvar
-Attention : the template has license , for buy > rtl-theme
-status : Updateing...
+## django educational website
+written in python (**django**)
+by : Alireza Javabvar
+**Attention** : the template has license , for buy > rtl-theme 
+*status : Updating ...*
