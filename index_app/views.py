@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from course_app.models import Course
+from course_app.models import Course,CourseCategory
 from account_app.models import User
 from blog_app.models import Blog
-
+from settings_app.models import Settings
 
 # Create your views here.
 
@@ -23,3 +23,49 @@ def index_page(request):
     }
 
     return render(request, 'index/index.html', context)
+
+# render partial
+
+def header_references(request):
+    settings = Settings.objects.first()
+    icon = settings.site_favicon.url
+    context = {
+        'icon': icon
+    }
+    return render(request, 'Shared/_HeaderReferences.html', context)
+
+
+def site_header(request):
+    categories = CourseCategory.objects.get_active_category()
+    settings = Settings.objects.first()
+    email = settings.email
+    instagram = settings.instagram
+    youtube = settings.youtube
+    twitter = settings.twitter
+    context = {
+        'categories': categories,
+        'email': email,
+        'instagram': instagram,
+        'youtube': youtube,
+        'twitter': twitter,
+    }
+    return render(request, 'Shared/Header.html', context)
+
+
+def footer(request):
+    categories = CourseCategory.objects.get_active_category()[:4]
+    blogs = Blog.objects.get_publish_blog()[:8]
+    settings = Settings.objects.first()
+    instagram = settings.instagram
+    youtube = settings.youtube
+    twitter = settings.twitter
+    site_title = settings.site_title
+    context = {
+        'categories': categories,
+        'blogs': blogs,
+        'instagram': instagram,
+        'youtube': youtube,
+        'twitter': twitter,
+        'site_title': site_title,
+    }
+    return render(request, 'Shared/Footer.html', context)

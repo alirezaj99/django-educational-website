@@ -1,10 +1,11 @@
+{% load base_tags %}
 {% load render_partial %}
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <!-- PAGE TITLE HERE ============================================= -->
-    <title>{% block head_title %}{% endblock %} | {% render_partial 'course_app.views.site_title_view' %}</title>
-    {% render_partial 'course_app.views.header_references' %}
+    <title>{% block head_title %}{% endblock %} | {% site_title %}</title>
+    {% render_partial 'index_app.views.header_references' %}
     {% block add_header_reference %}{% endblock %}
 </head>
 
@@ -12,7 +13,7 @@
 <div class="page-wraper">
     <div id="loading-icon-bx"></div>
     <!-- Header Top ==== -->
-    {% render_partial 'course_app.views.site_header' %}
+    {% render_partial 'index_app.views.site_header' %}
     <!-- header END ==== -->
     <!-- Content -->
     <div class="page-content bg-white">
@@ -20,7 +21,7 @@
     </div>
     <!-- Content END-->
     <!-- Footer ==== -->
-    {% render_partial 'course_app.views.footer' %}
+    {% render_partial 'index_app.views.footer' %}
     <!-- Footer END ==== -->
     <button class="back-to-top fa fa-chevron-up"></button>
 </div>

@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'settings_app',
     'contact_app',
     'about_app',
+    'templatetags',
     # DJANGO CLEANUP
     'django_cleanup.apps.CleanupConfig',
 ]
@@ -83,6 +84,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'base_tags': 'templatetags.base_tags',
+            },
         },
     },
 ]

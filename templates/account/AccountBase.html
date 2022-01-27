@@ -1,10 +1,11 @@
+{% load base_tags %}
 {% load render_partial %}
 <!DOCTYPE html>
 <html lang="fa">
 <head>
     <!-- PAGE TITLE HERE  -->
-    <title>{% block head_title %}{% endblock %} | {% render_partial 'course_app.views.site_title_view' %}</title>
-    {% include 'account/_HeaderReferences.html' %}
+    <title>{% block head_title %}{% endblock %} | {% site_title %}</title>
+    {% render_partial 'account_app.views.header_references' %}
     {% block add_header_reference %}{% endblock %}
 </head>
 

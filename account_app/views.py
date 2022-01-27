@@ -16,6 +16,7 @@ from blog_app.models import Blog
 from django.contrib import messages
 from cart_app.models import Cart,CartItem
 from django.utils import timezone
+from settings_app.models import Settings
 
 # register view
 class Register(CreateView):
@@ -379,7 +380,7 @@ class BlogUpdate(LoginRequiredMixin,TeacherMixin,TeacherBlogUpadteMixin,BlogCrea
     success_url = reverse_lazy('account:teacher_blogs')
 
 
-# paymant list view
+# list view
 class PaymentList(LoginRequiredMixin, ListView):
     def get_queryset(self):
         order = Order.objects.filter(user_id=self.request.user.id)
@@ -388,7 +389,7 @@ class PaymentList(LoginRequiredMixin, ListView):
     template_name = 'account/payment-list.html'
 
 
-# detail view
+# paymant detail view
 class PaymentDetail(LoginRequiredMixin, DetailView):
     def get_object(self):
         pk = self.kwargs.get('pk')
@@ -398,3 +399,13 @@ class PaymentDetail(LoginRequiredMixin, DetailView):
 
     template_name = 'account/payment-detail.html'
 
+
+# render partial
+
+def header_references(request):
+    settings = Settings.objects.first()
+    icon = settings.site_favicon.url
+    context = {
+        'icon': icon
+    }
+    return render(request, 'account/_HeaderReferences.html', context)
