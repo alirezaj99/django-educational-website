@@ -27,21 +27,32 @@ def index_page(request):
 # render partial
 
 def header_references(request):
-    settings = Settings.objects.first()
-    icon = settings.site_favicon.url
+    try:
+        settings = Settings.objects.first()
+        icon = settings.site_favicon.url
+    except:
+        icon = ""
     context = {
-        'icon': icon
+        'icon': icon,
     }
     return render(request, 'Shared/_HeaderReferences.html', context)
 
 
 def site_header(request):
     categories = CourseCategory.objects.get_active_category()
-    settings = Settings.objects.first()
-    email = settings.email
-    instagram = settings.instagram
-    youtube = settings.youtube
-    twitter = settings.twitter
+    
+    try:
+        settings = Settings.objects.first()
+        email = settings.email
+        instagram = settings.instagram
+        youtube = settings.youtube
+        twitter = settings.twitter
+    except:
+        email = ""
+        instagram = ""
+        youtube = ""
+        twitter = ""
+
     context = {
         'categories': categories,
         'email': email,
@@ -55,11 +66,19 @@ def site_header(request):
 def footer(request):
     categories = CourseCategory.objects.get_active_category()[:4]
     blogs = Blog.objects.get_publish_blog()[:8]
-    settings = Settings.objects.first()
-    instagram = settings.instagram
-    youtube = settings.youtube
-    twitter = settings.twitter
-    site_title = settings.site_title
+
+    try:
+        settings = Settings.objects.first()
+        instagram = settings.instagram
+        youtube = settings.youtube
+        twitter = settings.twitter
+        site_title = settings.site_title
+    except:
+        instagram = ""
+        youtube = ""
+        twitter = ""
+        site_title = ""
+
     context = {
         'categories': categories,
         'blogs': blogs,

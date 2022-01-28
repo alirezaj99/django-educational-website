@@ -14,6 +14,3 @@ def site_title():
         site_title = 'عنوان سایت'
 
     return site_title
-
-# index_template = get_template('index/index.html')
-# register.inclusion_tag(index_template)(site_title)

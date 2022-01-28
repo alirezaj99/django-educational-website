@@ -403,9 +403,13 @@ class PaymentDetail(LoginRequiredMixin, DetailView):
 # render partial
 
 def header_references(request):
-    settings = Settings.objects.first()
-    icon = settings.site_favicon.url
+    try:
+        settings = Settings.objects.first()
+        icon = settings.site_favicon.url
+    except:
+        icon = ""
+        
     context = {
-        'icon': icon
+        'icon': icon,
     }
     return render(request, 'account/_HeaderReferences.html', context)
