@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from course_app.models import Course
 from django.db.models.signals import post_save, pre_save
-from account_app.models import User
 from extensions.utils import jalali_converter,jalali_converter_date
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
@@ -130,16 +129,7 @@ class CouponCode(models.Model):
         return jalali_converter_date(self.end)
     
     jalali_end.short_description = 'تاریخ پایان'
-
-
-def create_order(sender,created,instance,**kwargs):
-    if created:
-        order = Order(user=instance)
-        order.save()
-
-
-post_save.connect(create_order, sender=User)
-
+    
 
 # def set_order_item_price(sender, instance, *args, **kwargs):
 #     orders = Order.objects.filter(is_paid=False)
