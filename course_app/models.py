@@ -4,7 +4,7 @@ import os
 import random
 from account_app.models import User
 from extensions.utils import jalali_converter, jalali_converter_year, jalali_converter_month, jalali_converter_day,EmailService
-from django.db.models.signals import pre_save,post_save
+from django.db.models.signals import pre_save
 from ckeditor.fields import RichTextField
 from django.db.models import Q
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -374,30 +374,4 @@ class Comment(models.Model):
 def set_course_slug(sender, instance, *args, **kwargs):
     instance.slug = instance.title.replace(' ', '-')
 
-def send_course_comment_email_users(sender,instance, **kwargs):
-    if kwargs['created'] and instance.active == True :
-        # send email
-        teacher_email = instance.course.teacher.email
-        user_email = instance.user.email
-        if teacher_email == user_email :
-            teacher_email = False
-            user_email = False
-        parent_email = False
-        if instance.parent :
-            parent_email = instance.parent.user.email
-            if parent_email in [teacher_email,user_email]:
-                parent_email = False    
-        current_site = '127.0.0.1:8000'
-        course_url = f"{current_site}{reverse('course:course_detail' ,kwargs={'pk':instance.course.pk,'slug':instance.course.slug})}"
-        course_title = instance.course.title        
-        if teacher_email:
-            subject = f'برای دوره شما {course_title} دیدگاه جدیدی ثبت شد'
-            message = f'برای دوره {course_title} شما دیدگاه جدیدی توسط {instance.user} ثبت شده است.\n'
-            EmailService.send_email(subject,[teacher_email],'email/course-comment.html',{'head_title':subject,'message':message,'course_url':course_url,'course_title':course_title})
-        if parent_email:
-            subject = f'کابر {instance.user} به دیدگاه شما در دوره {instance.parent.course.title} پاسخ داد'
-            message = f'کابر {instance.user} به دیدگاه شما در دوره {instance.parent.course.title} پاسخ داد'
-            EmailService.send_email(subject,[parent_email],'email/course-comment.html',{'head_title':subject,'message':message,'course_url':course_url,'course_title':course_title})
-        # end send email
 pre_save.connect(set_course_slug, Course)
-post_save.connect(send_course_comment_email_users, sender=Comment)

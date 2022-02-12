@@ -240,11 +240,12 @@ class IpAddress(models.Model):
 def set_blog_slug(sender, instance, *args, **kwargs):
     instance.slug = instance.title.replace(' ', '-')
 
-def send_blog_email_users(sender,instance, **kwargs):
-    if kwargs['created'] and instance.status == True :
-        usres = User.objects.filter(send_email = True)
-        users_email = [user.email for user in usres]
+
+def send_blog_email(sender, instance,created, *args, **kwargs):
+    if created and instance.status == True:
         # sned email
+        users = User.objects.filter(send_email = True)
+        users_email = [user.email for user in users]
         current_site = '127.0.0.1:8000'
         blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':instance.pk,'slug':instance.slug})}"
         blog_title = instance.title      
@@ -254,38 +255,10 @@ def send_blog_email_users(sender,instance, **kwargs):
             message = f'مقاله جدیدی با عنوان {blog_title} توسط {blog_author} انتشار یافت روی لینک زیر کلیلک کنید و آن را مطالعه کنید.'
             EmailService.send_email(subject,users_email,'email/blog-create.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
         # end send email
-        
-def send_blog_comment_email_users(sender,instance, **kwargs):
-    if kwargs['created'] and instance.active == True :
-        # send email
-        author_email = instance.blog.author.email
-        user_email = instance.user.email
-        if author_email == user_email :
-            author_email = False
-            user_email = False
-        parent_email = False
-        if instance.parent :
-            parent_email = instance.parent.user.email
-            if parent_email in [author_email,user_email]:
-                parent_email = False    
-        current_site = '127.0.0.1:8000'
-        blog_url = f"{current_site}{reverse('blog:blog_detail' ,kwargs={'pk':instance.blog.pk,'slug':instance.blog.slug})}"
-        blog_title = instance.blog.title        
-        if author_email:
-            subject = f'برای مقاله شما {blog_title} دیدگاه جدیدی ثبت شد'
-            message = f'برای مقاله {blog_title} شما دیدگاه جدیدی توسط {instance.user} ثبت شده است.\n'
-            EmailService.send_email(subject,[author_email],'email/blog-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
-        if parent_email:
-            subject = f'کابر {instance.user} به دیدگاه شما در مقاله {instance.parent.blog.title} پاسخ داد'
-            message = f'کابر {instance.user} به دیدگاه شما در مقاله {instance.parent.blog.title} پاسخ داد'
-            EmailService.send_email(subject,[parent_email],'email/blog-comment.html',{'head_title':subject,'message':message,'blog_url':blog_url,'blog_title':blog_title})
-        # end send email
-        
+
 
 pre_save.connect(set_blog_slug, Blog)
-post_save.connect(send_blog_email_users, sender=Blog)
-post_save.connect(send_blog_comment_email_users, sender=Comment)
-
+post_save.connect(send_blog_email, Blog)
 
 
 
