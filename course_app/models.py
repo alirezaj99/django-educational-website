@@ -276,7 +276,7 @@ class Course(models.Model):
 class Video(models.Model):
     title = models.CharField(max_length=200, verbose_name="عنوان جلسه")
     video = models.FileField(upload_to=upload_video_path, verbose_name='ویدیو')
-    position = models.PositiveIntegerField(default=0, unique=True, verbose_name='شماره جلسه')
+    position = models.PositiveIntegerField(default=0, verbose_name='شماره جلسه')
     course = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True, related_name='video',
                                verbose_name='دوره')
     description = models.TextField(verbose_name="توضیحات")
